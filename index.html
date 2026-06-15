@@ -1,0 +1,3843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MIMIQ - Pantomime Party Game</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+  <meta name="theme-color" content="#667eea">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #66b7ea 0%, #764ba2 100%);
+      overflow: hidden;
+    }
+
+    #app {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+
+    .screen.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      text-align: center;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #999;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+
+    .btn-secondary.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .btn-icon {
+      background: white;
+      border: 2px solid #ddd;
+      color: #333;
+      padding: 12px;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-icon:hover {
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input[type="text"],
+    input[type="range"],
+    input[type="color"] {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="color"]:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    input[type="range"] {
+      padding: 0;
+      border: none;
+      height: 6px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: linear-gradient(to right, #ddd 0%, #ddd 100%);
+      border-radius: 3px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .input-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .input-group input {
+      flex: 1;
+      margin: 0;
+    }
+
+    .input-group .value {
+      min-width: 40px;
+      text-align: center;
+      font-weight: 700;
+      color: #667eea;
+      font-size: 18px;
+    }
+
+    .color-input {
+      height: 50px;
+      padding: 4px;
+      cursor: pointer;
+    }
+
+    .team-inputs {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .team-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .team-input-row input {
+      flex: 1;
+    }
+
+    .team-number {
+      min-width: 40px;
+      height: 44px;
+      background: #f0f0f0;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .category-card {
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .category-card:hover:not(.disabled) {
+      border-color: #667eea;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+    }
+
+    .category-card.disabled {
+      opacity: 0.3;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
+    .category-card.selected {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-color: transparent;
+      color: white;
+    }
+
+    .category-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .category-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .category-points {
+      font-size: 16px;
+      font-weight: 800;
+      margin-top: 8px;
+    }
+
+    .difficulty-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .difficulty-btn {
+      padding: 12px;
+      border: 2px solid #ddd;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .difficulty-btn:hover:not(.disabled) {
+      border-color: #667eea;
+    }
+
+    .difficulty-btn.disabled {
+      opacity: 0.3;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
+    .difficulty-btn.selected {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-color: transparent;
+      color: white;
+    }
+
+    .word-display {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      margin-bottom: 24px;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      font-weight: 900;
+    }
+
+    .timer-display {
+      font-size: 80px;
+      font-weight: 900;
+      text-align: center;
+      color: white;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      margin-bottom: 20px;
+    }
+
+    
+    .timer-display.danger {
+      color: #ff3b30 !important;
+      text-shadow: 0 2px 18px rgba(255, 59, 48, 0.45);
+    }
+
+    /* Mobile Vibe + Heartbeat */
+    #vibeFlashOverlay{
+      position: absolute;
+      inset: 0;
+      background: rgba(255,59,48,0.0);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 120;
+      transition: opacity .12s ease;
+    }
+    #vibeFlashOverlay.on{
+      opacity: 1;
+      background: rgba(255,59,48,0.22);
+    }
+
+    .timer-display.heartbeat{
+      animation: heartBeatPulse 0.58s ease-in-out infinite;
+      text-shadow: 0 4px 28px rgba(255,59,48,0.35);
+    }
+    @keyframes heartBeatPulse{
+      0%   { transform: scale(1);   filter: saturate(1); }
+      18%  { transform: scale(1.06); filter: saturate(1.15); }
+      32%  { transform: scale(0.99); filter: saturate(1.05); }
+      55%  { transform: scale(1.045); filter: saturate(1.12); }
+      100% { transform: scale(1);   filter: saturate(1); }
+    }
+
+.score-table {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      padding: 14px 16px;
+      border-bottom: 1px solid #eee;
+      align-items: center;
+    }
+
+    .score-row:last-child {
+      border-bottom: none;
+    }
+
+    .score-name {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .score-value {
+      font-size: 20px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .medal {
+      font-size: 32px;
+      margin-right: 12px;
+    }
+
+    
+    .crown-badge{
+      margin-left: 8px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 30px;
+      height: 30px;
+      border-radius: 12px;
+      background: rgba(255, 215, 0, 0.18);
+      border: 1px solid rgba(255, 215, 0, 0.35);
+      box-shadow: 0 10px 24px rgba(255, 215, 0, 0.18);
+      font-size: 18px;
+    }
+.rank-position {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .center-content {
+      text-align: center;
+    }
+
+    .info-box {
+      background: #f8f9fa;
+      border-left: 4px solid #667eea;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .round-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .round-stat {
+      background: #f8f9fa;
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .round-label {
+      font-size: 12px;
+      color: #999;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .round-value {
+      font-size: 28px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .result-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+
+    .result-text {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .result-points {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .positive {
+      color: #10b981;
+    }
+
+    .negative {
+      color: #ef4444;
+    }
+
+    .action-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .action-buttons.full {
+      grid-template-columns: 1fr;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #667eea;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #764ba2;
+    }
+  
+    /* Top-right gear button */
+    .gear-btn{
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 200;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.92);
+      border: 2px solid rgba(255,255,255,0.6);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+      cursor: pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      user-select:none;
+    }
+    .gear-btn:hover{ transform: translateY(-2px) rotate(8deg); box-shadow: 0 16px 36px rgba(0,0,0,0.22); }
+    .gear-btn:active{ transform: translateY(0) rotate(0); }
+    .gear-btn.hidden{ opacity:0; pointer-events:none; }
+
+    /* Settings modal */
+    .modal-backdrop{
+      position:absolute; inset:0;
+      background: rgba(0,0,0,0.35);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 20px;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .28s ease;
+      z-index: 150;
+    }
+    .modal-backdrop.active{ opacity:1; pointer-events:auto; }
+    .modal{
+      width:100%;
+      max-width: 520px;
+      background: rgba(255,255,255,0.96);
+      border-radius: 26px;
+      padding: 26px;
+      box-shadow: 0 30px 90px rgba(0,0,0,0.35);
+      transform: translateY(10px) scale(0.98);
+      transition: transform .28s ease;
+      overflow:hidden;
+    }
+    .modal-backdrop.active .modal{ transform: translateY(0) scale(1); }
+    .modal-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 14px;
+    }
+    .modal-title{
+      font-size: 18px;
+      font-weight: 900;
+      color:#222;
+      letter-spacing: .2px;
+    }
+    .modal-close{
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      border: 2px solid #e7e7e7;
+      background: white;
+      cursor:pointer;
+      font-size: 18px;
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .modal-close:hover{ border-color:#667eea; transform: translateY(-1px); }
+    .setting-card{
+      background:#f8f9fa;
+      border:1px solid #eef0f3;
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 12px;
+    }
+    .setting-card h4{
+      font-size: 13px;
+      font-weight: 800;
+      color:#555;
+      text-transform: uppercase;
+      letter-spacing:.6px;
+      margin-bottom: 10px;
+    }
+
+    /* Wheel */
+    .wheel-wrap{ display:flex; flex-direction:column; align-items:center; gap:14px; }
+    .wheel-stage{
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.35);
+      overflow:hidden;
+      border: 10px solid rgba(255,255,255,0.9);
+      background: #fff;
+      transform: translateZ(0);
+    }
+    .wheel{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      transform: rotate(0deg);
+      will-change: transform;
+    }
+    .wheel-center{
+      position:absolute;
+      inset: 50%;
+      transform: translate(-50%,-50%);
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      border: 2px solid rgba(0,0,0,0.08);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 900;
+      color:#222;
+    }
+    .wheel-pointer{
+      position:absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0; height:0;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-bottom: 34px solid rgba(255,255,255,0.95);
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,0.25));
+    }
+    .wheel-labels{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+    .wheel-label{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform-origin: 0 0;
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(0,0,0,0.75);
+      text-shadow: 0 2px 10px rgba(255,255,255,0.9);
+      white-space: nowrap;
+    }
+
+    /* Toasts */
+    #toastHost{
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+      width: min(520px, calc(100% - 40px));
+    }
+    .toast{
+      pointer-events: none;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: 0 18px 55px rgba(0,0,0,0.22);
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+      transition: opacity .22s ease, transform .22s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .toast.show{ opacity:1; transform: translateY(0) scale(1); }
+    .toast.warn{ border-color: rgba(255,149,0,0.35); }
+    .toast.err{ border-color: rgba(255,59,48,0.35); }
+    .toast .badge{
+      width: 32px; height: 32px;
+      border-radius: 12px;
+      display:flex; align-items:center; justify-content:center;
+      font-size: 18px;
+      background: rgba(102,126,234,0.12);
+      flex: 0 0 32px;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app">
+    <button id="gearBtn" class="gear-btn hidden" aria-label="Settings" onclick="game.openSettings()">⚙️</button>
+    <div id="toastHost" aria-live="polite"></div>
+    <div id="vibeFlashOverlay" aria-hidden="true"></div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-backdrop" onclick="game._settingsBackdropClick(event)">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <div class="modal-title" id="settingsTitle">Settings</div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button class="btn btn-icon" id="secretGateBtn" aria-label="Secret" onclick="game.openSecretGate()">🫥</button>
+            <button class="modal-close" aria-label="Close" onclick="game.closeSettings()">✕</button>
+          </div>
+        </div>
+
+        <div class="setting-card">
+          <h4 id="settingsLanguageLabel">Language</h4>
+          <div class="button-group" style="margin-bottom:0;">
+            <button class="btn btn-secondary" id="settingsLangEn" onclick="game.selectLanguage('en', true)">🇺🇸 English</button>
+            <button class="btn btn-secondary" id="settingsLangFa" onclick="game.selectLanguage('fa', true)">🇮🇷 فارسی</button>
+          </div>
+        </div>
+
+        <div class="setting-card">
+          <h4 id="settingsWordsLabel">Words</h4>
+          <div class="info-box" id="seenWordsInfo" style="margin-bottom:12px;"></div>
+          <button class="btn btn-secondary" id="resetSeenWordsBtn" style="width:100%;" onclick="game.resetSeenWords()">🧹 Reset seen words</button>
+        </div>
+
+        <div class="setting-card">
+          <h4 id="settingsVoiceLabel">Voice</h4>
+
+          <div class="button-group" style="margin-bottom:12px;">
+            <button class="btn btn-secondary" id="voiceOnBtn" onclick="game.setVoiceTimerEnabled(true)">🎤 Voice ON</button>
+            <button class="btn btn-secondary" id="voiceOffBtn" onclick="game.setVoiceTimerEnabled(false)">🕰️ Tick-tock</button>
+          </div>
+          <div class="form-group" style="margin-bottom:12px;">
+            <div class="label" style="margin-bottom:8px;">Voice</div>
+            <select id="voiceSelect"
+                    style="width:100%; padding:12px; border:2px solid #ddd; border-radius:8px; font-size:14px; font-family:inherit;"
+                    onchange="game.setSelectedVoice(this.value); game.previewSelectedVoice();">
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:12px;">
+            <div class="label" style="margin-bottom:8px;">Voice vibe</div>
+            <div class="button-group" style="margin-bottom:0;">
+              <button class="btn btn-secondary" id="voiceVibeProBtn" onclick="game.setVoiceVibe('pro')">🎙️ Pro</button>
+              <button class="btn btn-secondary" id="voiceVibeFastBtn" onclick="game.setVoiceVibe('fast')">⚡ Fast</button>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:12px;">
+            <div class="label" style="margin-bottom:8px;">Mobile vibe</div>
+            <div class="button-group" style="margin-bottom:0;">
+              <button class="btn btn-secondary" id="mobileVibeOnBtn" onclick="game.setMobileVibeEnabled(true)">📳 ON</button>
+              <button class="btn btn-secondary" id="mobileVibeOffBtn" onclick="game.setMobileVibeEnabled(false)">🔕 OFF</button>
+            </div>
+          </div>
+
+          <div class="subtitle" id="voiceHint" style="margin:0;">If voice is ON, countdown numbers replace tick-tock at ≤10s.</div>
+        </div>
+
+      </div>
+    </div>
+
+    
+
+    <!-- Secret/Admin Modal -->
+    <div id="secretModal" class="modal-backdrop" onclick="game._secretBackdropClick(event)">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <div class="modal-title" id="secretTitle">🫥 Secret</div>
+          <button class="modal-close" aria-label="Close" onclick="game.closeSecret()">✕</button>
+        </div>
+
+        <!-- Password step -->
+        <div id="secretStepPassword" class="setting-card" style="margin-top:0;">
+          <h4 id="secretPasswordLabel">Password</h4>
+          <div class="form-group" style="margin-bottom:12px;">
+            <input id="secretPasswordInput" type="password" placeholder="Enter password" autocomplete="current-password" />
+          </div>
+          <div id="secretPasswordError" class="info-box" style="display:none; border-left-color:#ef4444; margin-bottom:12px;">Wrong password</div>
+          <div class="button-row">
+            <button class="btn btn-secondary" id="secretCancelBtn" onclick="game.closeSecret()">Cancel</button>
+            <button class="btn btn-primary" id="secretEnterBtn" onclick="game._secretCheckPassword()">Enter</button>
+          </div>
+        </div>
+
+        <!-- Menu step -->
+        <div id="secretStepMenu" class="setting-card" style="display:none; margin-top:0;">
+          <h4 id="secretMenuLabel">Hidden tools</h4>
+          <button class="btn btn-primary" id="secretAddWordBtn" style="width:100%;" onclick="game._secretOpenAddWord()">➕ Add word to database</button>
+          <button class="btn btn-secondary" id="secretProgressBtn" style="width:100%; margin-top:12px;" onclick="game._secretOpenProgress()">📊 Seen progress</button>
+          <button class="btn btn-secondary" id="secretNotifBtn" style="width:100%; margin-top:12px;" onclick="game._secretOpenNotifications()">🔔 Notification Center</button>
+
+        </div>
+
+        <!-- Add word step -->
+        <div id="secretStepAddWord" class="setting-card" style="display:none; margin-top:12px;">
+          <h4 id="secretAddWordTitle">Add word</h4>
+
+          <div class="form-group">
+            <label class="label" id="secretLangLabel">Language</label>
+            <div class="button-group" style="margin-bottom:0;">
+              <button class="btn btn-secondary" id="secretLangEn" onclick="game._secretSetLang('en')">🇺🇸 English</button>
+              <button class="btn btn-secondary" id="secretLangFa" onclick="game._secretSetLang('fa')">🇮🇷 فارسی</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="label" id="secretCategoryLabel">Category</label>
+            <select id="secretCategorySelect" style="width:100%; padding:12px; border:2px solid #ddd; border-radius:8px; font-size:14px; font-family:inherit;" onchange="game._secretSetCategory(this.value)">
+              <option value="" selected disabled>—</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="secretPointsWrap" style="display:none;">
+            <label class="label" id="secretPointsLabel">Points</label>
+            <div class="button-group" style="margin-bottom:0;">
+              <button class="btn btn-secondary" id="secretPts2" onclick="game._secretSetPoints(2)">۲ امتیازی</button>
+              <button class="btn btn-secondary" id="secretPts4" onclick="game._secretSetPoints(4)">۴ امتیازی</button>
+              <button class="btn btn-secondary" id="secretPts6" onclick="game._secretSetPoints(6)">۶ امتیازی</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="label" id="secretWordLabel">Word</label>
+            <input id="secretWordInput" type="text" placeholder="Type your word" />
+          </div>
+
+          <div id="secretAddWordMsg" class="info-box" style="display:none; margin-bottom:12px;"></div>
+
+          <div class="button-row">
+            <button class="btn btn-secondary" id="secretBackBtn" onclick="game._secretBackToMenu()">← Back</button>
+            <button class="btn btn-primary" id="secretSaveBtn" onclick="game._secretSaveWord()">💾 Save</button>
+          </div>
+        </div>
+
+
+        <!-- Progress step -->
+        <div id="secretStepProgress" class="setting-card" style="display:none; margin-top:12px;">
+          <h4 id="secretProgressTitle">Seen progress</h4>
+
+          <div class="form-group">
+            <label class="label" id="secretProgLangLabel">Language</label>
+            <div class="button-group" style="margin-bottom:0;">
+              <button class="btn btn-secondary" id="secretProgLangEn" onclick="game._secretProgSetLang('en')">🇺🇸 English</button>
+              <button class="btn btn-secondary" id="secretProgLangFa" onclick="game._secretProgSetLang('fa')">🇮🇷 فارسی</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="label" id="secretProgCategoryLabel">Category</label>
+            <select id="secretProgCategorySelect" style="width:100%; padding:12px; border:2px solid #ddd; border-radius:8px; font-size:14px; font-family:inherit;" onchange="game._secretProgSetCategory(this.value)">
+              <option value="" selected disabled>—</option>
+            </select>
+          </div>
+
+          <div id="secretProgResult" class="info-box" style="display:none; white-space:pre-line;"></div>
+
+          <div class="button-row">
+            <button class="btn btn-secondary" id="secretProgBackBtn" onclick="game._secretBackToMenu()">← Back</button>
+            <button class="btn btn-primary" id="secretProgShowBtn" onclick="game._secretProgShow()">📊 Show</button>
+          </div>
+
+        <!-- Notification Center -->
+        <div id="secretStepNotifications" class="setting-card" style="display:none; margin-top:12px;">
+          <h4 id="secretNotifTitle">Notification Center</h4>
+
+          <div id="secretNotifList" class="info-box" style="white-space:pre-line; max-height:220px; overflow:auto;"></div>
+
+          <div class="button-row">
+            <button class="btn btn-secondary" onclick="game._secretBackToMenu()">← Back</button>
+            <button class="btn btn-primary" onclick="game._secretClearCategoryWarnings()">🗑 Clear</button>
+          </div>
+        </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Wheel Modal (tie-break) -->
+    <div id="wheelModal" class="modal-backdrop" onclick="event.stopPropagation()">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <div class="modal-title" id="wheelTitle">Spin the Wheel</div>
+          <button class="modal-close" aria-label="Close" onclick="game._wheelForceClose()">✕</button>
+        </div>
+
+        <div class="wheel-wrap">
+          <div class="wheel-stage">
+            <div class="wheel-pointer"></div>
+            <div id="wheel" class="wheel"></div>
+            <div class="wheel-center">🎡</div>
+            <div id="wheelLabels" class="wheel-labels"></div>
+          </div>
+          <div class="info-box" id="wheelInfo" style="margin-bottom:0;"></div>
+          <button class="btn btn-primary" id="wheelSpinBtn" style="width:100%; padding:16px;" onclick="game.spinTieWheel()">🎯 Spin</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Language Selection Screen -->
+    <div id="screen-language" class="screen active">
+      <div class="container center-content">
+        <div class="title" id="langScreenTitle">MIMIQ</div>
+        <div class="subtitle" id="langScreenSubtitle">Pantomime Party Game</div>
+        <div class="button-group" style="flex-direction: column;">
+          <button class="btn btn-primary" onclick="game.selectLanguage('en')">🇺🇸 English</button>
+          <button class="btn btn-primary" onclick="game.selectLanguage('fa')">🇮🇷 فارسی</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Setup Screen -->
+    <div id="screen-setup" class="screen">
+      <div class="container">
+        <div class="title" id="setupTitle">Game Setup</div>
+        <div class="subtitle" id="setupSubtitle">Configure your game</div>
+
+        <!-- Game Mode -->
+        <div class="form-group">
+          <label class="label" id="gameModeLabel">Game Mode</label>
+          <div class="button-group">
+            <button class="btn btn-secondary active" id="teamPlayBtn" onclick="game.setGameMode('team')">Team Play</button>
+            <button class="btn btn-secondary" id="randommBtn" onclick="game.setGameMode('randomm')">Randomm</button>
+          </div>
+        </div>
+
+
+        <!-- Achievements Toggle -->
+        <div class="form-group">
+          <label class="label" id="achievementsLabel">Achievements</label>
+          <div class="button-group">
+            <button class="btn btn-secondary active" id="achOnBtn" onclick="game.setAchievementsEnabled(true)">🏆 ON</button>
+            <button class="btn btn-secondary" id="achOffBtn" onclick="game.setAchievementsEnabled(false)">🙈 OFF</button>
+          </div>
+          <div class="subtitle" id="achievementsHint" style="margin-top:-8px; margin-bottom:0;">Unlock fun achievements during the game</div>
+        </div>
+
+
+        <!-- Number of Teams -->
+        <div class="form-group">
+          <label class="label" id="numTeamsLabel">Number of Teams</label>
+          <div class="input-group">
+            <input type="range" id="teamCount" min="2" max="6" value="2" oninput="game.updateTeamCount(this.value)">
+            <span class="value" id="teamCountValue">2</span>
+          </div>
+        </div>
+
+        <!-- Team Names -->
+        <div class="form-group">
+          <label class="label" id="teamNamesLabel">Team Names</label>
+          <div class="team-inputs" id="teamInputs"></div>
+        </div>
+
+        <!-- Time Per Round -->
+        <div class="form-group">
+          <label class="label" id="timePerRoundLabel">Time Per Round (seconds)</label>
+          <div class="input-group">
+            <input type="range" id="timePerRound" min="30" max="180" step="15" value="60" oninput="game.updateTimePerRound(this.value)">
+            <span class="value" id="timeValue">60s</span>
+          </div>
+        </div>
+
+        <!-- Number of Rounds -->
+        <div class="form-group">
+          <label class="label" id="numRoundsLabel">Number of Rounds</label>
+          <div class="input-group">
+            <input type="range" id="numRounds" min="3" max="15" value="5" oninput="game.updateNumRounds(this.value)">
+            <span class="value" id="roundsValue">5</span>
+          </div>
+        </div>
+
+        <!-- Colors -->
+        <div class="form-group">
+          <label class="label" id="primaryColorLabel">Primary Color</label>
+          <input type="color" id="primaryColor" value="#667eea" onchange="game.updateColors()">
+        </div>
+
+        <div class="form-group">
+          <label class="label" id="secondaryColorLabel">Secondary Color</label>
+          <input type="color" id="secondaryColor" value="#764ba2" onchange="game.updateColors()">
+        </div>
+
+        <!-- Start Button -->
+        <button class="btn btn-primary" id="startGameBtn" style="width: 100%; padding: 16px;" onclick="game.startGame()">🎮 Start Game</button>
+      </div>
+    </div>
+
+    <!-- Game Board Screen -->
+    <div id="screen-board" class="screen">
+      <div class="container">
+        <div class="round-info">
+          <div class="round-stat">
+            <div class="round-label" id="currentTeamLabel">Current Team</div>
+            <div class="round-value" id="currentTeamName">Team 1</div>
+          </div>
+          <div class="round-stat">
+            <div class="round-label" id="roundLabel">Round</div>
+            <div class="round-value" id="currentRound">1/5</div>
+          </div>
+        </div>
+
+        <div class="score-table" id="scoreTable"></div>
+
+        <label class="label" id="selectCategoryLabel" style="margin-top: 20px;">Select a Category</label>
+        <div class="category-grid" id="categoryGrid"></div>
+
+        <button class="btn btn-secondary" id="backSetupBtn" style="width: 100%;" onclick="game.showSetup()">← Back to Setup</button>
+      </div>
+    </div>
+
+    <!-- Category Selection Screen -->
+    <div id="screen-category" class="screen">
+      <div class="container center-content">
+        <div style="font-size: 48px; margin-bottom: 16px;" id="categoryIcon"></div>
+        <div class="title" id="categoryName"></div>
+        <div class="subtitle" id="selectDifficultyLabel" style="margin-bottom: 24px;">Select Difficulty</div>
+
+        <div class="difficulty-selector" id="difficultySelector"></div>
+
+        <button class="btn btn-secondary" id="backCategoryBtn" style="width: 100%; margin-top: 16px;" onclick="game.showBoard()">← Back</button>
+      </div>
+    </div>
+
+    <!-- Word Reveal Screen -->
+    <div id="screen-word" class="screen">
+      <div class="container center-content">
+        <div style="text-align: center; margin-bottom: 32px;">
+          <div id="wordTeamName" style="font-size: 18px; color: #999; margin-bottom: 8px;"></div>
+          <div id="wordCategory" style="font-size: 28px; font-weight: 800; color: #333;"></div>
+          <div id="wordDifficulty" style="font-size: 14px; color: #999; margin-top: 8px;"></div>
+        </div>
+
+        <div class="word-display" id="wordDisplay">?</div>
+
+        <div id="wordActions" style="display: none; width: 100%;">
+          <button class="btn btn-primary" id="startTimerBtn" style="width: 100%; padding: 16px; margin-bottom: 12px;" onclick="game.startTimer()">▶️ Start Timer</button>
+          <button class="btn btn-secondary" id="changeWordBtn" style="width: 100%; padding: 12px; margin-bottom: 12px;" onclick="game.changeWord()">🔁 Change Word (-1pt)</button>
+        </div>
+
+        <button class="btn btn-secondary" id="showWordBtn" style="width: 100%;" onclick="game.revealWord()">👁️ Show Word</button>
+      </div>
+    </div>
+
+    <!-- Timer Screen -->
+    <div id="screen-timer" class="screen" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+      <div style="width: 100%; text-align: center; color: white;">
+        <div style="font-size: 24px; font-weight: 700; margin-bottom: 16px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);" id="timerTeamName">Team 1</div>
+        <div style="font-size: 16px; font-weight: 600; margin-bottom: 40px; opacity: 0.9;" id="timerCategory">Category</div>
+
+        <div class="timer-display" id="timerDisplay">60</div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 300px; margin: 0 auto;">
+          <button class="btn" style="background: #10b981; color: white; padding: 20px;" onclick="game.answerCorrect()">✅ Correct</button>
+          <button class="btn" style="background: #ef4444; color: white; padding: 20px;" onclick="game.answerWrong()">❌ Wrong</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Round End Screen -->
+    <div id="screen-round-end" class="screen">
+      <div class="container center-content">
+        <div class="result-icon" id="resultIcon"></div>
+        <div class="result-text" id="resultText"></div>
+        <div class="result-points" id="resultPoints"></div>
+
+        <label class="label" id="scoresAfterLabel">Scores After Round</label>
+        <div class="score-table" id="roundEndScores"></div>
+
+        <button class="btn btn-primary" id="nextTurnBtn" style="width: 100%; padding: 16px; margin-top: 20px;" onclick="game.nextTurn()">Next Turn →</button>
+      </div>
+    </div>
+
+    <!-- Final Results Screen -->
+    <div id="screen-results" class="screen">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <div style="font-size: 56px; margin-bottom: 12px;">🏆</div>
+          <div class="title" id="gameOverLabel">Game Over!</div>
+        </div>
+
+        <div class="score-table" id="finalResults"></div>
+
+        <div class="action-buttons" style="margin-top: 24px;">
+          <button class="btn btn-secondary" id="restartBtn" onclick="game.restartGame()">🔄 Restart</button>
+          <button class="btn btn-primary" id="newGameBtn" onclick="game.newGame()">🆕 New Game</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let _tickCtx = null;
+    function playTick() {
+      try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        if (!_tickCtx) _tickCtx = new AC();
+        if (_tickCtx.state === 'suspended') { _tickCtx.resume().catch(()=>{}); }
+        const t = _tickCtx.currentTime;
+        const o = _tickCtx.createOscillator();
+        const g = _tickCtx.createGain();
+        o.type = 'square';
+        o.frequency.setValueAtTime(1200, t);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.18, t + 0.002);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.06);
+        o.connect(g);
+        g.connect(_tickCtx.destination);
+        o.start(t);
+        o.stop(t + 0.07);
+      } catch (e) {}
+
+    }
+
+
+    // Heartbeat thump (WebAudio) — used by Mobile Vibe
+    let _hbCtx = null;
+    function playHeartbeatThump(strength = 1) {
+      try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        if (!_hbCtx) _hbCtx = new AC();
+        if (_hbCtx.state === 'suspended') { _hbCtx.resume().catch(()=>{}); }
+
+        const t = _hbCtx.currentTime;
+        const o1 = _hbCtx.createOscillator();
+        const o2 = _hbCtx.createOscillator();
+        const g = _hbCtx.createGain();
+
+        o1.type = 'sine';
+        o2.type = 'sine';
+        o1.frequency.setValueAtTime(58, t);
+        o2.frequency.setValueAtTime(116, t);
+
+        const base = Math.max(0.08, Math.min(0.22, 0.14 * strength));
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(base, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
+
+        o1.connect(g); o2.connect(g);
+        g.connect(_hbCtx.destination);
+
+        o1.start(t); o2.start(t);
+        o1.stop(t + 0.16); o2.stop(t + 0.16);
+      } catch(e) {}
+    }
+
+
+    // Toast helper
+    function showToast(message, type='info', icon='✨') {
+      try {
+        const host = document.getElementById('toastHost');
+        if (!host) return;
+        const el = document.createElement('div');
+        el.className = `toast ${type === 'warn' ? 'warn' : type === 'err' ? 'err' : ''}`;
+        el.innerHTML = `<div class="badge">${icon}</div><div style="flex:1; font-size:14px; line-height:1.25;">${message}</div>`;
+        host.appendChild(el);
+        requestAnimationFrame(() => el.classList.add('show'));
+        setTimeout(() => { el.classList.remove('show'); }, 2600);
+        setTimeout(() => { try { el.remove(); } catch(e) {} }, 3050);
+      } catch(e) {}
+    }
+
+    // Wheel tick (sound)
+    let _wheelTickCtx = null;
+    function playWheelTick() {
+      try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        if (!_wheelTickCtx) _wheelTickCtx = new AC();
+        if (_wheelTickCtx.state === 'suspended') { _wheelTickCtx.resume().catch(()=>{}); }
+        const t = _wheelTickCtx.currentTime;
+        const o = _wheelTickCtx.createOscillator();
+        const g = _wheelTickCtx.createGain();
+        o.type = 'triangle';
+        o.frequency.setValueAtTime(950, t);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.14, t + 0.0015);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.035);
+        o.connect(g);
+        g.connect(_wheelTickCtx.destination);
+        o.start(t);
+        o.stop(t + 0.04);
+      } catch (e) {}
+    }
+
+    const UI_STRINGS = {
+      en: {
+        gameTitle: 'MIMIQ',
+        subtitle: 'Pantomime Party Game',
+        setupTitle: 'Game Setup',
+        setupSubtitle: 'Configure your game',
+        gameMode: 'Game Mode',
+        teamPlay: 'Team Play',
+        randomm: 'Random',
+        numTeams: 'Number of Teams',
+        teamNames: 'Team Names',
+        timePerRound: 'Time Per Round (seconds)',
+        numRounds: 'Number of Rounds',
+        primaryColor: 'Primary Color',
+        secondaryColor: 'Secondary Color',
+        startGame: '🎮 Start Game',
+        currentTeam: 'Current Team',
+        round: 'Round',
+        selectCategory: 'Select a Category',
+        backSetup: '← Back to Setup',
+        selectDifficulty: 'Select Difficulty',
+        easy: 'Easy',
+        medium: 'Medium',
+        hard: 'Hard',
+        special: 'Proverb',
+        back: '← Back',
+        showWord: '👁️ Show Word',
+        startTimer: '▶️ Start Timer',
+        changeWord: '🔁 Change Word (-1pt)',
+        scoresAfter: 'Scores After Round',
+        nextTurn: 'Next Turn →',
+        gameOver: 'Game Over!',
+        restart: '🔄 Restart',
+        newGame: '🆕 New Game',
+        correct: 'Correct!',
+        wrong: 'Wrong!',
+        points: 'points'
+        ,
+        settings: 'Settings',
+        language: 'Language',
+        words: 'Words',
+        resetSeenWords: '🧹 Reset seen words',
+        seenWordsCount: 'Seen words',
+        selectPoints: 'Select Points',
+        pts2: '2 points',
+        pts4: '4 points',
+        pts6: '6 points',
+        legend: 'Legend',
+        goldenRound: 'Golden Round',
+        wheelPick: 'Wheel tie-break',
+        spinWheel: 'Spin the Wheel'
+
+
+        ,
+        secret: 'Secret',
+        secretPassword: 'Password',
+        secretEnter: 'Enter',
+        secretCancel: 'Cancel',
+        secretWrongPass: 'Wrong password',
+        secretMenu: 'Hidden tools',
+        secretAddWord: '➕ Add word to database',
+        secretAddWordTitle: 'Add word',
+        secretLang: 'Language',
+        secretCategory: 'Category',
+        secretPoints: 'Points',
+        secretWord: 'Word',
+        secretSave: '💾 Save',
+        secretBack: '← Back',
+        secretPickLangFirst: 'Pick a language first.',
+        secretPickCategory: 'Pick a category.',
+        secretPickPoints: 'Pick points.',
+        secretTypeWord: 'Type a word.',
+        secretDuplicate: 'You can\'t add this word because it already exists in the word bank.',
+        secretSuccess: 'Done! The word was added successfully.',
+        secretNoteLocal: 'Note: This is saved on this device (localStorage). To ship globally, you still need to commit the change to the file.',
+        achievements: 'Achievements',
+        achievementsOn: '🏆 ON',
+        achievementsOff: '🙈 OFF',
+        achievementsHint: 'Unlock fun achievements during the game.',
+        achievementUnlocked: 'Achievement unlocked!',
+        voice: 'Voice',
+        voiceTimerOn: '🎤 Voice ON',
+        voiceTimerOff: '🕰️ Tick-tock',
+        voiceLang: 'Voice language',
+        voiceHint: 'If voice is ON, countdown numbers replace tick-tock at ≤10s.',
+        seenProgress: 'Seen progress',
+        almostOut: 'Almost out'
+
+      },
+      fa: {
+        gameTitle: 'میمیک',
+        subtitle: 'بازی پانتومایم گروهی',
+        setupTitle: 'تنظیمات بازی',
+        setupSubtitle: 'تنظیمات بازی خود را بچینید',
+        gameMode: 'حالت بازی',
+        teamPlay: 'معمولی',
+        randomm: 'شانسی',
+        numTeams: 'تعداد تیم‌ها',
+        teamNames: 'نام تیم‌ها',
+        timePerRound: 'زمان هر دور (ثانیه)',
+        numRounds: 'تعداد دورها',
+        primaryColor: 'رنگ اصلی',
+        secondaryColor: 'رنگ ثانویه',
+        startGame: '🎮 شروع بازی',
+        currentTeam: 'تیم فعلی',
+        round: 'دور',
+        selectCategory: 'یک دسته انتخاب کنید',
+        backSetup: '← بازگشت به تنظیمات',
+        selectDifficulty: 'سطح سختی را انتخاب کنید',
+        easy: 'آسان',
+        medium: 'متوسط',
+        hard: 'سخت',
+        special: 'دسته های خاص',
+        back: '← بازگشت',
+        showWord: '👁️ نمایش کلمه',
+        startTimer: '▶️ شروع تایمر',
+        changeWord: '🔁 تغییر کلمه (-1pt)',
+        scoresAfter: 'امتیازات بعد از دور',
+        nextTurn: 'نوبت بعدی →',
+        gameOver: 'بازی تمام!',
+        restart: '🔄 شروع دوباره',
+        newGame: '🆕 بازی جدید',
+        correct: 'صحیح!',
+        wrong: 'غلط!',
+        points: 'امتیاز'
+        ,
+        settings: 'تنظیمات',
+        language: 'زبان',
+        words: 'کلمات',
+        resetSeenWords: '🧹 ریست کلمات دیده‌شده',
+        seenWordsCount: 'تعداد کلمات دیده‌شده',
+        selectPoints: 'امتیاز را انتخاب کنید',
+        pts2: '۲ امتیازی',
+        pts4: '۴ امتیازی',
+        pts6: '۶ امتیازی',
+        legend: 'لِجند',
+        goldenRound: 'دور طلایی',
+        wheelPick: 'گردونه شانسی',
+        spinWheel: 'گردونه رو بچرخون'
+
+
+        ,
+        secret: 'مخفی',
+        secretPassword: 'پسورد',
+        secretEnter: 'ورود',
+        secretCancel: 'بیخیال',
+        secretWrongPass: 'پسورد اشتباهه',
+        secretMenu: 'ابزارهای مخفی',
+        secretAddWord: '➕ اضافه کردن کلمه به بانک',
+        secretAddWordTitle: 'اضافه کردن کلمه',
+        secretLang: 'بانک کلمه',
+        secretCategory: 'دسته',
+        secretPoints: 'امتیاز',
+        secretWord: 'کلمه',
+        secretSave: '💾 ذخیره',
+        secretBack: '← برگشت',
+        secretPickLangFirst: 'اول زبان رو انتخاب کن.',
+        secretPickCategory: 'یه دسته انتخاب کن.',
+        secretPickPoints: 'امتیاز رو انتخاب کن.',
+        secretTypeWord: 'کلمه رو تایپ کن.',
+        secretDuplicate: 'نمیتونی این کلمه رو اضافه کنی چون از قبل توی بانک کلمات هست.',
+        secretSuccess: 'اوکی! کلمه با موفقیت اضافه شد.',
+        secretNoteLocal: 'نکته: این تغییر روی همین دستگاه ذخیره میشه (localStorage). برای اینکه برای همه نسخه‌ها اعمال بشه باید تغییر رو تو فایل هم کامیت کنی.',
+        achievements: 'اچیومنت‌ها',
+        achievementsOn: '🏆 روشن',
+        achievementsOff: '🙈 خاموش',
+        achievementsHint: 'اگه روشن باشه، حین بازی اچیومنت باز می‌کنی.',
+        achievementUnlocked: 'اچیومنت باز شد!',
+        voice: 'صدا',
+        voiceTimerOn: '🎤 گوینده روشن',
+        voiceTimerOff: '🕰️ تیک‌تاک',
+        voiceLang: 'زبان گفتار',
+        voiceHint: 'اگه صدا روشن باشه، شمارش معکوس به جای تیک‌تاک گفته میشه (≤۱۰ ثانیه).',
+        seenProgress: 'وضعیت کلمات دیده‌شده',
+        almostOut: 'رو به اتمام'
+
+      }
+    };
+
+    const WORD_DATABASE = {
+      en: {
+        'City or Country': {
+          icon: '🌍',
+          easy: ['Paris', 'Tokyo', 'New York', 'London', 'Sydney', 'Cairo', 'Amsterdam', 'Rome'],
+          medium: ['Venice', 'Bangkok', 'Barcelona', 'Moscow', 'Istanbul', 'Dubai', 'Singapore', 'Berlin'],
+          hard: ['Marrakech', 'Copenhagen', 'Montreal', 'Wellington', 'Reykjavik', 'Prague']
+        },
+        'Animals': {
+          icon: '🦁',
+          easy: ['Dog', 'Cat', 'Bird', 'Fish', 'Horse', 'Cow', 'Pig', 'Elephant'],
+          medium: ['Gorilla', 'Kangaroo', 'Penguin', 'Dolphin', 'Camel', 'Peacock', 'Lion', 'Tiger'],
+          hard: ['Cheetah', 'Sloth', 'Octopus', 'Hedgehog', 'Platypus', 'Flamingo']
+        },
+        'Sports': {
+          icon: '🥊',
+          easy: ['Football', 'Basketball', 'Tennis', 'Swimming', 'Running', 'Cycling', 'Golf', 'Boxing'],
+          medium: ['Yoga', 'Surfing', 'Skiing', 'Skateboarding', 'Rock Climbing', 'Archery', 'Fencing', 'Gymnastics'],
+          hard: ['Ice Skating', 'Ballet', 'Parkour', 'Weightlifting', 'Martial Arts', 'Climbing']
+        },
+        'Football': {
+          icon: '⚽',
+          easy: ['Goal', 'Ball', 'Coach', 'Referee', 'Penalty', 'Corner', 'Offside', 'Goalkeeper'],
+          medium: ['Free Kick', 'Yellow Card', 'Red Card', 'Header', 'Tackle', 'Dribble', 'Counterattack', 'Substitution'],
+          hard: ['Champions League', 'World Cup', 'VAR', 'Hat-trick', 'Own Goal', 'Volley', 'Bicycle Kick', 'Extra Time']
+        },
+        'Places': {
+          icon: '🏰',
+          easy: ['House', 'School', 'Hospital', 'Park', 'Beach', 'Mountain', 'Forest', 'River'],
+          medium: ['Temple', 'Museum', 'Library', 'Stadium', 'Theater', 'Airport', 'Train Station', 'Market'],
+          hard: ['Pyramid', 'Volcano', 'Canyon', 'Waterfall', 'Lighthouse', 'Clock Tower']
+        },
+        'Technology': {
+          icon: '💻',
+          easy: ['Phone', 'Computer', 'Television', 'Camera', 'Clock', 'Robot', 'Drone', 'Headphones'],
+          medium: ['Satellite', 'Solar Panel', 'Telescope', 'Microscope', 'Printer', 'Scanner', 'Keyboard', 'Mouse'],
+          hard: ['Circuit Board', 'Quantum Computer', 'Artificial Intelligence', 'Virtual Reality', 'Hologram', 'Blockchain']
+        },
+        'Actions': {
+          icon: '🤸🏼‍♀️',
+          easy: ['Walking', 'Running', 'Jumping', 'Sitting', 'Sleeping', 'Eating', 'Drinking', 'Talking'],
+          medium: ['Dancing', 'Singing', 'Crying', 'Laughing', 'Hugging', 'Painting', 'Building', 'Climbing'],
+          hard: ['Meditation', 'Stretching', 'Sneezing', 'Yawning', 'Thinking', 'Celebrating']
+        },
+        'Objects': {
+          icon: '📱',
+          easy: ['Chair', 'Table', 'Bed', 'Door', 'Window', 'Book', 'Shoe', 'Hat'],
+          medium: ['Guitar', 'Piano', 'Violin', 'Bicycle', 'Skateboard', 'Boat', 'Airplane', 'Train'],
+          hard: ['Telescope', 'Microscope', 'Compass', 'Sextant', 'Hourglass', 'Abacus']
+        },
+        'Foods & Snacks': {
+          icon: '🍕',
+          easy: ['Pizza', 'Burger', 'Pasta', 'Salad', 'Soup', 'Bread', 'Apple', 'Banana'],
+          medium: ['Sushi', 'Tacos', 'Spaghetti', 'Ramen', 'Curry', 'Kebab', 'Waffle', 'Cookie'],
+          hard: ['Croissant', 'Tiramisu', 'Caviar', 'Truffle', 'Escargot', 'Fondue']
+        },
+        'Movies & TV Shows': {
+          icon: '🎬',
+          easy: ['Superman', 'Batman', 'Spider-Man', 'Wonder Woman', 'Iron Man', 'Captain America', 'Frozen', 'Titanic'],
+          medium: ['Avatar', 'Matrix', 'Inception', 'Star Wars', 'Harry Potter', 'Lord of the Rings', 'Jurassic Park', 'Jaws'],
+          hard: ['The Godfather', 'Pulp Fiction', 'Shawshank', 'Parasite', 'Oppenheimer', 'Dune']
+        },
+        'Emotions & Moods': {
+          icon: '😊',
+          easy: ['Happy', 'Sad', 'Angry', 'Scared', 'Sleepy', 'Hungry', 'Bored', 'Excited'],
+          medium: ['Nervous', 'Confused', 'Surprised', 'Jealous', 'Proud', 'Shy', 'Relaxed', 'Confident'],
+          hard: ['Nostalgic', 'Melancholic', 'Anxious', 'Frustrated', 'Overwhelmed', 'Inspired']
+        },
+        'Famous Characters': {
+          icon: '👑',
+          easy: ['Sherlock Holmes', 'Dracula', 'Frankenstein', 'Mummy', 'Ghost', 'Vampire', 'Zombie', 'Skeleton'],
+          medium: ['Cinderella', 'Pinocchio', 'Alice', 'Dorothy', 'Aladdin', 'Ariel', 'Simba', 'Elsa'],
+          hard: ['Medusa', 'Hercules', 'Macbeth', 'Juliet', 'Romeo', 'Hamlet']
+        },
+        'Holidays & Occasions': {
+          icon: '🎄',
+          easy: ['Christmas', 'Halloween', 'Birthday', 'Valentine', 'Easter', 'New Year', 'Independence Day', 'Thanksgiving'],
+          medium: ['Wedding', 'Graduation', 'Carnival', 'Diwali', 'Hanukkah', 'Eid', 'St Patrick', 'Cinco de Mayo'],
+          hard: ['Rosh Hashanah', 'Lunar New Year', 'Summer Solstice', 'Winter Solstice', 'Equinox', 'Jubilee']
+        },
+        'Kids': {
+          icon: '🧒',
+          easy: ['Cat', 'Dog', 'Apple', 'Ball', 'Car', 'Sun', 'Moon', 'Fish'],
+          medium: ['Bicycle', 'Ice Cream', 'Rainbow', 'Teddy Bear', 'School', 'Robot', 'Butterfly', 'Pizza'],
+          hard: ['Dinosaur', 'Superhero', 'Firefighter', 'Astronaut', 'Castle', 'Pirate', 'Dragon', 'Treasure']
+        },
+        'Proverbs': {
+          icon: '📜',
+          special: ['All that glitters is not gold', 'When life gives you lemons, make lemonade', 'A picture is worth a thousand words', 'Better late than never', 'Out of sight out of mind', 'You cannot judge a book by its cover', 'Actions speak louder than words', 'Time flies', 'Practice makes perfect', 'Two sides to every story', 'Breaking the ice', 'Stealing the spotlight', 'Missing the mark', 'Food for thought', 'Blind leading the blind']
+        },
+        'Legend': {
+          icon: '🏆',
+          legend: [
+            'The Thinker statue',
+            'Antikythera mechanism',
+            'Schrödinger’s cat',
+            'Turing test',
+            'Fermat’s Last Theorem',
+            'Occam’s razor',
+            'Gödel’s incompleteness theorem',
+            'Möbius strip',
+            'Rube Goldberg machine',
+            'Sisyphus',
+            'A black hole',
+            'Quantum entanglement',
+            'The Mona Lisa (as an idea)',
+            'A Trojan horse',
+            'The Rosetta Stone'
+          ]
+        },
+      },
+      fa: {
+        'لجند': {
+          icon: '🏆',
+          legend: ['تندیس شهباز', 'ساعت آنتیکیترا', 'گربه شرودینگر', 'آزمایش تورینگ', 'قضیه آخر فرما', 'تیغ اوکام', 'قضیه ناتمامیت گودل', 'نوار موبیوس', 'ماشین روب گلدبرگ', 'سیزیف', 'سیاه‌چاله', 'درهم‌تنیدگی کوانتومی', 'سنگ روزتا', 'اسب تروا', 'مجسمه آرش کمانگیر', 'رادیوستراتژی', 'کینکتور نوآور', 'سفرمارپیچی', 'هیدروپونیک', 'نوسان‌گیر مغناطیسی', 'فوتونیک', 'زنبورک مکانیکی', 'آتشکده باستانی', 'کریستالوگرافی', 'هیپوفیز', 'میکروتوربین', 'الکترومگنتیک', 'خودروهای هیدروژنی', 'کنترل‌کننده ژیروسکوپی', 'ماجراجوی کوانتومی', 'سینماگراف', 'تلسکوپ فضایی', 'کاتالیزور نانویی', 'ابرشار', 'مونوریل مغناطیسی', 'فرمول‌باز', 'چرخ‌دندهٔ معکوس', 'پروژه مهندسی ذهن', 'اسپکتروسکوپی', 'میکروسکوپ تونلی', 'نقشه ژئودزی', 'ریسک‌سنجی مالی', 'آبرنگ سه‌بعدی', 'نایاب‌ترین قارچ', 'پرچمدار نانو', 'اکسیژن‌سنج', 'نوروفیدبک', 'تار عنکبوت مصنوعی', 'ماشین زمان', 'میکرودرمال', 'سیاره‌نما', 'ایزوترم', 'هیدرودینامیک', 'گرافن', 'سرخس‌ربوده', 'پیکرنگاری', 'سیستم صوتی فضایی', 'ماشین لامپانی', 'ابررایانه', 'چشم‌انداز آلترناتیو', 'ژیروسکوپ مغناطیسی', 'اسپینترونیک', 'مونتاژ ذهنی', 'الکترولیزکننده', 'تکنوفوبیا', 'نانوذره', 'پروژکتور لیزری', 'نوسان‌سنج', 'کوانتوم‌گیر', 'نقش‌نگار', 'آتشفشان یخی', 'سامانه‌های خودران', 'میکروروبات', 'رادیواکتیو خفیف', 'چرخش‌گر گریز از مرکز', 'پرتوپلاک', 'اینتروپی', 'موتور یونی', 'فوتوالکتریک', 'ماشین معکوس‌کننده', 'هلیوم-۳', 'ژرفاکش', 'تصویرساز سه‌بعدی', 'اسپریونی', 'اگزوز توربوچارج', 'قلم نوری پیشرفته', 'ابرنواختر', 'سنسور رزونانسی', 'نئوکلاسیک', 'هولوگرام پویا', 'مولد پلاسمایی', 'صوت‌نگار', 'فریزکننده کوانتومی', 'ماشین نورد', 'هواگرد رم', 'پلاسماید', 'خودکار ذهنی', 'مغناطیس‌سنج', 'سورپرایزر', 'لولهٔ مویین', 'شکلک‌های ژئو', 'ماشین محاسبه‌کننده', 'میدان‌سنج', 'سایبرنتیک', 'میکروفلوئیدیک', 'کابین ضدصدا', 'ذره‌نگار', 'آژیر مغناطیسی', 'اسپینر شیمیایی', 'هولوستیک', 'میکروسفر', 'سیستم ضدخطا', 'نانوماشین', 'ابرنوسان', 'سروپمپ پیشرفته', 'لایهٔ محافظ مغناطیسی', 'کدگشای ژنتیکی', 'سفر در زمان', 'آرکانوگرافی', 'بیونانوکامپوزیت', 'ژئوفیزیک مغناطیسی', 'پریماوردیال', 'سیناپتوژنز', 'تراسپکتروسکوپی', 'هیدرودینامیک کوانتومی', 'لولهٔ ونتوری', 'ترمودینامیک غیرخطی', 'میکروسکوپ الکترونی روبشی', 'کینتیک نوترونی', 'ابرتلرانس', 'فوتونیک موج‌نما', 'کریستالوگرافی اشعه ایکس', 'نانوتیوتر', 'اکسیژناتور', 'پلی‌پپتید مصنوعی', 'ترانس‌کریپتومیک', 'مغناطیس‌سنج ابررسانا', 'کوانتوم‌تله‌پورت', 'سوپرالاستیک', 'میانجی ژنتیکی', 'نئورومورفیک', 'کربن‌هیدرید', 'ریسک‌سنجی ایمنی', 'اکسیدکننده پلاسمایی', 'میانگین‌گیر زمانی', 'هلیوم ایزوتوپی', 'آینهٔ فرابنفش', 'اینتراکنش پروتئینی', 'مولکولار اسپکترومتر', 'جریان‌سنج ورتکس', 'میلهٔ تلسکوپی', 'سینماگرافیک', 'فوتوالکتریک کوانتومی', 'میکروروبات خودران', 'ژنراتور توربوپلاسمایی', 'ابرتوربین مغناطیسی', 'ذره‌نگار فوتونی', 'کنترل‌کنندهٔ ژیروسکوپی چندمحوره', 'نانوذرهٔ زیستی', 'پروتئین‌سنجی نانویی', 'ماشین زمان‌باز', 'هیدروپمپ کوانتومی', 'رادیواکتیویته خفیف', 'سیستم خنک‌کنندهٔ مایع ابررسانا', 'مولد هیدروژن', 'لایهٔ فوتونیکی', 'تصویرساز مغناطیسی', 'رادیوسکوپ فضایی', 'سروپمپ مغناطیسی', 'اسپکتروفتومتر مرئی', 'ابرنوسانگر', 'ماشین معکوس‌کنندهٔ انرژی', 'هلیکوپتر رم', 'نانوژنراتور', 'ژنراتور پلاسمایی', 'اینتروپی منفی', 'ماشین محاسبه‌گر کوانتومی', 'سنسور رزونانسی نانویی', 'سیستم ضدخطای مغناطیسی', 'ذره‌پویشگر', 'کدگشای ژنتیکی مصنوعی', 'میکروفلوئیدیک پیشرفته', 'آینهٔ موج‌نما', 'پریزما نوری', 'لایهٔ محافظ مغناطیسی ابررسانا', 'ذره‌نگار تونلی', 'پلاسماید اصلاح‌شده', 'میکروسفر بیولوژیک', 'سیستم خودران هوشمند', 'ماشین لامپانی کوانتومی', 'نوروفیدبک مغناطیسی', 'آینهٔ دوکره‌ای', 'ماشین نورد خودکار', 'سروپمپ پیشرفتهٔ ابررسانا', 'چرخش‌گر گریز از مرکز کوانتومی', 'ماشین‌آلات هیدرولیکی پیچیده', 'میدان‌سنج فضایی', 'لولهٔ مویین نانویی', 'ژنراتور فوتونی', 'کوانتوم‌گیر مغناطیسی', 'ماشین محاسبه‌گر چندبعدی', 'سیستم پردازش ذهنی', 'هیدروژناتور خودکار', 'ابرنواختر مصنوعی', 'سورپرایزر بیونیکی', 'ذره‌نگار فضایی', 'ماشین زمان‌باز مغناطیسی', 'پروژه مهندسی ذهن کوانتومی', 'نوسان‌سنج خودکار', 'پروژکتور لیزری پیشرفته', 'ژنراتور مغناطیسی ترکیبی', 'هیدرودینامیک غیرخطی', 'کاتالیزور نانویی هوشمند', 'میکروربات هوشمند', 'فرمول‌باز مغناطیسی', 'سفرمارپیچی فضایی', 'ماشین‌های هیدروژنی پیشرفته', 'کریستالوگرافی سه‌بعدی', 'هولوستیک پیشرفته', 'میکروسفر کوانتومی', 'نقشه ژئودزی دقیق', 'نوروفیدبک کوانتومی', 'میکرودرمال فضایی', 'مغناطیس‌سنج ابررسانا پیشرفته', 'تلسکوپ فضایی هابل', 'ماشین ظرفشویی', 'آینهٔ دستشویی', 'تخته سیاه', 'چراغ مطالعه', 'کتابخانه', 'دوچرخه', 'میز تحریر', 'گوشی موبایل', 'کوله‌پشتی', 'دفترچه یادداشت', 'قهوه‌ساز', 'لباسشویی', 'چراغ قوه', 'پنکه', 'چراغ سقفی', 'کمد لباس', 'رادیو کوچک', 'چای‌ساز', 'ساعت رومیزی', 'مداد', 'خودکار', 'دفترچه تلفن']
+        },
+        'شهر یا کشور': {
+          icon: '🌍',
+          easy: ['پاریس', 'توکیو', 'نیویورک', 'لندن', 'سیدنی', 'قاهره', 'آمستردام', 'روم', 'استانبول', 'رم', 'هامبورگ', 'ونکوور', 'مادرید', 'بارسلون', 'دوبلین', 'بوداپست', 'زاگرب', 'پکن', 'شانگهای', 'لس‌آنجلس', 'شیکاگو', 'تورنتو', 'آتن', 'بروکسل' ],
+          medium: ['ونیز', 'بانکوک', 'بارسلونا', 'مسکو', 'دبی', 'سنگاپور', 'برلین', 'لیسبون', 'اوسلو', 'سئول', 'وین', 'باکو', 'دوحه', 'کی‌یف', 'ژنو', 'استکهلم', 'کوالالامپور', 'ریو دو ژانیرو', 'کیپ‌تاون', 'بوینس آیرس', 'صوفیه', 'بخارست', 'تفلیس' ],
+          hard: ['مراکش', 'کپنهاگ', 'مونترال', 'ولینگتون', 'ریکیاویک', 'پراگ', 'تالین', 'لوکزامبورگ', 'هلسینکی', 'سنت پیترزبورگ', 'اتحاد جماهیر شوروی', 'استانبول قدیم', 'آلماتی', 'ولادی‌وستوک', 'لیختن‌اشتاین', 'آنتاناناریوو', 'اودسا', 'کاراکاس', 'پورت مورسبی', 'تیرانا', 'کلمبو', 'یاونده', 'هاوانا', 'ماناگوا']
+        },
+        'حیوانات': {
+          icon: '🦁',
+          easy: ['سگ', 'گربه', 'پرنده', 'ماهی', 'اسب', 'گاو', 'خوک', 'فیل', 'خرگوش', 'لاک‌پشت', 'کبوتر', 'سوسک', 'گوسفند', 'بز', 'اردک', 'مرغ', 'شترمرغ', 'کلاغ', 'قو', 'گنجشک', 'کوسه', 'خرچنگ', 'مارمولک', 'قورباغه','همستر','طوطی','طوطی برزیلی','بلبل','طلا‌ماهی','حلزون','زنبور','پروانه','الاغ','بوقلمون',],
+          medium: ['گوریل', 'کانگورو', 'پنگوئن', 'دلفین', 'شتر', 'طاوس', 'شیر', 'ببر', 'راسو', 'میمون', 'سمور', 'جغد', 'روباه', 'گرگ', 'پلنگ', 'شغال', 'گوزن', 'فوک', 'پاندا', 'کوالا', 'ایگوانا', 'مار', 'عقاب','کفتار','لمور','مار پایتون','وال','اسب آبی','میگو','گراز دریایی','میمون بابون'],
+          hard: ['یوزپلنگ ایرانی', 'تنبل', 'آکتوپوس', 'خار‌پشت', 'پلاتیپوس', 'فلامینگو', 'فیل دریایی', 'مورچه‌خوار', 'کاکاپو', 'دلقک ماهی', 'گراز', 'کرکس', 'شامپانزه', 'مار کبرا', 'مار بوآ', 'سمندر', 'خرچنگ نعل اسبی', 'شتر دوکوهانه', 'شتر یک‌کوهانه', 'پلنگ برفی', 'ببر سیبری', 'لاک‌پشت چرمی','ببر مازندران','پرنده اسکل','مار زنگی','بز کوهی آلپ','گوزن شمالی','کوسه سرچکشی','مارمولک کوموندو','وال بلوگا']
+        },
+        'ورزش': {
+          icon: '🥊',
+          easy: ['فوتبال', 'بسکتبال', 'تنیس', 'شنا', 'دویدن', 'دوچرخه‌سواری', 'گلف', 'بوکس', 'والیبال', 'هاکی', 'پینگ‌پنگ', 'کشتی', 'بدنسازی', 'اسکواش', 'فوتسال', 'دو میدانی', 'طناب‌زنی', 'بیسبال', 'بسکتبال خیابانی', 'فریزبی', 'کریکت', 'کبدی', 'راگبی','هند‌بال','دارت'],
+          medium: ['یوگا', 'موج‌سواری', 'اسکی', 'اسکیت‌بردی', 'صخره‌نوردی', 'تیراندازی', 'شمشیرزنی', 'ژیمناستیک', 'قایقرانی', 'ژیمناستیک ریتمیک', 'پاراگلایدر', 'بولینگ', 'جودو', 'تکواندو', 'کارته', 'اسنو‌بورد', 'پارکور شهری', 'واترپلو', 'بدمینتون', 'پولو', 'سافتبال', 'اسکیت نمایشی', 'پدل‌بورد', 'چتربازی','بدمینتون ساحلی','بیلیارد اسنوکر','لوژ'],
+          hard: ['یخ‌روی', 'بالت', 'پارکور', 'وزنه‌برداری', 'هنرهای رزمی', 'درقه‌کوهی', 'کایت‌سرفینگ', 'ورزش‌های بقا', 'کلایمینگ آیس', 'شیرجه بلند', 'اسکای‌دایوینگ', 'ماراتن کوهستان', 'کراس‌فیت', 'موی‌تای', 'شمشیربازی حرفه‌ای', 'جت‌اسکی', 'قایق‌رانی سرعتی', 'هاکی روی یخ', 'تراپ تیراندازی', 'بیاتلون', 'ژیمناستیک هنری', 'فری‌راید', 'راپل','سپک‌تاکرا','نتبال','کریکت ساحلی','ورزش زورخانه‌ای','فوتبال استرالیایی','لاکراس','کوراش','فلوربال','پاورلیفتینگ','موتور‌کراس']
+        },
+        'فوتبال': {
+          icon: '⚽',
+          easy: ['گل', 'توپ', 'مربی', 'داور', 'پنالتی', 'کرنر', 'آفساید', 'دروازه‌بان', 'گلزن', 'هافبک', 'دفاع', 'مهاجم', 'مسی', 'رونالدو', 'نیمار', 'صلاح', 'پاری سن ژرمن', 'رئال مادرید', 'یوونتوس', 'دستگاه گلزن', 'مارک آندره تراشتگن', 'لوک شاو', 'اینزاگی', 'آرسنال', 'میلان', 'لیورپول','پله','روبرت لواندوفسکی','جود بلینگام','دیگو مارادونا,','بارسلونا','چیپ',],
+          medium: ['کارت زرد', 'کارت قرمز', 'پاس گل', 'هد', 'تکل', 'دریبل', 'ضدحمله', 'تعویض', 'فوتبال ساحلی', 'کاپیتان', 'مربی بدنساز', 'ضربه آزاد', 'هازارد', 'امباپه', 'فودن', 'کین', 'منچستر یونایتد', 'منچستر سیتی', 'چلسی', 'ریس جیمز', 'فیلیپ کوتینیو', 'سرخیو راموس', 'هاکان چالهان‌اوغلو', 'اتلتیکو مادرید', 'ناپولی', 'شالکه','VAR','کریم بنزما','ارلینگ هالند','وینیسیوس جونیور','لوکا مدریج','کوین دی‌بروینه','تاتنهام','دورتموند','پاس عمقی','جاگیری'],
+          hard: ['جام جهانی', 'لیگ قهرمانان', 'هت‌تریک', 'گل به خودی', 'وقت اضافه', 'ضربه قیچی', 'ضربه والی', 'لیگ اروپا', 'لیگ ملت‌ها', 'گل طلایی', 'قهرمانی داخلی', 'لائوتارو مارتینز', 'مارکوس راشفورد', 'ژول کونده', 'بایرن مونیخ', 'آتلتیکو مادرید', 'اینترمیلان', 'پورتو', 'استادیوم سانتیاگو برنابئو', 'استادیوم مرسدس بنز', 'فرلاند مندی', 'جردن هندرسون', 'مارکو وراتی', 'ادریان رابیو', 'بوکا جونیورز', 'پاریس اف سی', 'بنفیکا','اشرف حکیمی','برونو فرناندز','آنتوان گریزمات','آلیسون بکر','تیبو کورتوا','سون هیونگ-مین','هری مگوایر','آژاکس','سویا','وستهام یونایتد','لایپزیگ','گالاتاسرای','لس آنجلس اف‌سی','رابونا','پاننکا','الاستیکو','پرسینگ','شوت سرکش','توپ ربایی','قیچی برگردان','بک هیل']
+        },
+        'مکان‌ها': {
+          icon: '🏰',
+          easy: ['خانه', 'مدرسه', 'بیمارستان', 'پارک', 'ساحل', 'کوه', 'جنگل', 'رودخانه', 'سینما', 'کافه', 'سوپرمارکت', 'ایستگاه اتوبوس','رستوران','بانک','شهربازی','داروخانه','پمپ بنزین','پاساژ','هتل','استخر','باشگاه ورزشی','نانوایی','تالار عروسی','کلانتری'],
+          medium: ['معبد', 'موزه', 'کتابخانه', 'ورزشگاه', 'تئاتر', 'فرودگاه', 'ایستگاه قطار', 'بازار', 'کتاب‌فروشی', 'باغ وحش', 'پیست اسکیت','تخت جمشید','پاسارگاد','رصدخانه','دانشگاه','شهرداری','فرهنگسرا','نمایشگاه بین‌المللی','اسکله','بندر','پل عابر پیاده','نیروگاه','پالایشگاه','سفارت'],
+          hard: ['اهرام مصر', 'آتشفشان', 'دره', 'آبشار', 'برج ساعت لندن', 'دیزنی‌لند', 'قلعه باستانی', 'غار یخی', 'دریاچه نمک', 'کوهستان آتشفشانی','غار حرا','غار علیصدر','برج ایفل','کولوسئوم','مجسمه آزدای','تاج محل','دیوار بزرگ چین','گرند کنیون']
+        },
+        'فناوری': {
+          icon: '💻',
+          easy: ['تلفن', 'کامپیوتر', 'تلویزیون', 'دوربین', 'ساعت', 'ربات', 'پهپاد', 'هدفون', 'مودم', 'اسپیکر', 'تبلت', 'شارژر','فلش مموری','پاوربانک','روتر','وبکم','دسته بازی','میکروفون','کنسول بازی','ریموت کنترل','کابل HDMI','کابل USB','هارد اکسترنال'],
+          medium: ['ماهواره', 'پنل خورشیدی', 'تلسکوپ', 'میکروسکوپ', 'پرینتر', 'اسکنر', 'کیبورد', 'موس', 'کارت گرافیک', 'SSD', 'مانیتور', 'سنسور','رم','مادبرد','منبغ تغذیه','کارت شبکه','سوییچ شبکه','سرور','UPS(برق اضطراری)','دستگاه پز'],
+          hard: ['برد مدار', 'رایانه کوانتومی', 'هوش مصنوعی', 'واقعیت مجازی', 'هولوگرام', 'بلاکچین', 'شبکه عصبی', 'پردازنده گرافیکی', 'واقعیت افزوده', 'رم کوانتومی','دیپ لرنینگ','رینفورسمنت لرنینگ','macOS','مایکروسافت آفیس','نرم افزار متلب','ریز پردازنده','ترانزیستور','پردازش چند بعدی اطلاعات','کول پد لپ تاپ','رزبری‌پای','اینترنت اشیا','محاسبات لبه','رایانش ابری','رایانش توزیع‌شده','رمزنگاری کتاب عمومی','امضای دیجیتال','مدل زبانی بزرگ(LLM)','فدریتد لرنینگ','کوانتوم‌کیودی']
+        },
+        'حرکات': {
+          icon: '🤸🏼‍♀️',
+          easy: ['راه رفتن', 'پریدن', 'نشستن', 'خوابیدن', 'خوردن', 'نوشیدن', 'صحبت کردن', 'بلند شدن', 'خم شدن', 'چرخیدن', 'نیشگون گرفتن'],
+          medium: ['رقصیدن', 'خواندن', 'گریستن', 'خندیدن', 'بغل کردن', 'نقاشی کشیدن', 'ساختن', 'صعود کردن', 'سورتمه‌سواری', 'بالا رفتن', 'اسکی روی برف', 'آویزان شدن'],
+          hard: ['مدیتیشن', 'کشش', 'عطسه', 'خمیازه', 'فکر کردن', 'جشن گرفتن', 'شیک زدن', 'کنده کاری', 'یوگا پیشرفته', 'پرش بلند', 'چرخش هوایی', 'طناب‌بازی', 'وزن گرفتن']
+        },
+        'اشیاء': {
+          icon: '📱',
+          easy: ['صندلی', 'میز', 'تخت', 'در', 'پنجره', 'کتاب', 'کفش', 'کلاه', 'کمد', 'قفسه', 'لامپ', 'چتر'],
+          medium:[ 'گیتار', 'پیانو', 'ویولن', 'دوچرخه', 'اسکیت‌برد', 'قایق', 'هواپیما', 'قطار', 'میکروفون', 'دوربین فیلمبرداری', 'قایق بادی', 'اسکوتر', 'ساعت دیجیتال'],
+          hard: ['قطب‌نما', 'سکستان', 'ساعت شنی', 'چوب حساب', 'آینه تلسکوپی', 'ماشین حساب علمی', 'مدار چاپی', 'دزدگیر خانه', 'دوربین مداربسته اماکن عمومی', 'همزن', 'بلندر', 'چرخ گوشت', 'ماشین کنترلی آفرود']
+        },
+        'خوراکی': {
+          icon: '🍿',
+          easy: ['پیتزا', 'برگر', 'پاستا', 'سالاد', 'سوپ', 'کباب', 'سوشی', 'ساندویچ', 'املت', 'کتلت', 'خوراک لوبیا', 'ماکارونی', 'عدسی', 'کوکو', 'آش رشته', 'چلوکباب', 'چلوخورش', 'فلافل', 'سمبوسه', 'سیب‌زمینی سرخ‌کرده', 'استیک', 'هات‌داگ', 'پنکیک', 'وافل' ],
+          medium: ['لازانیا', 'خورش قیمه', 'خورش قرمه‌سبزی', 'خورش فسنجان', 'بیف استراگانف', 'چیکن استراگانف', 'پائیا', 'رامن', 'پاستا آلفردو', 'کوفته تبریزی', 'دلمه برگ مو', 'میرزاقاسمی', 'کشک بادمجان', 'چیکن کاری', 'چیکن تیکا', 'ریسوتو', 'بوریتو', 'تاکو', 'سوشی رول', 'بیف بورگینیون', 'خوراک زبان', 'پاچینی', 'ته‌چین', 'آش دوغ', 'انبه مصری'],
+          hard: ['کاسوله', 'راتاتویی', 'سوفله', 'بیف ولینگتون', 'چاو مین', 'پاد تای', 'تام یام', 'خوراک صدف', 'خوراک اختاپوس', 'خوراک حلزون', 'خورش خلال', 'خورش بامیه جنوبی', 'قلیه میگو', 'قلیه ماهی', 'بریانی اصفهان', 'خورش آلو اسفناج', 'خوراک خرچنگ', 'خوراک اردک پرتقالی', 'سوشی ساشیمی', 'پاستا کاربونارا', 'خوراک ترافل', 'سوپ مینسترونه', 'خوراک مارماهی', 'پلو مراکشی', 'بیف استراگانوف', 'چیکن برگر', 'سالاد گاردن', 'پیاز سوخاری', 'سس آنتروکوت', 'پشن فروت', 'پاپایا', 'انبه مصری']
+        },
+        'فیلم و سریال': {
+          icon: '🎬',
+          easy: ['تایتانیک', 'مرد عنکبوتی', 'هری پاتر', 'بتمن', 'جوکر', 'انتقام‌جویان', 'شیرشاه', 'یخ‌زده', 'شجاع‌دل', 'گلادیاتور', 'پارک ژوراسیک', 'ترمیناتور', 'رامبو', 'آواتار', 'دزدان دریایی کارائیب', 'ماتریکس', 'سریع و خشن', 'جنگ ستارگان', 'داستان اسباب‌بازی', 'شوالیه تاریکی', 'وانداویژن', 'لوکی', 'ونوم'],
+          medium:[ 'فارست گامپ', 'بین ستاره‌ای', 'اینسپشن', 'جزیره شاتر', 'باشگاه مشت‌زنی', 'درخشش', 'انگل', 'هفت', 'تلقین', 'دفترچه خاطرات', 'کازابلانکا', 'رستگاری در شاوشنک', 'بلید رانر', 'تلماسه', 'گلادیاتور ۲', 'مریخی', 'دکتر استرنج', 'مرد آهنی', 'جان ویک', 'مرد نامرئی', 'پیکی بلایندرز', 'بریکینگ بد', 'خانه کاغذی','والتر وایت'],
+          hard: ['مالهالند درایو', '۲۰۰۱ اودیسه فضایی', 'روانی', 'همشهری کین', 'زندگی دیگران', 'شب‌های روشن', 'پدرخوانده ۲', 'هشت نفرت‌انگیز', 'درخت زندگی', 'سرگیجه', 'پرتقال کوکی', 'جاده مالهالند', 'شکل آب', 'بلک سوان', 'ممنتو', 'لاک استاک', 'خاطرات یک قاتل', 'هفت سامورایی', 'آندری روبلف', 'جدایی نادر از سیمین', 'مهر هفتم', '', 'پرستیژ', 'سینکداکی نیویورک', 'ترنسفورمرز', 'تاسیان', 'اتک اند تایتان', 'وان پیس',,'سریع و خشن','جنون سرعت آنباند','تاکسی ۵']
+        },
+        'احساسات و خلقیات': {
+          icon: '😊',
+          easy: ['خوشحال', 'غمگین', 'عصبانی', 'ترسو', 'خواب‌آلود', 'گرسنه', 'کسل', 'هیجان‌زده', 'شاد', 'ناراحت', 'پر انرژی', 'بی حوصله', 'مضطرب', 'آرام', 'پرخاشگر محتاط', 'هیجان‌انگیز', 'ملایم', 'محزون', 'شاداب'],
+          medium: ['عصبی', 'گیج', 'شگفت‌زده', 'حسود', 'مغرور', 'خجالتی', 'اعتماد‌بخش', 'دلسوز', 'صبور', 'کنجکاو', 'متفکر', 'بی اعتماد', 'متواضع', 'بی تفاوت', 'با اعتماد به نفس', 'مغرورانه', 'ترسناک', 'شگفت‌انگیز', 'تحریک‌شده'],
+          hard: ['نوستالژی', 'تاریک‌خلق', 'نگران', 'ناامید', 'غالب', 'الهام‌بخش', 'ملول', 'تکان دهنده', 'غم انگیز', 'عمیق فکر', 'حسرت‌خور', 'ملال‌آور', 'بی تاب', 'عصبی کننده', 'متفکر فلسفی', 'آشفته', 'سردرگم', 'دلسوز عمیق', 'غمناک فلسفی', 'پراضطراب', 'دلیر']
+        },
+        'شخصیت‌های معروف': {
+          icon: '👑',
+          easy: ['شرلوک هولمز', 'دراکولا', 'فرانکنشتاین', 'مومیایی', 'شبح', 'خون‌آشام', 'زامبی', 'اسکلت', 'کوروش منصوری', 'هادی چوپان', 'هایده', 'ابی', 'تام کروز', 'تیلور سوییفت', 'مایکل جکسون', 'باراک اوباما', 'لیدی گاگا', 'کریستف کلمب', 'نلسون ماندلا', 'اپرا وینفری', 'آدولف هیتلر', 'آلبرت انیشتین', 'نیکی میناژ', 'مایکل جوردن', 'لبرون جیمز', 'ریحانا', 'مریل استریپ', 'بری لارسون', 'کریس ایوانز', 'تام هاردی','اسپایدرمن','بتمن','هری پاتر','مرد آهنی','ونوم','باب اسفنجی','هالک','جکی چان','ادل(خواننده)'],
+          medium: ['سیندرلا', 'پینوکیو', 'آلیس', 'دوروتی', 'علاء‌الدین', 'آریل', 'سیمبا', 'السا', 'جعفر پناهی', 'کارل بنز', 'ترامپ', 'شایع', 'هیچکس', 'گوگوش', 'برد پیلت', 'آنجلا جولی', 'وحید مرادی', 'امین النور', 'عراقچی', 'سید‌ابراهیم رییسی', 'بیلی آیلیش', 'سناتور جی دی ونس', 'سابرینا کاپرتنر', 'سوفیا ورگارار', 'ماری کوری', 'شکیرا', 'تونی استارک', 'آل پاچینو', 'آنگلا مرکل', 'امیلیا کلارک', 'فلوید می‌دور', 'محمد‌علی کلی', 'مایک تایسون', 'پاول واکر', '2Pac', 'امینم', 'Ho3ein(رپر)', 'مگان فاکس', 'آبراهام لینکلن', 'ایلان ماسک', 'رابرت دنیرو', 'مارگو رابی', 'آنتونی هاپکینز','لوکی','ثور','کریستوفر نولان','بروس لی','چارلی چاپلین','مهسا امینی','گالیله','فروید(عصب‌شناس اتریشی)','انزو فراری'],
+          hard: ['مدوسا', 'هرکول', 'مکبت', 'جولیت', 'رومئو', 'جانی دپ', 'سیدنی سویینی', 'کیرا نایتلی', 'بیژن پاکزاد', 'فروچیو لامبورگینی', 'استیو جابز', 'تیم کوک', 'شادمهر', 'مونالیزا', 'نتانیاهو', 'کیم جونگ اون(رهبر کره شمالی)', 'آکیرا ناکای', 'رونی کلمن', 'آرنولد', 'پاپ', 'برادران دالتون', 'مارک زاکربرگ', 'جف بزوس', 'بیل گیتس', 'ملکه الیزابت سوم', 'بهزاد لیتو', 'جیمز کوئینسی(مدیر عامل کولا)', 'محمدجواد ظریف', 'آنتوان دو سنت اگزوپری', 'پابلو پیکاسو', 'لئوناردو داوینچی', 'آیزاک نیوتن', 'نیکولا تسلا', 'استالین', 'ناپلئون بناپارت', 'کلئوپاترا', 'فرعون', 'پوتین', 'جاستین بیبر', 'استیو ویتکاف', 'جو بایدن', 'ملانیا ترامپ', 'وینستون چرچیل', 'کوین میتنیک', 'وین دیزل', 'گَل گدوت', 'لئوناردو دی‌کاپریو', 'اسکارلت جوهانسون', 'دیوید گاگینز', 'جان سینا','چنگیز خان','سزار بورجیا','توماس ادیسون','نیکولا تسلا','ملکه ویکتوریا','کلئوپاترا','ملکه الیزلبت دوم','لیدی گاگا','جنیفر لوپز','جی دی ونس','جان اف کندی','تیلور سوییفت','سوفیا ورگارا','فردیناند پورشه','برایان اعتماد','امیر تتلو','رضا پیشرو','هیچکس']
+        },
+        'تعطیلات و مناسبات': {
+          icon: '🎄',
+          easy: ['کریسمس', 'هالووین', 'تولد', 'روز عشق', 'سال نو', 'روز استقلال', 'شکرگذاری', 'روز مادر', 'روز پدر', 'روز کارگر', 'روز معلم', 'نوروز', 'یلدا', 'چهارشنبه‌سوری', 'عید قربان', 'سیزده‌بدر', 'عروسی', 'مهمانی', 'پیک‌نیک', 'تعطیلات', 'جشن', 'مسابقه', 'کنسرت', 'نمایشگاه', 'اردو', 'جشنواره', 'سالگرد', 'افتتاحیه', 'اختتامیه' ],
+          medium: ['فارغ‌التحصیلی', 'دیوالی', 'حنوکا', 'عید', 'روز سنت پاتریک', 'سنکو دمایو', 'چهارشنبه سوری', 'شب یلدا', 'روز جهانی کودک', 'روز دانشجو', 'روز کودک', 'روز خبرنگار', 'روز پزشک', 'روز پرستار', 'روز پلیس', 'روز آتش‌نشان', 'جشن فارغ‌التحصیلی', 'روز کتاب', 'روز هنر', 'روز سینما', 'روز موسیقی', 'روز ورزش', 'روز صلح', 'روز زمین', 'روز محیط زیست', 'رژه'],
+          hard: ['روش هاشانا', 'سال نو قمری', 'انقلاب تابستان', 'انقلاب زمستان', 'عید پاک', 'جوبیلی', 'هالووین سنتی', 'جشنواره فضا', 'روز جهانی آب', 'روز جهانی غذا', 'روز جهانی سلامت', 'روز جهانی زن', 'روز جهانی فناوری', 'روز جهانی هواشناسی', 'روز جهانی داوطلب', 'روز جهانی حقوق بشر', 'روز جهانی ایدز', 'بعثت پیامبر', 'شهادت حضرت علی', 'نشست خبری', 'جلسه اداری', 'مراسم رسمی', 'مناظره', 'اعتراض', 'راهپیمایی', 'کارناوال', 'عید فطر', 'مراسم سوگ', 'مراسم تقدیر','روز شکرگزاری']
+        },
+        'کودکان': {
+          icon: '🧒',
+          easy: ['سیب', 'ماشین', 'خورشید', 'ماه', 'بالون', 'بادبادک' ],
+          medium: ['بستنی', 'رنگین‌کمان', 'عروسک', 'پروانه', 'اسب اسباب‌بازی', 'ماشین کنترلی', 'کلاه جادوگری', 'خرس عروسکی' ],
+          hard: ['دایناسور', 'ابر قهرمان', 'آتش‌نشان', 'فضانورد', 'قلعه', 'اژدها', 'گنج', 'میو میو جادوگر', 'ربات جنگجو', 'دایناسور پرنده', 'کوه اسرارآمیز' ]
+        },
+        'ماشین': {
+          icon: '🚗',
+          easy: ['نیسان', 'پیکان', 'تیبا', 'کوییک', 'شاهین', 'دنا', 'پژو ۲۰۶', 'پژو ۴۰۵', 'پژو پارس', 'ال ۹۰', 'ساندرو', 'مگان', 'زانتیا', 'ماکسیما', 'تویوتا کرولا', 'تویوتا کمری', 'تویوتا یاریس', 'تویوتا راو۴', 'هیوندای النترا', 'هیوندای سوناتا', 'هیوندای توسان', 'کیا اپتیما', 'کیا اسپورتیج', 'کیا ریو', 'کیا پیکانتو', 'بی‌ام‌و سری ۳', 'بی‌ام‌و سری ۵', 'بنز کلاس S', 'بنز کلاس E', 'آئودی A6', 'آئودی Q5', 'فولکس واگن گلف', 'فولکس واگن پاسات', 'پژو ۲۰۷', 'رانا', 'ساینا', 'تارا', 'پژو ۲۰۰۸', 'کیا کادنزا', 'هیوندای آزرا', 'تویوتا هایس', 'پرادو (لندکروزر پرادو)', 'سوزوکی ویتارا' ],
+          medium: ['تویوتا لندکروزر', 'تویوتا هایلوکس', 'تویوتا آوالون', 'تویوتا پریوس', 'نیسان آلتیما', 'نیسان ۳۷۰Z', 'نیسان پاترول', 'هوندا آکورد', 'هوندا سیویک تایپ R', 'هوندا CR-V', 'مزدا MX-5', 'مزدا CX-5', 'سوبارو WRX', 'سوبارو فارستر', 'میتسوبیشی اوتلندر', 'میتسوبیشی پاجرو', 'فورد موستانگ', 'فورد F-150', 'فورد اکسپلورر', 'شورولت کامارو', 'شورولت کوروت', 'شورولت تاهو', 'دوج چلنجر', 'دوج چارجر', 'جیپ رانگلر', 'جیپ گرند چروکی', 'لکسوس RX', 'لکسوس LX', 'لکسوس ES', 'اینفینیتی Q50', 'آئودی RS7', 'آئودی S5', 'پورشه کاین', 'پورشه ماکان', 'پورشه تایکان', 'مرسدس G کلاس', 'مرسدس E63 AMG', 'مرسدس CLS', 'بی‌ام‌و X5', 'بی‌ام‌و X6', 'بی‌ام‌و M3', 'ولوو XC90', 'ولوو S90', 'لندرور دیفندر', 'لندرور رنجروور', 'تسلا مدل ۳', 'تسلا مدل Y', 'مازراتی گیبلی', 'مازراتی لوانته' ],
+          hard: ['بوگاتی ویرون', 'بوگاتی دیوو', 'بوگاتی بولاید', 'پاگانی زوندا', 'پاگانی هوایرا', 'کونیگزگ آگرا', 'کونیگزگ یسکو', 'کونیگزگ جمرا', 'رولزرویس فانتوم', 'رولزرویس کولینان', 'بنتلی کانتیننتال جی تی', 'بنتلی بنتایگا', 'فراری لافراری', 'فراری ۴۸۸', 'فراری F8', 'فراری ۸۱۲ سوپرفست', 'فراری روما', 'فراری پوروسانگوئه', 'لامبورگینی اونتادور', 'لامبورگینی اوروس', 'لامبورگینی روئلتو', 'لامبورگینی رِوِنتون', 'مکلارن P1', 'مکلارن سنا', 'مکلارن ۶۷۵LT', 'مکلارن آرتورا', 'پورشه ۹۱۸ اسپایدر', 'پورشه ۹۱۱ GT3 RS', 'مرسدس SLS AMG', 'مرسدس AMG ONE', 'آستون مارتین DB11', 'آستون مارتین DBS', 'آستون مارتین والکری', 'دوج چلنجر هلکت', 'دوج چارجر هلکت', 'فورد ماستنگ شلبی GT500', 'بوگاتی سنتودیچی', 'فراری انزو', 'لامبورگینی وننو', 'مکلارن اسپیدتیل', 'ریماک نورا', 'آلفارومئو 4C', 'آلفارومئو جولیا QV', 'لوتوس اویجا', 'لوتوس امیرا', 'G کلاس برابوس', 'منصوری (Mansory)', 'برابوس راکت ۹۰۰', 'پورشه ۹۱۱ منصوری', 'رنجرور ووگ برابوس', 'بی ام و m6 با کیت هامان']
+        },
+        'ویدیو گیم': {
+          icon: '🎮',
+          easy: ['فیفا', 'کالاف دیوتی', 'پابجی', 'ماریو', 'سونیک', 'فورتنایت', 'کلش آف کلنز', 'کندی کراش', 'تمپل ران', 'ساب‌وی سرفر', 'پوکمون', 'پک‌من', 'تتریس', 'مورتال کامبت', 'کراش', 'کانتر', 'رزیدنت ایول', 'اساسینز کرید', 'رد دد', 'نینتندو', 'پِس', 'ماینکرفت', 'کلش رویال', 'امانگ آس', 'GTA', 'انگری بردز', 'روبلاکس','ایپکس لجند','سیمز','گاد آف وار ۳','زلدا','EA Sports'],
+          medium: ['ویچر', 'اسکایریم', 'فال‌اوت', 'هیلو', 'گاد آو وار', 'آنچارتد', 'دوتا', 'لیگ آو لجندز', 'اورواچ', 'وارکرفت', 'دیابلو', 'دد اسپیس', 'کنترل', 'بیوشاک', 'هورایزن', 'مترو', 'دیس‌آنرد', 'بلادبورن', 'فاینال فانتزی', 'مانستر هانتر', 'دایینگ لایت', 'سکیرو', 'Red Dead Redemption', 'گاد آف وار', 'د لست آف آس', 'رزیدنت اویل', 'مورتال کامبت ایکس', 'تکن ۸', 'فورزا', 'لیگ آف لجندز', 'ولورانت', 'اور واچ', 'الدن رینگ', 'نید فور اسپید', 'هیتمن','گوست آو سوشیما','دث لوپ','Alan Wake 2','Capcome(استودیو بازی سازی)','Naughty dog(استودیو بازی سازی)','FromSoftware(استودیو بازی سازی)','آرتور مورگان','Geralt of Rivia(شخصیت بازی ویچر)'],
+          hard: ['نیر اتوماتا', 'پرسونا ۵', 'سایلنت هیل', 'دراگون ایج', 'کینگدام کام', 'لیمبو', 'اینساید', 'هف لایف', 'اوتر وایلدز', 'بازگشت به قلعه ولفنشتاین', 'هالو نایت', 'it takes two', 'دارک سولز', 'Bloodborne', 'دوتا ۲', 'کنترل ۲', 'پرتال ۲', 'هف لایف ۲', 'استروز پلی‌روم', 'متال گیٍر سالید', 'دث استرندینگ', 'سایبرپانک ۲۰۷۷', 'ویچر ۳', 'کال آف دیوتی بلک آپس کولد وار', 'لگو مارول جنگ ستارگان', 'فار کرای ۳', 'وان پیس آدیسی', 'ردوت ۲', 'گرن توریسمو ۷', 'نید وفر اسپید آنباند', 'پرنس آو پرشیا', 'رینبو سیکس سیج', 'الی ویلیامز', 'ایتریس (پسر کریتوس)', 'کریتوس', 'گاد آف وار راگناروک', 'هورایزن فوربیدن وست', 'هورازین زیرو داون', 'اساسینز کرید اودیسه', 'اساسینز کرید بلک فلگ', 'گاتهام نایتس','یوبیسافت','مسترچیف','Returnal','Obsidian Entertaiment(استودیو بازی سازی)','CD Project Red(استودیو بازی سازی)','Samus Aran(شخصیت بازی متروید)','سالید اسنیک','رتچت اند کلنک ریف اِپارت']
+        },
+        'مشاغل': {
+          icon: '🧑🏻‍💻',
+          easy: ['پزشک', 'معلم', 'پرستار', 'مهندس', 'نانوایی', 'راننده', 'کشاورز', 'صندوقدار', 'کتابدار', 'فروشنده', 'نجار', 'باغبان', 'پستچی', 'آرایشگر', 'کارمند بانک', 'عکاس', 'طلافروش', 'مکانیک', 'پلیس', 'نقاش', 'کارگر', 'باربر', 'نگهبان','آشپز','تاکسی ران','تعمیرکار موبایل','کفاش','خیاط','لوله‌کش','انباردار','آتش نشان','مترجم','فروشنده آنلاین'],
+          medium:[ 'وکیل', 'برنامه‌نویس', 'معمار', 'روزنامه‌نگار', 'خلبان', 'مهندس برق', 'طراح مد', 'مدیر پروژه', 'تحلیل‌گر مالی', 'مهندس مکانیک', 'طراح داخلی', 'موسیقی‌دان', 'مدیر بازاریابی', 'سرآشپز', 'تحلیل‌گر سیستم', 'حسابدار', 'کارگردان', 'نویسنده', 'روان‌شناس', 'کارشناس شبکه', 'دندانپزشک', 'دامپزشک', 'مربی ورزشی', 'گوینده','طراح گرافیک','کارشناس منابع انسانی,','تحلیل‌گر کسب و کار','مدیر محصول','مهندس عمران,','تدوینگر ویدیو','گیم دیزاینر','توسعه‌دهنده وب','مشاور حوقوقی','مدیر عملیات'],
+          hard: ['جراح قلب', 'مهندس رباتیک', 'اقتصاددان', 'تحلیل‌گر داده', 'محقق ژنتیک', 'دانشمند علوم داده', 'مهندس هوافضا', 'میکروبیولوژیست', 'روان‌شناس بالینی', 'اقتصاددان ارشد', 'مهندس هوش مصنوعی', 'کارشناس امنیت سایبری', 'پژوهشگر کوانتوم', 'متخصص نورولوژی', 'جراح مغز و اعصاب', 'کارشناس رمزنگاری', 'طراح موتور جت', 'اپیدمیولوژیست', 'اخترفیزیک‌دان', 'متخصص بیوانفورماتیک', 'کارشناس بلاکچین', 'مهندس نانو', 'متخصص رباتیک صنعتی','مدیر‌عامل استارت‌آپ','کارشناس لجستیک','جراح پیوند اعضا','مهندس سیستم‌های توکار','پژوهشگر یادگیری ماشین','معمار راه کار','تحلیل گر ریسک سرمایه‌گذاری','مهندس سامانه‌های ماهواره ای']
+        },
+        'اصطلاحات و ضرب‌المثل‌ها': {
+          icon: '📜',
+          special: [ 'از تو حرکت، از خدا برکت', 'آب که از سر گذشت، چه یک وجب چه صد وجب', 'آب در کوزه و ما تشنه‌لبان می‌گردیم', 'آب رفته به جوی برنمی‌گردد', 'آفتابه لگن هفت دست، شام و ناهار هیچی', 'آشپز که دوتا شد، آش یا شور می‌شود یا بی‌نمک', 'آش نخورده و دهن سوخته', 'آسمان همه‌جا همین رنگ است', 'آفتاب آمد دلیل آفتاب', 'از این ستون به آن ستون فرج است', 'از دل برود هر آنکه از دیده برفت', 'از کوزه همان برون تراود که در اوست', 'از ماست که بر ماست', 'از هول حلیم توی دیگ افتادن', 'از هر دست بدهی، از همان دست می‌گیری', 'از یک سوراخ دوبار گزیده نمی‌شود', 'با یک گل بهار نمی‌شود', 'باد آورده را باد می‌برد', 'بار کج به منزل نمی‌رسد', 'بادمجان دور قاب‌چین', 'بگیر و ببند، به کار نمی‌آید', 'برو که رفتی', 'به آب و آتش زدن', 'به پای خودت افتاد', 'به روباه گفتند شاهدت کیه؟ گفت دمم', 'به سلامتی عروسی که هر کی اومد گفت مبارکه', 'به شتر گفتند چرا گردنت کجه؟ گفت کجایم راسته؟', 'به مگس گفتند چرا نشستی روی شیرینی؟ گفت جای بهتر نبود', 'بی‌گدار به آب زدن', 'بی‌حساب و کتاب', 'بی‌مایه فطیر است', 'بی‌خود نیست', 'پاشنه آشیل', 'پشت سر حرف زدن', 'پول چرک کف دست است', 'پیشانی‌نوشت', 'تا نباشد چیزکی، مردم نگویند چیزها', 'تا تنور داغه نون رو بچسبون', 'تا پول داری رفیقتم، قربون بند کیفتم', 'تا شقایق هست زندگی باید کرد', 'تیشه به ریشه زدن', 'تیرش به سنگ خورد', 'جوجه را آخر پاییز می‌شمارند', 'چاه‌کن همیشه ته چاهه', 'چوب خدا صدا نداره', 'چوب لای چرخ گذاشتن', 'چشم و گوش بسته', 'چشمت روز بد نبینه', 'حساب حسابه، کاکا برادر', 'حرف مرد یکیه', 'حرف حق تلخه', 'دست بالای دست بسیار است', 'دست از پا درازتر برگشتن', 'دست پیش گرفتن که پس نیفتی', 'دستش نمک نداره', 'دشمن دانا بهتر از دوست نادان', 'دیوار موش دارد، موش هم گوش دارد', 'دوستی خاله‌خرسه', 'دودی از کُنده بلند می‌شود', 'راه که بیفتی، راه میاد', 'روز از نو، روزی از نو', 'رطب خورده منع رطب کی کند', 'رفیق بد، از مار بدتره', 'زخم زبان', 'زیر آب زدن', 'زیره به کرمان بردن', 'سرش به سنگ خورد', 'سنگ بزرگ علامت نزدنه', 'سیلی نقد به از حلوای نسیه', 'شکم گرسنه دین و ایمان ندارد', 'شترسواری دولا دولا نمی‌شود', 'صبر تلخ است ولی میوه‌اش شیرین است', 'عاقل به کنار جو می‌رود و تشنه برمی‌گردد', 'کار از کار گذشت', 'کار نیکو کردن از پر کردن است', 'کاسه داغ‌تر از آش', 'کلاغ خواست راه رفتن کبک را یاد بگیرد، راه رفتن خودش را هم فراموش کرد', 'کلاهت پس معرکه است', 'گربه برای رضای خدا موش نمی‌گیرد', 'گر صبر کنی ز غوره حلوا سازی', 'گوش اگر گوش تو و ناله اگر ناله من…', 'گاو نر می‌خواهد و مرد کهن', 'گفتن آسان است، عمل کردن سخت', 'لقمه را دور سر چرخاندن', 'ماه پشت ابر نمی‌ماند', 'مرغ همسایه غاز است', 'مزه ریختن', 'مشت نمونه خروار است', 'مو را از ماست کشیدن', 'میخ آخر', 'نان به نرخ روز خوردن', 'نان کسی را آجر کردن', 'نه سیخ بسوزه نه کباب', 'نوشدارو بعد از مرگ سهراب', 'هر که بامش بیش، برفش بیشتر', 'هر که خربزه می‌خوره پای لرزش هم می‌شینه', 'هر که طاووس خواهد جور هندوستان کشد', 'هر که را خوابیده می‌توان بیدار کرد، اما خود را به خواب زده نه', 'هر چه بکاری همان را درو می‌کنی', 'هرچه پول بدی همونقدر آش می‌خوری', 'یک دست صدا ندارد', 'یکی به نعل می‌زند یکی به میخ', 'یخ کردن', 'از آب گل‌آلود ماهی گرفتن', 'از کاه کوه ساختن', 'از این نمد کلاهی درنمی‌آید', 'از هفت دولت آزاد', 'باد در آستین داشتن', 'پر حرفی آفت عقل است', 'تَر و خشک با هم می‌سوزند', 'چراغی که به خانه رواست به مسجد حرام است', 'چوب دو سر طلا', 'دستش رو شد', 'سنگ روی یخ شدن', 'صورتش با سیلی سرخ است', 'طبل توخالی', 'کار از محکم‌کاری عیب نمی‌کند', 'کج‌دار و مریز', 'گره کور', 'لقمه بزرگ‌تر از دهان', 'مار در آستین پروردن', 'نمک‌گیر شدن', 'یک بام و دو هوا', 'آنچه از دل برآید، لاجرم بر دل نشیند', 'آن را که حساب پاک است، از محاسبه چه باک است', 'این نیز بگذرد', 'ادب مرد به ز دولت اوست', 'باران که بیاید، همه جا تر می‌شود', 'تا مرد سخن نگفته باشد، عیب و هنرش نهفته باشد', 'توبه گرگ مرگ است', 'جای شکرش باقی است', 'حرف حساب جواب ندارد', 'خوابیده را می‌شود بیدار کرد', 'دست خدا بالای دست‌هاست', 'زبان سرخ سر سبز می‌دهد بر باد', 'شکسته‌بند', 'عاقبت به خیر', 'کفر نعمت', 'گندم از گندم بروید، جو ز جو', 'مار گزیده از ریسمان سیاه و سفید می‌ترسد', 'مرده‌شور برده', 'نیک‌نامی بهتر از زر و سیم است', 'هر که درختی نشاند، به زیر سایه‌اش نشست', 'یک کلاغ چهل کلاغ' ]
+        }
+      }
+    };
+    const LOCAL_STORAGE_KEY = 'seen_words';
+    const seenWords = new Set(JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]'));
+
+    function saveSeenWord(word) {
+      seenWords.add(word);
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([...seenWords]));
+    }
+    
+    function loadSeenWordsSet() {
+      return new Set(JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]'));
+    }
+    function setSeenWordsSet(nextSet) {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([...nextSet]));
+    }
+
+    // Crypto-grade random int [0, max)
+    function secureRandomInt(max) {
+      const m = Number(max);
+      if (!Number.isFinite(m) || m <= 0) return 0;
+      // Rejection sampling to avoid modulo bias
+      const cryptoObj = window.crypto || window.msCrypto;
+      if (!cryptoObj || !cryptoObj.getRandomValues) {
+        // Fallback (best effort)
+        return Math.floor(Math.random() * m);
+      }
+      const u32 = new Uint32Array(1);
+      const limit = Math.floor(0xFFFFFFFF / m) * m;
+      while (true) {
+        cryptoObj.getRandomValues(u32);
+        const x = u32[0];
+        if (x < limit) return x % m;
+      }
+    }
+
+    function uniqPreserve(arr) {
+      const out = [];
+      const seen = new Set();
+      for (const v of (arr || [])) {
+        const k = String(v).trim();
+        if (!k) continue;
+        if (seen.has(k)) continue;
+        seen.add(k);
+        out.push(k);
+      }
+      return out;
+    }
+
+    function normalizeWordDatabase() {
+      // Deduplicate within each list (no deletions beyond removing exact duplicates)
+      for (const lang of Object.keys(WORD_DATABASE)) {
+        const db = WORD_DATABASE[lang];
+        for (const catName of Object.keys(db)) {
+          const cat = db[catName];
+          for (const key of ['easy','medium','hard','legend','special']) {
+            if (Array.isArray(cat[key])) cat[key] = uniqPreserve(cat[key]);
+          }
+        }
+      }
+    }
+
+    function removeGlobalDuplicateWords() {
+      // Remove duplicate words across ALL categories per language
+      for (const lang of Object.keys(WORD_DATABASE)) {
+        const globalSeen = new Set();
+        const db = WORD_DATABASE[lang];
+
+        for (const catName of Object.keys(db)) {
+          const cat = db[catName];
+
+          for (const key of ['easy','medium','hard','legend','special']) {
+            if (!Array.isArray(cat[key])) continue;
+
+            const cleaned = [];
+            for (const word of cat[key]) {
+              const w = String(word).trim();
+              if (!w) continue;
+
+              if (globalSeen.has(w)) {
+                // skip duplicate
+                continue;
+              }
+
+              globalSeen.add(w);
+              cleaned.push(w);
+            }
+
+            cat[key] = cleaned;
+          }
+        }
+      }
+    }
+    normalizeWordDatabase();
+    removeGlobalDuplicateWords();
+
+
+    const CUSTOM_WORDS_KEY = 'custom_words_v1';
+
+    function _normalizeKeyForCompare(lang, word) {
+      const w = String(word || '').trim().replace(/\s+/g, ' ');
+      if (!w) return '';
+      if (lang === 'en') return w.toLowerCase();
+      return w; // fa: keep as-is after trim/collapse
+    }
+
+    function wordExistsInLanguage(lang, word) {
+      const k = _normalizeKeyForCompare(lang, word);
+      if (!k) return false;
+      const db = WORD_DATABASE[lang];
+      for (const catName of Object.keys(db)) {
+        const cat = db[catName];
+        for (const bucket of ['easy','medium','hard','special','legend']) {
+          if (!Array.isArray(cat[bucket])) continue;
+          for (const v of cat[bucket]) {
+            if (_normalizeKeyForCompare(lang, v) === k) return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    function loadCustomWordsIntoDatabase() {
+      let raw = [];
+      try { raw = JSON.parse(localStorage.getItem(CUSTOM_WORDS_KEY) || '[]'); } catch(e) { raw = []; }
+      if (!Array.isArray(raw) || raw.length === 0) return;
+
+      for (const item of raw) {
+        try {
+          const lang = item && item.lang;
+          const category = item && item.category;
+          const bucket = item && item.bucket;
+          const word = item && item.word;
+
+          if (!lang || !WORD_DATABASE[lang]) continue;
+          if (!category || !WORD_DATABASE[lang][category]) continue;
+          if (!bucket || !['easy','medium','hard','special','legend'].includes(bucket)) continue;
+
+          const cleaned = String(word || '').trim().replace(/\s+/g, ' ');
+          if (!cleaned) continue;
+
+          // Prevent duplicates (defensive)
+          if (wordExistsInLanguage(lang, cleaned)) continue;
+
+          const cat = WORD_DATABASE[lang][category];
+          if (!Array.isArray(cat[bucket])) cat[bucket] = [];
+          cat[bucket].push(cleaned);
+          cat[bucket] = uniqPreserve(cat[bucket]);
+        } catch(e) {}
+      }
+
+      // Keep DB clean
+      normalizeWordDatabase();
+      removeGlobalDuplicateWords();
+    }
+
+    loadCustomWordsIntoDatabase();
+
+const game = {
+      language: 'en',
+      achievementsEnabled: (localStorage.getItem('achievements_enabled') || '1') === '1',
+      voiceTimerEnabled: (localStorage.getItem('voice_timer_enabled') || '0') === '1',
+      selectedVoiceName: localStorage.getItem('selected_voice') || null,
+      voiceVibe: localStorage.getItem('voice_vibe') || 'pro',
+      mobileVibeEnabled: (localStorage.getItem('mobile_vibe_enabled') || '1') === '1',
+      _hbLastSec: null,
+gameMode: 'team',
+      teamCount: 2,
+      teams: [],
+      timePerRound: 60,
+      numRounds: 5,
+      currentRound: 1,
+      currentTeamIndex: 0,
+      selectedCategory: null,
+      selectedDifficulty: null,
+      currentWord: null,
+      wordChanged: false,
+      timerInterval: null,
+      timerStartTs: 0,
+      usedCategoryDifficultyByTeam: [],
+      usedWords: new Set(),
+      primaryColor: '#667eea',
+      secondaryColor: '#764ba2',
+      roundStartTime: 0,
+      roundDuration: 0,
+      roundBasePenalty: 0,
+      goldenRoundActive: false,
+      goldenRoundTeams: [],
+      goldenRoundTurn: 0,
+      tieWheelTeams: [],
+      tieWheelWinnerIdx: null,
+      _forcedWinnerIndex: null,
+      _randomPickedCategory: null,
+      _secretAuthed: false,
+      _secretLang: null,
+      _secretCategory: null,
+      _secretBucket: null,
+
+      // Cheat (one-shot per turn)
+      _cheatPending: false,
+      _cheatTeamIndex: null,
+      _cheatTouchStartY: null,
+      _cheatTouchArmed: false,
+
+      // Super Cheat (Legend last-20 words, one-shot per turn)
+      _superCheatPending: false,
+      _superCheatTeamIndex: null,
+      _superCheatTouchStartY: null,
+      _superCheatTouchArmed: false,
+      _superCheatAppliedThisHand: false,
+
+      t(key) {
+        return UI_STRINGS[this.language][key] || UI_STRINGS['en'][key];
+      },
+
+_isBoardActive() {
+  const el = document.getElementById('screen-board');
+  return !!(el && el.classList.contains('active'));
+},
+
+_showCheatBanner() {
+  // 0.5s bottom banner (not the normal toast)
+  const host = document.getElementById('toastHost');
+  if (!host) return;
+  const t = document.createElement('div');
+  t.className = 'toast show';
+  t.style.pointerEvents = 'none';
+  t.style.opacity = '1';
+  t.style.transform = 'translateY(0) scale(1)';
+  t.innerHTML = `<div class="badge">🃏</div><div><div style="font-weight:900; color:#222; margin-bottom:2px;">حالت تقلب</div><div style="font-size:12px; color:#555;">فقط همین نوبت</div></div>`;
+  host.appendChild(t);
+  setTimeout(() => {
+    t.classList.remove('show');
+    t.style.opacity = '0';
+    t.style.transform = 'translateY(10px) scale(0.98)';
+    setTimeout(() => { try{ t.remove(); } catch(e){} }, 220);
+  }, 500);
+},
+
+activateCheat() {
+  // Only on category board screen
+  if (!this._isBoardActive()) return;
+  this._cheatPending = true;
+  this._cheatTeamIndex = this.currentTeamIndex;
+  this._showCheatBanner();
+},
+
+_installCheatTriggers() {
+  // Keyboard: Cmd+K (mac) / Ctrl+K (fallback)
+  window.addEventListener('keydown', (e) => {
+    const key = (e.key || '').toLowerCase();
+    if (key === 'k' && (e.metaKey || e.ctrlKey)) {
+      // Avoid opening a new tab in some shells
+      e.preventDefault();
+      this.activateCheat();
+    }
+  }, { passive: false });
+
+  // Touch: 3-finger swipe down on the category board screen
+  window.addEventListener('touchstart', (e) => {
+    if (!this._isBoardActive()) return;
+    if (e.touches && e.touches.length === 3) {
+      const avgY = (e.touches[0].clientY + e.touches[1].clientY + e.touches[2].clientY) / 3;
+      this._cheatTouchStartY = avgY;
+      this._cheatTouchArmed = true;
+    } else {
+      this._cheatTouchArmed = false;
+      this._cheatTouchStartY = null;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (!this._isBoardActive()) return;
+    if (!this._cheatTouchArmed) return;
+    if (!(e.touches && e.touches.length === 3)) return;
+    const avgY = (e.touches[0].clientY + e.touches[1].clientY + e.touches[2].clientY) / 3;
+    const dy = avgY - (this._cheatTouchStartY ?? avgY);
+    if (dy > 90) {
+      this._cheatTouchArmed = false;
+      this._cheatTouchStartY = null;
+      this.activateCheat();
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    this._cheatTouchArmed = false;
+    this._cheatTouchStartY = null;
+  }, { passive: true });
+},
+
+
+      _showSuperCheatBanner() {
+        const host = document.getElementById('toastHost');
+        if (!host) return;
+        const t = document.createElement('div');
+        t.className = 'toast show';
+        t.style.pointerEvents = 'none';
+        t.style.opacity = '1';
+        t.style.transform = 'translateY(0) scale(1)';
+        t.innerHTML = `<div class="badge">⚡</div><div><div style="font-weight:900; color:#222; margin-bottom:2px;">ابر تقلب فعال</div><div style="font-size:12px; color:#555;">فقط لجند • همین نوبت</div></div>`;
+        host.appendChild(t);
+        setTimeout(() => {
+          t.classList.remove('show');
+          t.style.opacity = '0';
+          t.style.transform = 'translateY(10px) scale(0.98)';
+          setTimeout(() => { try{ t.remove(); } catch(e){} }, 220);
+        }, 500);
+      },
+
+      activateSuperCheat() {
+        if (!this._isBoardActive()) return;
+        this._superCheatPending = true;
+        this._superCheatTeamIndex = this.currentTeamIndex;
+        this._showSuperCheatBanner();
+      },
+
+      _installSuperCheatTriggers() {
+        // Keyboard: Cmd+Shift+E (mac) / Ctrl+Shift+E (fallback)
+        window.addEventListener('keydown', (e) => {
+          const key = (e.key || '').toLowerCase();
+          const isMac = navigator.platform.toUpperCase().includes('MAC');
+          if (key === 'e' && e.shiftKey && ((isMac && e.metaKey) || (!isMac && e.ctrlKey))) {
+            e.preventDefault();
+            this.activateSuperCheat();
+          }
+        }, { passive: false });
+
+        // Touch: 3-finger swipe up on the category board screen
+        window.addEventListener('touchstart', (e) => {
+          if (!this._isBoardActive()) return;
+          if (e.touches && e.touches.length === 3) {
+            const avgY = (e.touches[0].clientY + e.touches[1].clientY + e.touches[2].clientY) / 3;
+            this._superCheatTouchStartY = avgY;
+            this._superCheatTouchArmed = true;
+          } else {
+            this._superCheatTouchArmed = false;
+            this._superCheatTouchStartY = null;
+          }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+          if (!this._isBoardActive()) return;
+          if (!this._superCheatTouchArmed) return;
+          if (!(e.touches && e.touches.length === 3)) return;
+          const avgY = (e.touches[0].clientY + e.touches[1].clientY + e.touches[2].clientY) / 3;
+          const dy = avgY - (this._superCheatTouchStartY ?? avgY);
+          if (dy < -90) {
+            this._superCheatTouchArmed = false;
+            this._superCheatTouchStartY = null;
+            this.activateSuperCheat();
+          }
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => {
+          this._superCheatTouchArmed = false;
+          this._superCheatTouchStartY = null;
+        }, { passive: true });
+      },
+
+      updateLanguage() {
+        document.getElementById('setupTitle').textContent = this.t('setupTitle');
+        document.getElementById('setupSubtitle').textContent = this.t('setupSubtitle');
+        document.getElementById('gameModeLabel').textContent = this.t('gameMode');
+        document.getElementById('teamPlayBtn').textContent = this.t('teamPlay');
+        document.getElementById('randommBtn').textContent = this.t('randomm');
+        document.getElementById('numTeamsLabel').textContent = this.t('numTeams');
+        document.getElementById('teamNamesLabel').textContent = this.t('teamNames');
+        document.getElementById('timePerRoundLabel').textContent = this.t('timePerRound');
+        document.getElementById('numRoundsLabel').textContent = this.t('numRounds');
+        document.getElementById('primaryColorLabel').textContent = this.t('primaryColor');
+        document.getElementById('secondaryColorLabel').textContent = this.t('secondaryColor');
+        document.getElementById('startGameBtn').textContent = this.t('startGame');
+        document.getElementById('currentTeamLabel').textContent = this.t('currentTeam');
+        document.getElementById('roundLabel').textContent = this.t('round');
+        document.getElementById('selectCategoryLabel').textContent = this.t('selectCategory');
+        document.getElementById('backSetupBtn').textContent = this.t('backSetup');
+        document.getElementById('selectDifficultyLabel').textContent = this.t('selectDifficulty');
+        document.getElementById('showWordBtn').textContent = this.t('showWord');
+        document.getElementById('startTimerBtn').textContent = this.t('startTimer');
+        document.getElementById('changeWordBtn').textContent = this.t('changeWord');
+        document.getElementById('scoresAfterLabel').textContent = this.t('scoresAfter');
+        document.getElementById('nextTurnBtn').textContent = this.t('nextTurn');
+        document.getElementById('gameOverLabel').textContent = this.t('gameOver');
+        document.getElementById('restartBtn').textContent = this.t('restart');
+        document.getElementById('newGameBtn').textContent = this.t('newGame');
+        document.getElementById('backCategoryBtn').textContent = this.t('back');
+        // Achievements toggle (setup)
+        const al = document.getElementById('achievementsLabel');
+        if (al) al.textContent = this.t('achievements');
+        const aon = document.getElementById('achOnBtn');
+        const aoff = document.getElementById('achOffBtn');
+        if (aon) aon.textContent = this.t('achievementsOn');
+        if (aoff) aoff.textContent = this.t('achievementsOff');
+        const ah = document.getElementById('achievementsHint');
+        if (ah) ah.textContent = this.t('achievementsHint');
+
+        // Settings voice strings + state
+        const sv = document.getElementById('settingsVoiceLabel');
+        if (sv) sv.textContent = this.t('voice');
+const vh = document.getElementById('voiceHint');
+        if (vh) vh.textContent = this.t('voiceHint');
+
+        const vOn = document.getElementById('voiceOnBtn');
+        const vOff = document.getElementById('voiceOffBtn');
+        if (vOn) vOn.textContent = this.t('voiceTimerOn');
+        if (vOff) vOff.textContent = this.t('voiceTimerOff');
+
+        this._refreshVoiceSettingsUI();
+      },
+
+      initVoices() {
+        const synth = window.speechSynthesis;
+        if (!synth) return;
+
+        const load = () => {
+          const voices = synth.getVoices().filter(v =>
+            v.lang && v.lang.toLowerCase().startsWith('en')
+          );
+
+          const select = document.getElementById('voiceSelect');
+          if (!select) return;
+
+          select.innerHTML = '';
+
+          voices.forEach(v => {
+            const opt = document.createElement('option');
+            opt.value = v.name;
+            opt.textContent = `${v.name} (${v.lang})`;
+            if (this.selectedVoiceName === v.name) opt.selected = true;
+            select.appendChild(opt);
+          });
+
+          if (!this.selectedVoiceName && voices.length > 0) {
+            this.selectedVoiceName = voices[0].name;
+            localStorage.setItem('selected_voice', this.selectedVoiceName);
+            select.value = this.selectedVoiceName;
+          }
+        };
+
+        load();
+        if (typeof window.speechSynthesis.onvoiceschanged !== 'undefined') {
+          window.speechSynthesis.onvoiceschanged = load;
+        }
+      },
+
+      setSelectedVoice(name) {
+        this.selectedVoiceName = name;
+        localStorage.setItem('selected_voice', name);
+        // Instant preview so you can hear the selected voice
+        this.previewSelectedVoice();
+      },
+
+      previewSelectedVoice() {
+        try {
+          if (!('speechSynthesis' in window)) {
+            showToast('Speech synthesis is not supported on this device.', 'warn', '⚠️');
+            return;
+          }
+          const synth = window.speechSynthesis;
+
+          // Build a short sample phrase
+          const sample = (this.language === 'fa')
+            ? 'تست صدا'  // UI may be Persian; voice itself is English-only in selector, but this keeps UI friendly.
+            : 'Voice test';
+
+          const utter = new SpeechSynthesisUtterance(sample);
+
+          // Pick selected voice (if available)
+          const voices = synth.getVoices() || [];
+          const chosen = this.selectedVoiceName
+            ? voices.find(v => v.name === this.selectedVoiceName)
+            : null;
+
+          if (chosen) utter.voice = chosen;
+
+          // We keep voice selector English-focused; force en-US so browsers don't switch unexpectedly
+          utter.lang = 'en-US';
+          utter.rate = 1.0;
+          utter.pitch = 0.9;
+          utter.volume = 1.0;
+
+          try { synth.cancel(); } catch(e) {}
+          synth.speak(utter);
+        } catch(e) {
+          // silent fail
+        }
+      },
+
+
+      applyColors() {
+        const primaryColor = this.primaryColor;
+        const secondaryColor = this.secondaryColor;
+
+        document.body.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+        
+        const style = document.createElement('style');
+        style.textContent = `
+          .btn-primary {
+            background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}) !important;
+          }
+          .btn-primary:hover {
+            box-shadow: 0 8px 20px ${primaryColor}40 !important;
+          }
+          .category-card.selected {
+            background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}) !important;
+          }
+          .difficulty-btn.selected {
+            background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}) !important;
+          }
+          .word-display {
+            background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}) !important;
+          }
+          .title {
+            background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+          }
+          .round-value {
+            background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+          }
+          .score-value {
+            background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+          }
+          .info-box {
+            border-left-color: ${primaryColor} !important;
+          }
+          .category-card:hover:not(.disabled) {
+            border-color: ${primaryColor} !important;
+            box-shadow: 0 8px 20px ${primaryColor}30 !important;
+          }
+          .difficulty-btn:hover:not(.disabled) {
+            border-color: ${primaryColor} !important;
+          }
+          input[type="range"]::-webkit-slider-thumb {
+            background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}) !important;
+          }
+          input[type="range"]::-moz-range-thumb {
+            background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}) !important;
+          }
+          input[type="text"]:focus, input[type="color"]:focus {
+            border-color: ${primaryColor} !important;
+          }
+          ::-webkit-scrollbar-thumb {
+            background: ${primaryColor} !important;
+          }
+          ::-webkit-scrollbar-thumb:hover {
+            background: ${secondaryColor} !important;
+          }
+        `;
+        document.head.appendChild(style);
+      },
+
+      selectLanguage(lang, fromSettings = false) {
+        this.language = lang;
+        this.updateLanguage();
+        this.applyColors();
+
+        if (fromSettings) {
+          // Re-render current screen where needed
+          this.closeSettings();
+          // If we're on board, update it; otherwise keep screen and just update texts
+          const active = document.querySelector('.screen.active');
+          const id = active ? active.id : '';
+          if (id === 'screen-board') this.renderBoard();
+          if (id === 'screen-category') this.renderDifficultySelectorForCategory();
+          if (id === 'screen-word') this.showWordScreen();
+          if (id === 'screen-results') this.showResults();
+          return;
+        }
+
+        this.showSetup();
+      },
+
+      showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+
+        // Gear button visibility (hide only on language screen)
+        const gear = document.getElementById('gearBtn');
+        if (gear) {
+          if (screenId === 'screen-language') gear.classList.add('hidden');
+          else gear.classList.remove('hidden');
+        }
+      },
+
+      showSetup() {
+        this.renderSetupUI();
+        this.setAchievementsEnabled(this.achievementsEnabled);
+        this.showScreen('screen-setup');
+      },
+
+      renderSetupUI() {
+        document.getElementById('teamCountValue').textContent = this.teamCount;
+
+        const teamInputs = document.getElementById('teamInputs');
+        teamInputs.innerHTML = '';
+        for (let i = 0; i < this.teamCount; i++) {
+          const row = document.createElement('div');
+          row.className = 'team-input-row';
+          row.innerHTML = `
+            <div class="team-number">${i + 1}</div>
+            <input type="text" placeholder="Team Name" value="${this.teams[i]?.name || ''}" onchange="game.updateTeamName(${i}, this.value)">
+          `;
+          teamInputs.appendChild(row);
+        }
+      },
+
+      updateTeamCount(value) {
+        this.teamCount = parseInt(value);
+        document.getElementById('teamCountValue').textContent = value;
+        this.renderSetupUI();
+      },
+
+      updateTeamName(index, name) {
+        if (!this.teams[index]) this.teams[index] = { name: '', score: 0 };
+        this.teams[index].name = name;
+      },
+
+      updateTimePerRound(value) {
+        this.timePerRound = parseInt(value);
+        document.getElementById('timeValue').textContent = value + 's';
+      },
+
+      updateNumRounds(value) {
+        this.numRounds = parseInt(value);
+        document.getElementById('roundsValue').textContent = value;
+      },
+
+      updateColors() {
+        this.primaryColor = document.getElementById('primaryColor').value;
+        this.secondaryColor = document.getElementById('secondaryColor').value;
+        this.applyColors();
+      },
+
+      setGameMode(mode) {
+        this.gameMode = mode;
+        const buttons = document.querySelectorAll('[onclick*="setGameMode"]');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+      },
+
+      startGame() {
+        for (let i = 0; i < this.teamCount; i++) {
+          if (!this.teams[i]) this.teams[i] = { name: '', score: 0 };
+          if (!this.teams[i].name) this.teams[i].name = `Team ${i + 1}`;
+          this.teams[i].score = 0;
+        }
+
+        this.currentRound = 1;
+        this.currentTeamIndex = 0;
+        this.usedWords.clear();
+        this.usedCategoryDifficultyByTeam = Array.from({ length: this.teamCount }, () => new Set());
+        this.goldenRoundActive = false;
+        this.goldenRoundTeams = [];
+        this.goldenRoundTurn = 0;
+        this.tieWheelTeams = [];
+        this.tieWheelWinnerIdx = null;
+        this._forcedWinnerIndex = null;
+        this._randomPickedCategory = null;
+        this.showBoard();
+      },
+
+      showBoard() {
+        this.renderBoard();
+        this.showScreen('screen-board');
+      },
+
+      renderBoard() {
+        const team = this.teams[this.currentTeamIndex];
+        document.getElementById('currentTeamName').textContent = team.name;
+        document.getElementById('currentRound').textContent = this.goldenRoundActive ? this.t('goldenRound') : `${this.currentRound}/${this.numRounds}`;
+
+        const scoreTable = document.getElementById('scoreTable');
+        scoreTable.innerHTML = this.teams.map((t, i) => `
+          <div class="score-row" style="${i === this.currentTeamIndex ? 'background: #f0f0f0; border-radius: 8px;' : ''}">
+            <div class="score-name">${t.name}</div>
+            <div class="score-value">${t.score}</div>
+          </div>
+        `).join('');
+
+        const categoryGrid = document.getElementById('categoryGrid');
+        const db = WORD_DATABASE[this.language];
+
+        if (this.gameMode === 'randomm') {
+          document.getElementById('selectCategoryLabel').textContent = this.t('selectPoints');
+          const pts = [
+            { k: 2, label: this.t('pts2') },
+            { k: 4, label: this.t('pts4') },
+            { k: 6, label: this.t('pts6') },
+          ];
+          categoryGrid.innerHTML = pts.map(p => `
+            <div class="category-card" onclick="game.selectRandomPoints(${p.k})">
+              <div class="category-icon">🎲</div>
+              <div class="category-label">${p.label}</div>
+              <div class="category-points" style="background: linear-gradient(135deg, ${this.primaryColor}, ${this.secondaryColor}); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">${p.k}</div>
+            </div>
+          `).join('');
+          return;
+        } else {
+          document.getElementById('selectCategoryLabel').textContent = this.t('selectCategory');
+        }
+
+        categoryGrid.innerHTML = Object.entries(db).map(([name, data]) => {
+          // Category is disabled if all difficulties (or special) are used by this team
+          const teamUsed = this.usedCategoryDifficultyByTeam[this.currentTeamIndex] || new Set();
+          let disabled = false;
+          if (data.special) {
+            disabled = teamUsed.has(`${name}-special`);
+          } else {
+            const availableDiffs = ['easy','medium','hard'].filter(d => Array.isArray(data[d]) && data[d].length);
+            disabled = availableDiffs.length ? availableDiffs.every(d => teamUsed.has(`${name}-${d}`)) : false;
+          }
+          return `
+            <div class="category-card ${disabled ? 'disabled' : ''}" onclick="${disabled ? '' : `game.selectCategory('${name}')`}">
+              <div class="category-icon">${data.icon}</div>
+              <div class="category-label">${name}</div>
+            </div>
+          `;
+        }).join('');
+      },
+
+      // --- Random Mode: choose points only, word is picked from ALL categories (same language) ---
+      selectRandomPoints(points) {
+        const p = Number(points);
+        const map = { 2: 'easy', 4: 'medium', 6: 'hard' };
+        const diff = map[p];
+        if (!diff) return;
+
+        this.selectedCategory = '🎲 Random';
+        this.selectedDifficulty = diff;
+
+        // Pick a word from any category that supports this difficulty
+        const pool = [];
+        const db = WORD_DATABASE[this.language];
+        for (const [catName, cat] of Object.entries(db)) {
+          if (cat.special) continue;
+          const list = cat[diff];
+          if (Array.isArray(list) && list.length) {
+            for (const w of list) pool.push({ w, cat: catName });
+          }
+        }
+
+        const seenNow = loadSeenWordsSet();
+        let available = pool.filter(x => !this.usedWords.has(x.w) && !seenNow.has(x.w));
+        if (available.length === 0) {
+          this.usedWords.clear();
+          available = pool.filter(x => !seenNow.has(x.w));
+          if (available.length === 0) available = pool.slice();
+        }
+
+        const pick = available[secureRandomInt(available.length)];
+        this.currentWord = pick ? pick.w : null;
+        this._randomPickedCategory = pick ? pick.cat : null;
+
+        if (this.currentWord) {
+        }
+
+        this.wordChanged = false;
+        this.roundBasePenalty = 0;
+
+        // Show the same word screen UX as normal mode (question mark → reveal → timer)
+        this.showWordScreen();
+      },
+
+      // --- Settings ---
+      openSettings() {
+        const modal = document.getElementById('settingsModal');
+        if (!modal) return;
+        document.getElementById('settingsTitle').textContent = this.t('settings');
+        document.getElementById('settingsLanguageLabel').textContent = this.t('language');
+        document.getElementById('settingsWordsLabel').textContent = this.t('words');
+        
+        const svl = document.getElementById('settingsVoiceLabel');
+        if (svl) svl.textContent = this.t('voice');
+        const vll = document.getElementById('voiceLangLabel');
+        if (vll) vll.textContent = this.t('voiceLang');
+        const vh = document.getElementById('voiceHint');
+        if (vh) vh.textContent = this.t('voiceHint');
+        const von = document.getElementById('voiceOnBtn');
+        const voff = document.getElementById('voiceOffBtn');
+        if (von) von.textContent = this.t('voiceTimerOn');
+        if (voff) voff.textContent = this.t('voiceTimerOff');
+        this._refreshVoiceSettingsUI();
+document.getElementById('resetSeenWordsBtn').textContent = this.t('resetSeenWords');
+
+        // Secret/Admin strings
+        const sbtn = document.getElementById('secretGateBtn');
+        if (sbtn) sbtn.setAttribute('aria-label', this.t('secret'));
+        const st = document.getElementById('secretTitle');
+        if (st) st.textContent = `🫥 ${this.t('secret')}`;
+        const sp = document.getElementById('secretPasswordLabel');
+        if (sp) sp.textContent = this.t('secretPassword');
+        const se = document.getElementById('secretEnterBtn');
+        if (se) se.textContent = this.t('secretEnter');
+        const sc = document.getElementById('secretCancelBtn');
+        if (sc) sc.textContent = this.t('secretCancel');
+        const sm = document.getElementById('secretMenuLabel');
+        if (sm) sm.textContent = this.t('secretMenu');
+        const saw = document.getElementById('secretAddWordBtn');
+        if (saw) saw.textContent = this.t('secretAddWord');
+        const sawt = document.getElementById('secretAddWordTitle');
+        if (sawt) sawt.textContent = this.t('secretAddWordTitle');
+        const sl = document.getElementById('secretLangLabel');
+        if (sl) sl.textContent = this.t('secretLang');
+        const sca = document.getElementById('secretCategoryLabel');
+        if (sca) sca.textContent = this.t('secretCategory');
+        const spp = document.getElementById('secretPointsLabel');
+        if (spp) spp.textContent = this.t('secretPoints');
+        const swl = document.getElementById('secretWordLabel');
+        if (swl) swl.textContent = this.t('secretWord');
+        const sb = document.getElementById('secretBackBtn');
+        if (sb) sb.textContent = this.t('secretBack');
+        const ss = document.getElementById('secretSaveBtn');
+        if (ss) ss.textContent = this.t('secretSave');
+
+        const pwdInput = document.getElementById('secretPasswordInput');
+        if (pwdInput) pwdInput.placeholder = this.t('secretPassword');
+        const wInput = document.getElementById('secretWordInput');
+        if (wInput) wInput.placeholder = (this.language === 'fa') ? 'کلمه رو بنویس…' : 'Type your word…';
+
+        const err = document.getElementById('secretPasswordError');
+        if (err) err.textContent = this.t('secretWrongPass');
+
+
+        const seenNow = loadSeenWordsSet();
+        const info = document.getElementById('seenWordsInfo');
+        if (info) {
+          info.textContent = `${this.t('seenWordsCount')}: ${seenNow.size}`;
+        }
+
+        // highlight active lang
+        const enBtn = document.getElementById('settingsLangEn');
+        const faBtn = document.getElementById('settingsLangFa');
+        if (enBtn && faBtn) {
+          enBtn.classList.toggle('active', this.language === 'en');
+          faBtn.classList.toggle('active', this.language === 'fa');
+        }
+
+        this._refreshVoiceSettingsUI();
+
+        modal.classList.add('active');
+      },
+      closeSettings() {
+        const modal = document.getElementById('settingsModal');
+        if (modal) modal.classList.remove('active');
+      },
+      _settingsBackdropClick(e) {
+        if (e && e.target && e.target.id === 'settingsModal') this.closeSettings();
+      },
+      resetSeenWords() {
+        const empty = new Set();
+        setSeenWordsSet(empty);
+        // Also clear in-memory mirror
+        try { seenWords.clear(); } catch(e) {}
+        this.openSettings();
+      },
+
+
+      // --- Secret/Admin ---
+      openSecretGate() {
+        const modal = document.getElementById('secretModal');
+        if (!modal) return;
+
+        // Reset state
+        this._secretAuthed = false;
+        this._secretLang = null;
+        this._secretCategory = null;
+        this._secretBucket = null;
+
+        // Steps
+        const stepPwd = document.getElementById('secretStepPassword');
+        const stepMenu = document.getElementById('secretStepMenu');
+        const stepAdd = document.getElementById('secretStepAddWord');
+        if (stepPwd) stepPwd.style.display = 'block';
+        if (stepMenu) stepMenu.style.display = 'none';
+        if (stepAdd) stepAdd.style.display = 'none';
+
+        const err = document.getElementById('secretPasswordError');
+        if (err) err.style.display = 'none';
+
+        const pwd = document.getElementById('secretPasswordInput');
+        if (pwd) {
+          pwd.value = '';
+          setTimeout(() => { try { pwd.focus(); } catch(e){} }, 30);
+        }
+
+        // Localize once more (in case opened before language init)
+        try { this.updateLanguage(); } catch(e) {}
+
+        this._refreshVoiceSettingsUI();
+
+        modal.classList.add('active');
+      },
+
+      closeSecret() {
+        const modal = document.getElementById('secretModal');
+        if (modal) modal.classList.remove('active');
+      },
+
+      _secretBackdropClick(e) {
+        if (e && e.target && e.target.id === 'secretModal') this.closeSecret();
+      },
+
+      _secretCheckPassword() {
+        const pwd = document.getElementById('secretPasswordInput');
+        const err = document.getElementById('secretPasswordError');
+        const value = (pwd ? String(pwd.value || '') : '').trim();
+
+        if (value !== 'Sam2011344') {
+          if (err) {
+            err.textContent = this.t('secretWrongPass');
+            err.style.display = 'block';
+          }
+          return;
+        }
+
+        if (err) err.style.display = 'none';
+        this._secretAuthed = true;
+
+        const stepPwd = document.getElementById('secretStepPassword');
+        const stepMenu = document.getElementById('secretStepMenu');
+        const stepAdd = document.getElementById('secretStepAddWord');
+        if (stepPwd) stepPwd.style.display = 'none';
+        if (stepMenu) stepMenu.style.display = 'block';
+        if (stepAdd) stepAdd.style.display = 'none';
+      },
+
+      _secretBackToMenu() {
+        const stepMenu = document.getElementById('secretStepMenu');
+        const stepAdd = document.getElementById('secretStepAddWord');
+        const stepProg = document.getElementById('secretStepProgress');
+        if (stepMenu) stepMenu.style.display = '';
+        if (stepAdd) stepAdd.style.display = 'none';
+        if (stepProg) stepProg.style.display = 'none';
+        // clear progress UI
+        const res = document.getElementById('secretProgResult');
+        if (res) { res.style.display = 'none'; res.textContent = ''; }
+      },
+
+      _secretOpenAddWord() {
+        if (!this._secretAuthed) return;
+
+        const stepMenu = document.getElementById('secretStepMenu');
+        const stepAdd = document.getElementById('secretStepAddWord');
+        if (stepMenu) stepMenu.style.display = 'none';
+        if (stepAdd) stepAdd.style.display = 'block';
+
+        // Reset selection UI
+        this._secretLang = null;
+        this._secretCategory = null;
+        this._secretBucket = null;
+
+        const langEn = document.getElementById('secretLangEn');
+        const langFa = document.getElementById('secretLangFa');
+        if (langEn) langEn.classList.remove('active');
+        if (langFa) langFa.classList.remove('active');
+
+        const sel = document.getElementById('secretCategorySelect');
+        if (sel) sel.innerHTML = '<option value="" selected disabled>—</option>';
+
+        const pointsWrap = document.getElementById('secretPointsWrap');
+        if (pointsWrap) pointsWrap.style.display = 'none';
+
+        for (const id of ['secretPts2','secretPts4','secretPts6']) {
+          const b = document.getElementById(id);
+          if (b) b.classList.remove('active');
+        }
+
+        const w = document.getElementById('secretWordInput');
+        if (w) w.value = '';
+
+        const msg = document.getElementById('secretAddWordMsg');
+        if (msg) msg.style.display = 'none';
+      },
+      _secretOpenProgress() {
+        const stepMenu = document.getElementById('secretStepMenu');
+        const stepAdd = document.getElementById('secretStepAddWord');
+        const stepProg = document.getElementById('secretStepProgress');
+        if (stepMenu) stepMenu.style.display = 'none';
+        if (stepAdd) stepAdd.style.display = 'none';
+        if (stepProg) stepProg.style.display = '';
+
+        // default language = current language
+        this._secretProgLang = this.language || 'fa';
+        this._secretProgCategory = '';
+
+        // buttons highlight + fill categories
+        this._secretProgRender();
+      },
+      _secretProgRender() {
+        const lang = this._secretProgLang || 'fa';
+        const enBtn = document.getElementById('secretProgLangEn');
+        const faBtn = document.getElementById('secretProgLangFa');
+        if (enBtn && faBtn) {
+          enBtn.classList.toggle('active', lang === 'en');
+          faBtn.classList.toggle('active', lang === 'fa');
+        }
+        const title = document.getElementById('secretProgressTitle');
+        if (title) title.textContent = this.t('seenProgress');
+
+        const sel = document.getElementById('secretProgCategorySelect');
+        if (!sel) return;
+        const db = WORD_DATABASE[lang] || {};
+        const cats = Object.keys(db);
+        sel.innerHTML = '<option value="" selected disabled>—</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
+        if (this._secretProgCategory) sel.value = this._secretProgCategory;
+      },
+      _secretProgSetLang(lang) {
+        this._secretProgLang = (lang === 'en') ? 'en' : 'fa';
+        this._secretProgCategory = '';
+        this._secretProgRender();
+      },
+      _secretProgSetCategory(cat) {
+        this._secretProgCategory = cat || '';
+      },
+      _secretProgShow() {
+        const lang = this._secretProgLang || 'fa';
+        const category = this._secretProgCategory;
+
+        if (!category) {
+          showToast(this.language === 'fa' ? 'اول دسته رو انتخاب کن.' : 'Select a category first.', 'warn', '⚠️');
+          return;
+        }
+
+        if (!WORD_DATABASE[lang] || !WORD_DATABASE[lang][category]) return;
+
+        const dbCat = WORD_DATABASE[lang][category];
+        const seenSet = loadSeenWordsSet();
+
+        const countSeen = (arr) => (arr || []).filter(w => seenSet.has(String(w).trim())).length;
+
+        const lines = [];
+        lines.push(category);
+
+        const pushLine = (label, seen, total, bucketKey) => {
+          lines.push(`${label} : ${seen}/${total}`);
+
+          const remaining = total - seen;
+          // Warn when a bucket is nearly exhausted
+          if (total > 0 && remaining > 0 && remaining <= 10) {
+            this._secretAddCategoryWarning(lang, category, bucketKey, remaining, label);
+            showToast(
+              (this.language === 'fa')
+                ? `⚠️ ${category} ${label} رو به اتمام است`
+                : `⚠️ ${category} ${label} is almost out`,
+              'warn',
+              '⚠️'
+            );
+          }
+        };
+
+        // Special-only categories
+        if (Array.isArray(dbCat.special)) {
+          const seen = countSeen(dbCat.special);
+          const total = dbCat.special.length;
+          pushLine((lang === 'fa' ? 'خاص' : 'Special'), seen, total, 'special');
+        } else if (Array.isArray(dbCat.legend)) {
+          const seen = countSeen(dbCat.legend);
+          const total = dbCat.legend.length;
+          pushLine((lang === 'fa' ? 'لجند' : 'Legend'), seen, total, 'legend');
+        } else {
+          const map = [
+            { k: 'easy', fa: '۲ امتیازی', en: '2pt' },
+            { k: 'medium', fa: '۴ امتیازی', en: '4pt' },
+            { k: 'hard', fa: '۶ امتیازی', en: '6pt' },
+          ];
+          for (const it of map) {
+            const list = Array.isArray(dbCat[it.k]) ? dbCat[it.k] : [];
+            const total = list.length;
+            const seen = countSeen(list);
+            const label = (lang === 'fa') ? it.fa : it.en;
+            pushLine(label, seen, total, it.k);
+          }
+        }
+
+        const box = document.getElementById('secretProgResult');
+        if (box) {
+          box.style.display = 'block';
+          box.textContent = lines.join('\n');
+        }
+      },
+
+      // ===== Secret: Notification Center (category exhaustion warnings) =====
+      _secretOpenNotifications() {
+        if (!this._secretAuthed) return;
+        const menu = document.getElementById('secretStepMenu');
+        const pane = document.getElementById('secretStepNotifications');
+        if (menu) menu.style.display = 'none';
+        if (pane) pane.style.display = 'block';
+        this._secretRenderNotifications();
+      },
+
+      _secretRenderNotifications() {
+        const box = document.getElementById('secretNotifList');
+        if (!box) return;
+        let list = [];
+        try { list = JSON.parse(localStorage.getItem('mimiq_category_warnings_v1') || '[]'); } catch(e) { list = []; }
+        if (!Array.isArray(list) || list.length === 0) {
+          box.textContent = (this.language === 'fa') ? 'هنوز هشداری ثبت نشده.' : 'No warnings yet.';
+          return;
+        }
+        const lines = list.map(n => {
+          const when = n && n.ts ? new Date(n.ts) : null;
+          const t = when ? when.toLocaleString() : '';
+          const prefix = t ? `🕒 ${t} — ` : '';
+          const rem = (typeof n.remaining === 'number') ? n.remaining : null;
+          const remText = (rem !== null) ? ((this.language === 'fa') ? ` (باقی‌مانده: ${rem})` : ` (remaining: ${rem})`) : '';
+          return `${prefix}⚠️ ${n.category} ${n.label}${remText}`;
+        });
+        box.textContent = lines.join('\n');
+      },
+
+      _secretClearNotifications() {
+        localStorage.removeItem('mimiq_category_warnings_v1');
+        this._secretRenderNotifications();
+        showToast((this.language === 'fa') ? 'هشدارها پاک شد.' : 'Warnings cleared.', 'info', '🗑️');
+      },
+
+      _secretAddCategoryWarning(lang, category, bucketKey, remaining, label) {
+        // Store only category/bucket warnings (dedup per lang+category+bucket)
+        const key = `${lang}|${category}|${bucketKey}`;
+        let list = [];
+        try { list = JSON.parse(localStorage.getItem('mimiq_category_warnings_v1') || '[]'); } catch(e) { list = []; }
+        if (!Array.isArray(list)) list = [];
+
+        if (list.some(x => x && x.key === key)) return;
+
+        list.unshift({
+          key,
+          ts: Date.now(),
+          lang,
+          category,
+          bucketKey,
+          label,
+          remaining: Number.isFinite(remaining) ? remaining : null
+        });
+
+        // cap
+        if (list.length > 100) list = list.slice(0, 100);
+        localStorage.setItem('mimiq_category_warnings_v1', JSON.stringify(list));
+
+        // If the notifications pane is open, refresh live
+        const pane = document.getElementById('secretStepNotifications');
+        if (pane && pane.style.display !== 'none') this._secretRenderNotifications();
+      },
+
+      _secretSetLang(lang) {
+        if (!this._secretAuthed) return;
+        if (!WORD_DATABASE[lang]) return;
+
+        this._secretLang = lang;
+        this._secretCategory = null;
+        this._secretBucket = null;
+
+        const langEn = document.getElementById('secretLangEn');
+        const langFa = document.getElementById('secretLangFa');
+        if (langEn) langEn.classList.toggle('active', lang === 'en');
+        if (langFa) langFa.classList.toggle('active', lang === 'fa');
+
+        const sel = document.getElementById('secretCategorySelect');
+        if (sel) {
+          const db = WORD_DATABASE[lang];
+          const names = Object.keys(db);
+          sel.innerHTML = '<option value="" selected disabled>—</option>' + names.map(n => `<option value="${n}">${n}</option>`).join('');
+        }
+
+        // Hide points until category chosen
+        const pointsWrap = document.getElementById('secretPointsWrap');
+        if (pointsWrap) pointsWrap.style.display = 'none';
+        for (const id of ['secretPts2','secretPts4','secretPts6']) {
+          const b = document.getElementById(id);
+          if (b) b.classList.remove('active');
+        }
+
+        const msg = document.getElementById('secretAddWordMsg');
+        if (msg) msg.style.display = 'none';
+      },
+
+      _secretSetCategory(category) {
+        if (!this._secretAuthed) return;
+        if (!this._secretLang) return;
+        const db = WORD_DATABASE[this._secretLang];
+        if (!db || !db[category]) return;
+
+        this._secretCategory = category;
+        this._secretBucket = null;
+
+        const cat = db[category];
+        const isSpecial = !!cat.special;
+        const isLegend = Array.isArray(cat.legend);
+
+        const pointsWrap = document.getElementById('secretPointsWrap');
+        if (pointsWrap) pointsWrap.style.display = (!isSpecial && !isLegend) ? 'block' : 'none';
+
+        for (const id of ['secretPts2','secretPts4','secretPts6']) {
+          const b = document.getElementById(id);
+          if (b) b.classList.remove('active');
+        }
+
+        // Auto-bucket for special/legend
+        if (isSpecial) this._secretBucket = 'special';
+        if (isLegend) this._secretBucket = 'legend';
+
+        const msg = document.getElementById('secretAddWordMsg');
+        if (msg) msg.style.display = 'none';
+      },
+
+      _secretSetPoints(points) {
+        if (!this._secretAuthed) return;
+        if (!this._secretLang || !this._secretCategory) return;
+
+        const map = { 2: 'easy', 4: 'medium', 6: 'hard' };
+        const bucket = map[Number(points)];
+        if (!bucket) return;
+
+        this._secretBucket = bucket;
+
+        const b2 = document.getElementById('secretPts2');
+        const b4 = document.getElementById('secretPts4');
+        const b6 = document.getElementById('secretPts6');
+        if (b2) b2.classList.toggle('active', Number(points) === 2);
+        if (b4) b4.classList.toggle('active', Number(points) === 4);
+        if (b6) b6.classList.toggle('active', Number(points) === 6);
+
+        const msg = document.getElementById('secretAddWordMsg');
+        if (msg) msg.style.display = 'none';
+      },
+
+      _secretSaveWord() {
+        if (!this._secretAuthed) return;
+
+        const msg = document.getElementById('secretAddWordMsg');
+        const showMsg = (text, ok=false) => {
+          if (!msg) return;
+          msg.style.display = 'block';
+          msg.textContent = text;
+          msg.style.borderLeftColor = ok ? this.primaryColor : '#ef4444';
+        };
+
+        const lang = this._secretLang;
+        if (!lang) return showMsg(this.t('secretPickLangFirst'));
+
+        const category = this._secretCategory;
+        if (!category) return showMsg(this.t('secretPickCategory'));
+
+        const db = WORD_DATABASE[lang];
+        const cat = db && db[category];
+        if (!cat) return showMsg(this.t('secretPickCategory'));
+
+        const isSpecial = !!cat.special;
+        const isLegend = Array.isArray(cat.legend);
+
+        let bucket = this._secretBucket;
+        if (!bucket) {
+          if (isSpecial) bucket = 'special';
+          if (isLegend) bucket = 'legend';
+        }
+
+        if (!bucket) return showMsg(this.t('secretPickPoints'));
+
+        const wInput = document.getElementById('secretWordInput');
+        const raw = wInput ? String(wInput.value || '') : '';
+        const cleaned = raw.trim().replace(/\s+/g, ' ');
+        if (!cleaned) return showMsg(this.t('secretTypeWord'));
+
+        // Duplicate protection (global in this language)
+        if (wordExistsInLanguage(lang, cleaned)) {
+          return showMsg(this.t('secretDuplicate'));
+        }
+
+        // Apply to in-memory DB
+        if (!Array.isArray(cat[bucket])) cat[bucket] = [];
+        cat[bucket].push(cleaned);
+        cat[bucket] = uniqPreserve(cat[bucket]);
+
+        // Re-dedupe just in case
+        normalizeWordDatabase();
+        removeGlobalDuplicateWords();
+
+        // Persist to localStorage so next load includes it
+        let list = [];
+        try { list = JSON.parse(localStorage.getItem(CUSTOM_WORDS_KEY) || '[]'); } catch(e) { list = []; }
+        if (!Array.isArray(list)) list = [];
+        list.push({ lang, category, bucket, word: cleaned });
+        localStorage.setItem(CUSTOM_WORDS_KEY, JSON.stringify(list));
+
+        showMsg(this.t('secretSuccess') + ' ' + this.t('secretNoteLocal'), true);
+
+        // Clear word field (keep selection)
+        if (wInput) wInput.value = '';
+      },
+
+
+      setAchievementsEnabled(enabled) {
+        this.achievementsEnabled = !!enabled;
+        localStorage.setItem('achievements_enabled', this.achievementsEnabled ? '1' : '0');
+        const onBtn = document.getElementById('achOnBtn');
+        const offBtn = document.getElementById('achOffBtn');
+        if (onBtn && offBtn) {
+          onBtn.classList.toggle('active', this.achievementsEnabled);
+          offBtn.classList.toggle('active', !this.achievementsEnabled);
+        }
+      },
+
+      toggleVoiceTimer() {
+        this.voiceTimerEnabled = !this.voiceTimerEnabled;
+        localStorage.setItem('voice_timer_enabled', this.voiceTimerEnabled ? '1' : '0');
+        this._refreshVoiceSettingsUI();
+      },
+      setVoiceTimerEnabled(enabled) {
+        this.voiceTimerEnabled = !!enabled;
+        try { localStorage.setItem('voice_timer_enabled', this.voiceTimerEnabled ? '1' : '0'); } catch(e) {}
+        this._refreshVoiceSettingsUI();
+      },
+      _refreshVoiceSettingsUI() {
+        const toggleBtn = document.getElementById('voiceToggleBtn');
+        const vOn = document.getElementById('voiceOnBtn');
+        const vOff = document.getElementById('voiceOffBtn');
+
+        // Text (defensive)
+        if (toggleBtn) toggleBtn.textContent = this.voiceTimerEnabled ? this.t('voiceTimerOn') : this.t('voiceTimerOff');
+
+        // Active state
+        if (vOn && vOff) {
+          vOn.classList.toggle('active', !!this.voiceTimerEnabled);
+          vOff.classList.toggle('active', !this.voiceTimerEnabled);
+        }
+
+        // Keep backwards-compat (if someone adds that button later)
+        if (toggleBtn) toggleBtn.classList.toggle('active', !!this.voiceTimerEnabled);
+      
+        const vPro = document.getElementById('voiceVibeProBtn');
+        const vFast = document.getElementById('voiceVibeFastBtn');
+        if (vPro) vPro.classList.toggle('active', this.voiceVibe !== 'fast');
+        if (vFast) vFast.classList.toggle('active', this.voiceVibe === 'fast');
+        this._refreshMobileVibeUI();
+},
+
+
+      setVoiceVibe(mode) {
+        this.voiceVibe = (mode === 'fast') ? 'fast' : 'pro';
+        try { localStorage.setItem('voice_vibe', this.voiceVibe); } catch(e) {}
+        this._refreshVoiceSettingsUI();
+      },
+
+      setMobileVibeEnabled(on) {
+        this.mobileVibeEnabled = !!on;
+        try { localStorage.setItem('mobile_vibe_enabled', this.mobileVibeEnabled ? '1' : '0'); } catch(e) {}
+        this._refreshMobileVibeUI();
+        showToast(this.mobileVibeEnabled ? (this.language==='fa' ? 'موبایل وایب روشن شد' : 'Mobile vibe ON') : (this.language==='fa' ? 'موبایل وایب خاموش شد' : 'Mobile vibe OFF'), 'info', this.mobileVibeEnabled ? '📳' : '🔕');
+      },
+      _refreshMobileVibeUI() {
+        const onBtn = document.getElementById('mobileVibeOnBtn');
+        const offBtn = document.getElementById('mobileVibeOffBtn');
+        if (!onBtn || !offBtn) return;
+        onBtn.classList.toggle('active', !!this.mobileVibeEnabled);
+        offBtn.classList.toggle('active', !this.mobileVibeEnabled);
+      },
+
+      _heartbeatVibeTick(secLeft) {
+        if (!this.mobileVibeEnabled) return;
+
+        // add/remove heartbeat class on timer
+        const tEl = document.getElementById('timerDisplay');
+        if (tEl) {
+          if (secLeft > 0 && secLeft <= 5) tEl.classList.add('heartbeat');
+          else tEl.classList.remove('heartbeat');
+        }
+
+        // only once per second
+        if (this._hbLastSec === secLeft) return;
+        this._hbLastSec = secLeft;
+
+        // Heartbeat pattern: lub-dub (two hits)
+        const strong = (secLeft <= 3) ? 1.35 : 1.0;
+        const flash = () => {
+          const ov = document.getElementById('vibeFlashOverlay');
+          if (!ov) return;
+          ov.classList.add('on');
+          setTimeout(() => { try { ov.classList.remove('on'); } catch(e){} }, 120);
+        };
+
+        // First hit
+        try { if (navigator.vibrate) navigator.vibrate(secLeft <= 3 ? 40 : 25); } catch(e) {}
+        flash();
+        playHeartbeatThump(strong);
+
+        // Second hit shortly after
+        setTimeout(() => {
+          try { if (navigator.vibrate) navigator.vibrate(secLeft <= 3 ? 55 : 35); } catch(e) {}
+          flash();
+          playHeartbeatThump(strong * 0.95);
+        }, 190);
+      },
+
+
+
+      _lastSpoken: null,
+      _speakCountdown(n) {
+        try {
+          const num = Number(n);
+          if (!Number.isFinite(num) || num <= 0) return;
+          if (this._lastSpoken === num) return;
+          this._lastSpoken = num;
+
+          const synth = window.speechSynthesis;
+          if (!synth) { playTick(); return; }
+
+          try { synth.cancel(); } catch(e) {}
+
+          const u = new SpeechSynthesisUtterance(this._formatSpokenNumber(num));
+          u.lang = 'en-US';
+
+          // Apply selected voice (English voices only)
+          const voices = synth.getVoices ? (synth.getVoices() || []) : [];
+          const chosen = voices.find(v => v && v.name === this.selectedVoiceName);
+          if (chosen) u.voice = chosen;
+
+          // Voice vibe presets (best-effort)
+          const vibe = (this.voiceVibe === 'fast') ? 'fast' : 'pro';
+          if (vibe === 'fast') {
+            u.rate = 1.25;
+            u.pitch = 1.05;
+          } else {
+            // slightly lower pitch for a more "masculine" tone
+            u.rate = 1.05;
+            u.pitch = 0.9;
+          }
+          u.volume = 1.0;
+
+          synth.speak(u);
+        } catch(e) {
+          playTick();
+        }
+      },
+
+      _formatSpokenNumber(n) {
+        const num = Number(n);
+        if (!Number.isFinite(num)) return '';
+        return String(num);
+      },
+
+      // --- Achievements (local, accurate) ---
+      _achKey: 'achievements_unlocked_v1',
+      _achProgressKey: 'achievements_progress_v1',
+      _getUnlockedAchievements() {
+        try { return new Set(JSON.parse(localStorage.getItem(this._achKey) || '[]')); } catch(e) { return new Set(); }
+      },
+      _setUnlockedAchievements(set) {
+        localStorage.setItem(this._achKey, JSON.stringify([...set]));
+      },
+      _getAchProgress() {
+        try { return JSON.parse(localStorage.getItem(this._achProgressKey) || '{}') || {}; } catch(e) { return {}; }
+      },
+      _setAchProgress(obj) {
+        localStorage.setItem(this._achProgressKey, JSON.stringify(obj || {}));
+      },
+      _unlockAchievement(id, title, icon='🏆') {
+        if (!this.achievementsEnabled) return;
+        const unlocked = this._getUnlockedAchievements();
+        if (unlocked.has(id)) return;
+        unlocked.add(id);
+        this._setUnlockedAchievements(unlocked);
+        showToast(`${this.t('achievementUnlocked')}  ${icon} ${title}`, 'info', icon);
+      },
+      _updateAchievementsOnRound(correct) {
+        if (!this.achievementsEnabled) return;
+
+        const prog = this._getAchProgress();
+        prog.rounds = (prog.rounds || 0) + 1;
+        prog.correct = (prog.correct || 0) + (correct ? 1 : 0);
+        prog.wrong = (prog.wrong || 0) + (!correct ? 1 : 0);
+
+        // streak
+        prog.streak = correct ? ((prog.streak || 0) + 1) : 0;
+
+        // legend counter
+        const isLegend = (this.selectedDifficulty === 'legend');
+        if (isLegend && correct) prog.legendCorrect = (prog.legendCorrect || 0) + 1;
+
+        this._setAchProgress(prog);
+
+        // unlock rules
+        if (prog.rounds === 1) this._unlockAchievement('first_round', this.language === 'fa' ? 'اولین راند' : 'First Round', '🎬');
+        if (correct && prog.correct === 1) this._unlockAchievement('first_correct', this.language === 'fa' ? 'اولین صحیح' : 'First Correct', '✅');
+        if (prog.streak >= 3) this._unlockAchievement('streak_3', this.language === 'fa' ? '۳ تا پشت سر هم' : '3-in-a-row', '🔥');
+        if (prog.correct >= 10) this._unlockAchievement('correct_10', this.language === 'fa' ? '۱۰ صحیح' : '10 Correct', '💯');
+        if (isLegend && correct) this._unlockAchievement('legend_win', this.language === 'fa' ? 'برد لجند' : 'Legend Win', '🏆');
+        if (prog.legendCorrect >= 3) this._unlockAchievement('legend_3', this.language === 'fa' ? '۳ لجند صحیح' : '3 Legend Wins', '👑');
+      },
+
+      // --- Low-stock warnings (when remaining unseen <= 10) ---
+      _warnKey: 'low_stock_warned_v1',
+      _getWarned() { try { return new Set(JSON.parse(localStorage.getItem(this._warnKey) || '[]')); } catch(e){ return new Set(); } },
+      _setWarned(set) { localStorage.setItem(this._warnKey, JSON.stringify([...set])); },
+      _maybeWarnLowStock(lang, category, diffKey) {
+        try {
+          const db = WORD_DATABASE[lang];
+          const cat = db && db[category];
+          if (!cat) return;
+
+          const seenNow = loadSeenWordsSet();
+          let total = 0, seen = 0;
+
+          if (cat.special && Array.isArray(cat.special)) {
+            total = cat.special.length;
+            seen = cat.special.filter(w => seenNow.has(String(w).trim())).length;
+            diffKey = 'special';
+          } else if (cat.legend && Array.isArray(cat.legend)) {
+            total = cat.legend.length;
+            seen = cat.legend.filter(w => seenNow.has(String(w).trim())).length;
+            diffKey = 'legend';
+          } else {
+            const list = cat[diffKey];
+            if (!Array.isArray(list)) return;
+            total = list.length;
+            seen = list.filter(w => seenNow.has(String(w).trim())).length;
+          }
+
+          const remaining = Math.max(0, total - seen);
+          if (remaining > 10) return;
+
+          const warned = this._getWarned();
+          const key = `${lang}::${category}::${diffKey}`;
+          if (warned.has(key)) return;
+
+          warned.add(key);
+          this._setWarned(warned);
+
+          const faPts = diffKey === 'easy' ? '۲ امتیازی' : diffKey === 'medium' ? '۴ امتیازی' : diffKey === 'hard' ? '۶ امتیازی' : '';
+          const enPts = diffKey === 'easy' ? '2pt' : diffKey === 'medium' ? '4pt' : diffKey === 'hard' ? '6pt' : diffKey;
+
+          const msg = (this.language === 'fa')
+            ? `⚠️ ${category} ${faPts} رو به اتمام است (فقط ${remaining} تا مونده)`
+            : `⚠️ ${category} ${enPts} is almost out (${remaining} left)`;
+
+          // Store in Secret Notification Center (category warnings)
+          try {
+            const label = (this.language === 'fa')
+              ? (diffKey === 'special' ? 'خاص' : diffKey === 'legend' ? 'لجند' : faPts)
+              : (diffKey === 'special' ? 'Special' : diffKey === 'legend' ? 'Legend' : enPts);
+            if (this._secretAddCategoryWarning) this._secretAddCategoryWarning(lang, category, diffKey, remaining, label);
+          } catch(e) {}
+
+          showToast(msg, 'warn', '⚠️');
+        } catch(e) {}
+      },
+
+      // --- Golden Round & tie-break wheel ---
+      getTopTeams() {
+        const max = Math.max(...this.teams.map(t => t.score));
+        const idxs = [];
+        this.teams.forEach((t, i) => { if (t.score === max) idxs.push(i); });
+        return idxs;
+      },
+
+      runGoldenRound(teamIdxs) {
+        // Only one golden round. After that: if still tied -> wheel.
+        this.goldenRoundActive = true;
+        this.goldenRoundTeams = [...teamIdxs];
+        this.goldenRoundTurn = 0;
+
+        // Start with the first tied team
+        this.currentTeamIndex = this.goldenRoundTeams[0] || 0;
+
+        // Let UI show we're in golden round
+        this.showBoard();
+      },
+
+      _advanceGoldenRound() {
+        this.goldenRoundTurn++;
+        if (this.goldenRoundTurn >= this.goldenRoundTeams.length) {
+          this._resolveGoldenRound();
+          return;
+        }
+        this.currentTeamIndex = this.goldenRoundTeams[this.goldenRoundTurn];
+        this.showBoard();
+      },
+
+      _resolveGoldenRound() {
+        const top = this.getTopTeams();
+        // If still tied for first among those teams -> wheel
+        const stillTied = top.filter(i => this.goldenRoundTeams.includes(i));
+        this.goldenRoundActive = false;
+
+        if (stillTied.length > 1) {
+          this.startTieWheel(stillTied);
+        } else {
+          this.showResults();
+        }
+      },
+
+      startTieWheel(teamIdxs) {
+        this.tieWheelTeams = [...teamIdxs];
+        const names = this.tieWheelTeams.map(i => this.teams[i].name);
+        const info = document.getElementById('wheelInfo');
+        if (info) info.textContent = `${this.t('wheelPick')}: ${names.join(' • ')}`;
+
+        this._buildWheel(names);
+        const modal = document.getElementById('wheelModal');
+        if (modal) modal.classList.add('active');
+        const spinBtn = document.getElementById('wheelSpinBtn');
+        if (spinBtn) spinBtn.disabled = false;
+
+        this.tieWheelWinnerIdx = null;
+      },
+
+      _buildWheel(names) {
+        const wheel = document.getElementById('wheel');
+        const labels = document.getElementById('wheelLabels');
+        if (!wheel || !labels) return;
+
+        const n = Math.max(1, names.length);
+        // Build a conic gradient with n slices
+        const stops = [];
+        for (let i=0;i<n;i++){
+          const a = (i * 360) / n;
+          const b = ((i+1) * 360) / n;
+          // Alternating light/dark slices without fixed colors
+          const c1 = i % 2 === 0 ? 'rgba(102,126,234,0.85)' : 'rgba(118,75,162,0.85)';
+          stops.push(`${c1} ${a}deg ${b}deg`);
+        }
+        wheel.style.background = `conic-gradient(${stops.join(',')})`;
+        wheel.style.transform = 'rotate(0deg)';
+
+        labels.innerHTML = '';
+        for (let i=0;i<n;i++){
+          const angle = (i + 0.5) * (360 / n);
+          const el = document.createElement('div');
+          el.className = 'wheel-label';
+          el.textContent = names[i];
+          el.style.transform = `rotate(${angle}deg) translate(0px, -140px) rotate(90deg)`;
+          labels.appendChild(el);
+        }
+      },
+
+      spinTieWheel() {
+        const modal = document.getElementById('wheelModal');
+        if (!modal || !this.tieWheelTeams || this.tieWheelTeams.length === 0) return;
+
+        const spinBtn = document.getElementById('wheelSpinBtn');
+        if (spinBtn) spinBtn.disabled = true;
+
+        // Crypto-random winner
+        const winnerLocal = secureRandomInt(this.tieWheelTeams.length);
+        const winnerTeamIdx = this.tieWheelTeams[winnerLocal];
+        this.tieWheelWinnerIdx = winnerTeamIdx;
+
+        // Animate: many turns + land on winner slice under pointer (top)
+        const wheel = document.getElementById('wheel');
+        if (!wheel) { this._finalizeWheelWinner(); return; }
+
+        const n = this.tieWheelTeams.length;
+        const slice = 360 / n;
+        // Pointer is at 0deg (top). We want winner slice center to align to 0.
+        const targetCenterDeg = winnerLocal * slice + slice/2;
+        const extraTurns = 8 + secureRandomInt(6); // 8..13
+        const finalDeg = extraTurns * 360 - targetCenterDeg;
+
+        wheel.style.transition = 'transform 4.2s cubic-bezier(0.12, 0.78, 0.12, 1)';
+        wheel.style.transform = `rotate(${finalDeg}deg)`;
+
+        // Pro wheel ticks during spin
+        const tickStart = Date.now();
+        const tickTimer = window.setInterval(() => {
+          const elapsed = Date.now() - tickStart;
+          // accelerate ticks early, slow near end
+          playWheelTick();
+          if (elapsed > 4300) { try { window.clearInterval(tickTimer); } catch(e) {} }
+        }, 90);
+
+        window.setTimeout(() => {
+          // Reset transition for next time
+          wheel.style.transition = '';
+          this._finalizeWheelWinner();
+        }, 4400);
+      },
+
+      _finalizeWheelWinner() {
+        const winnerIdx = this.tieWheelWinnerIdx;
+        const modal = document.getElementById('wheelModal');
+        if (modal) modal.classList.remove('active');
+
+        if (typeof winnerIdx !== 'number') {
+          this.showResults();
+          return;
+        }
+        this._forcedWinnerIndex = winnerIdx;
+        this.showResults();
+        this._forcedWinnerIndex = null;
+      },
+
+      _wheelForceClose() {
+        // If user closes without spinning, just go back to results (no forced winner)
+        const modal = document.getElementById('wheelModal');
+        if (modal) modal.classList.remove('active');
+        this.showResults();
+      },
+
+
+      selectCategory(category) {
+        document.getElementById('categoryIcon').textContent = WORD_DATABASE[this.language][category].icon;
+        document.getElementById('categoryName').textContent = category;
+
+        this.selectedCategory = category;
+        this.selectedDifficulty = null;
+
+        this.renderDifficultySelectorForCategory();
+        this.showScreen('screen-category');
+      },
+
+      renderDifficultySelectorForCategory() {
+        const categoryData = WORD_DATABASE[this.language][this.selectedCategory];
+        const selector = document.getElementById('difficultySelector');
+        const teamUsed = this.usedCategoryDifficultyByTeam[this.currentTeamIndex] || new Set();
+        let html = '';
+        if (categoryData.special) {
+          const isUsed = teamUsed.has(`${this.selectedCategory}-special`);
+          html = `
+            <button class="difficulty-btn ${isUsed ? 'disabled' : ''}" onclick="${isUsed ? '' : `game.selectDifficulty('special')`}">
+              <div style="font-size: 12px;">${this.t('special')}</div>
+              <div style="font-size: 18px; font-weight: 900; margin-top: 4px;">30pts</div>
+            </button>
+          `;
+        } else {
+          const pointsMap = { easy: 2, medium: 4, hard: 6, legend: 100, special: 30 };
+          const difficulties = ['easy','medium','hard','legend'].filter(d => Array.isArray(categoryData[d]) && categoryData[d].length);
+          html = difficulties.map((diff) => {
+            const isUsed = teamUsed.has(`${this.selectedCategory}-${diff}`);
+            return `
+              <button class="difficulty-btn ${isUsed ? 'disabled' : ''}" onclick="${isUsed ? '' : `game.selectDifficulty('${diff}')`}">
+                <div style="font-size: 12px;">${this.t(diff)}</div>
+                <div style="font-size: 18px; font-weight: 900; margin-top: 4px;">${pointsMap[diff]}pts</div>
+              </button>
+            `;
+          }).join('');
+        }
+        selector.innerHTML = html;
+      },
+
+      selectDifficulty(difficulty) {
+        
+this.selectedDifficulty = difficulty;
+
+// Cheat: one-shot per activation. If activated for this team and they pick 6pt (hard),
+// we pull from medium words for THIS pick only, but points remain 6.
+const wasCheatForThisTeam = (this._cheatPending && this._cheatTeamIndex === this.currentTeamIndex);
+const wasSuperCheatForThisTeam = (this._superCheatPending && this._superCheatTeamIndex === this.currentTeamIndex);
+this._superCheatAppliedThisHand = false;
+let effectiveDifficulty = difficulty;
+if (difficulty === 'hard' && wasCheatForThisTeam) {
+  effectiveDifficulty = 'medium';
+}
+// Always expire cheat after the next difficulty selection (so it never sticks to future hands).
+if (wasCheatForThisTeam) {
+  this._cheatPending = false;
+  this._cheatTeamIndex = null;
+}
+
+// Remember which difficulty we actually pulled the word from for THIS hand (used for Change Word too)
+this._activeWordDifficulty = effectiveDifficulty;
+
+        const teamUsed = this.usedCategoryDifficultyByTeam[this.currentTeamIndex] || new Set();
+        const key = `${this.selectedCategory}-${difficulty}`;
+        if (teamUsed.has(key)) {
+          return;
+        }
+        teamUsed.add(key);
+
+        const categoryData = WORD_DATABASE[this.language][this.selectedCategory];
+        let wordList = categoryData[effectiveDifficulty] || categoryData.special;
+
+// Super cheat: ONLY for categories that have a 'legend' bucket (i.e., Legend category).
+// If active for this team/turn, we force pick from the last 20 Legend words.
+if (wasSuperCheatForThisTeam && Array.isArray(categoryData.legend) && categoryData.legend.length) {
+  const last20 = categoryData.legend.slice(-20);
+  if (last20.length) {
+    wordList = last20;
+    effectiveDifficulty = 'legend';
+    this._activeWordDifficulty = 'legend';
+    this._superCheatAppliedThisHand = true;
+  }
+  // one-shot
+  this._superCheatPending = false;
+  this._superCheatTeamIndex = null;
+}
+
+        const seenNow = loadSeenWordsSet();
+        let availableWords = wordList.filter(w => !this.usedWords.has(w) && !seenNow.has(w));
+        if (availableWords.length === 0) {
+          // If everything is used/seen, we fallback to allowing repeats but still try to avoid immediate repetition.
+          this.usedWords.clear();
+          availableWords = wordList.filter(w => !seenNow.has(w));
+          if (availableWords.length === 0) availableWords = wordList.slice();
+        }
+        this.currentWord = availableWords[secureRandomInt(availableWords.length)];
+        this.wordChanged = false;
+        this.roundBasePenalty = 0;
+
+        this.showWordScreen();
+      },
+
+      showWordScreen() {
+        const team = this.teams[this.currentTeamIndex];
+        const pointsMap = { easy: 2, medium: 4, hard: 6, legend: 100, special: 30 };
+        const diffPoints = pointsMap[this.selectedDifficulty] || 0;
+
+        document.getElementById('wordTeamName').textContent = team.name;
+        document.getElementById('wordCategory').textContent = (this.gameMode === 'randomm' ? '🎲 Random' : this.selectedCategory);
+        document.getElementById('wordDifficulty').textContent = `${this.t(this.selectedDifficulty)} • ${diffPoints} ${this.t('points')}`;
+
+        document.getElementById('wordDisplay').textContent = '?';
+        document.getElementById('showWordBtn').style.display = 'block';
+        document.getElementById('wordActions').style.display = 'none';
+        document.getElementById('changeWordBtn').disabled = this.wordChanged;
+
+        this.showScreen('screen-word');
+      },
+
+      revealWord() {
+        document.getElementById('wordDisplay').textContent = this.currentWord;
+        document.getElementById('showWordBtn').style.display = 'none';
+        document.getElementById('wordActions').style.display = 'block';
+      },
+
+      changeWord() {
+        if (this.wordChanged) return;
+
+        // Random mode: change within the global pool (same difficulty)
+        if (this.gameMode === 'randomm') {
+          const diff = this._activeWordDifficulty || this.selectedDifficulty;
+          const pool = [];
+          const db = WORD_DATABASE[this.language];
+          for (const [catName, cat] of Object.entries(db)) {
+            if (cat.special) continue;
+            const list = cat[diff];
+            if (Array.isArray(list) && list.length) {
+              for (const w of list) pool.push({ w, cat: catName });
+            }
+          }
+
+          const seenNow = loadSeenWordsSet();
+          let available = pool.filter(x => !this.usedWords.has(x.w) && !seenNow.has(x.w));
+          if (available.length === 0) {
+            this.usedWords.clear();
+            available = pool.filter(x => !seenNow.has(x.w));
+            if (available.length === 0) available = pool.slice();
+          }
+          // Avoid repeating the same word if possible
+          if (available.length > 1) {
+            available = available.filter(x => x.w !== this.currentWord);
+            if (available.length === 0) available = pool.filter(x => x.w !== this.currentWord);
+            if (available.length === 0) available = pool.slice();
+          }
+
+          const pick = available[secureRandomInt(available.length)];
+          this.currentWord = pick ? pick.w : this.currentWord;
+          this._randomPickedCategory = pick ? pick.cat : this._randomPickedCategory;
+
+          this.wordChanged = true;
+          this.roundBasePenalty = 1;
+
+          document.getElementById('wordDisplay').textContent = this.currentWord;
+          const changeBtn = document.getElementById('changeWordBtn');
+          if (changeBtn) {
+            changeBtn.disabled = true;
+            changeBtn.classList.add('disabled');
+          }
+          return;
+        }
+
+const categoryData = WORD_DATABASE[this.language][this.selectedCategory];
+
+// Use the effective difficulty for THIS hand (so change-word stays consistent).
+const difficulty = this._activeWordDifficulty || this.selectedDifficulty;
+
+// Base list for this hand
+let wordList = categoryData[difficulty] || categoryData.special;
+
+// Super Cheat: ONLY for Legend category + Legend difficulty, restricted to last 20 words.
+if (this._superCheatAppliedThisHand && difficulty === 'legend' && Array.isArray(categoryData.legend) && categoryData.legend.length) {
+  wordList = categoryData.legend.slice(-20);
+}
+
+// One-shot cleanup: never leak super-cheat beyond this hand
+this._superCheatPending = false;
+this._superCheatTeamIndex = null;
+
+
+        // Defensive
+        if (!Array.isArray(wordList) || wordList.length === 0) {
+          return;
+        }
+
+        // Pick a different word, robustly avoiding the same word if possible
+        const seenNow = loadSeenWordsSet();
+        let availableWords = wordList.filter(w => !this.usedWords.has(w) && !seenNow.has(w));
+        if (availableWords.length === 0) {
+          this.usedWords.clear();
+          availableWords = wordList.filter(w => !seenNow.has(w));
+          if (availableWords.length === 0) availableWords = wordList.slice();
+        }
+        // If more than one, avoid current word
+        if (availableWords.length > 1) {
+          availableWords = availableWords.filter(w => w !== this.currentWord);
+          if (availableWords.length === 0) {
+            availableWords = wordList.filter(w => w !== this.currentWord && !seenNow.has(w));
+            if (availableWords.length === 0) {
+              availableWords = wordList.filter(w => w !== this.currentWord);
+              if (availableWords.length === 0) {
+                availableWords = wordList.slice();
+              }
+            }
+          }
+        }
+        this.currentWord = availableWords[secureRandomInt(availableWords.length)];
+
+        // Mark that a change was used this round
+        this.wordChanged = true;
+        this.roundBasePenalty = 1;
+
+        // Update UI
+        document.getElementById('wordDisplay').textContent = this.currentWord;
+        const changeBtn = document.getElementById('changeWordBtn');
+        if (changeBtn) {
+          changeBtn.disabled = true;
+          changeBtn.classList.add('disabled');
+        }
+      },
+
+      startTimer() {
+          const team = this.teams[this.currentTeamIndex];
+          document.getElementById('timerTeamName').textContent = team.name;
+          document.getElementById('timerCategory').textContent = (this.gameMode === 'randomm' ? '🎲 Random' : this.selectedCategory);
+          document.getElementById('timerDisplay').textContent = this.timePerRound;
+
+          this.timerDisplay = this.timePerRound;
+          this._lastSpoken = null;
+          this.timerStartTs = Date.now();
+          this.roundStartTime = Date.now();
+          this.roundDuration = this.timePerRound;
+          if (!this.wordChanged) this.roundBasePenalty = 0;
+          this.showScreen('screen-timer');
+
+          this.timerInterval = setInterval(() => {
+              this.timerDisplay--;
+              document.getElementById('timerDisplay').textContent = this.timerDisplay;
+               
+               const tEl = document.getElementById('timerDisplay');
+               if (tEl) {
+                 if (this.timerDisplay <= 10 && this.timerDisplay > 0) tEl.classList.add('danger');
+                 else tEl.classList.remove('danger');
+               }
+this._heartbeatVibeTick(this.timerDisplay);
+
+              if (this.timerDisplay > 0 && this.timerDisplay <= 10) {
+                if (this.voiceTimerEnabled) {
+                  this._speakCountdown(this.timerDisplay);
+                } else {
+                  playTick();
+                }
+              }
+// پایان تایمر
+              if (this.timerDisplay <= 0) {
+                  clearInterval(this.timerInterval);
+                  try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch(e) {}
+                  try { const el=document.getElementById('timerDisplay'); if(el) el.classList.remove('heartbeat'); } catch(e) {}
+                  this.answerWrong();
+              }
+
+          }, 1000);
+      },
+
+      answerCorrect() {
+        clearInterval(this.timerInterval);
+
+        try { const el=document.getElementById('timerDisplay'); if(el) el.classList.remove('heartbeat'); } catch(e) {}
+
+        // Only count words that were actually played (revealed + round resolved)
+        if (this.currentWord) {
+          try { this.usedWords.add(this.currentWord); } catch(e) {}
+          try { saveSeenWord(this.currentWord); } catch(e) {}
+
+          // Low-stock warning (remaining unseen <= 10)
+          try {
+            const lang = this.language;
+            const cat = (this.gameMode === 'randomm') ? (this._randomPickedCategory || '') : (this.selectedCategory || '');
+            const diffKey = this.selectedDifficulty;
+            if (cat && diffKey) this._maybeWarnLowStock(lang, cat, diffKey);
+          } catch(e) {}
+        }
+
+        // Achievements
+        this._updateAchievementsOnRound(true);
+
+        const pointsMap = { easy: 2, medium: 4, hard: 6, legend: 100, special: 30 };
+        const rawBasePoints = pointsMap[this.selectedDifficulty] || 0;
+        const basePoints = Math.max(0, rawBasePoints - (this.roundBasePenalty || 0));
+
+        // Time bonus/penalty:
+        // - If guessed within first 20% of the round: +1
+        // - If guessed after 80% of the round: -1
+        // - Otherwise: 0
+        const elapsedMs = Math.max(0, Date.now() - (this.roundStartTime || Date.now()));
+        const totalMs = Math.max(1, (this.roundDuration || this.timePerRound) * 1000);
+        const ratio = elapsedMs / totalMs;
+
+        let bonus = 0;
+        if (ratio < 0.2) bonus = 1;
+        else if (ratio > 0.8) bonus = -1;
+
+        const finalPoints = basePoints + bonus;
+        this.teams[this.currentTeamIndex].score += finalPoints;
+
+        this.showRoundEnd(true, finalPoints);
+      },
+
+      answerWrong() {
+        clearInterval(this.timerInterval);
+
+        try { const el=document.getElementById('timerDisplay'); if(el) el.classList.remove('heartbeat'); } catch(e) {}
+
+        // Only count words that were actually played (revealed + round resolved)
+        if (this.currentWord) {
+          try { this.usedWords.add(this.currentWord); } catch(e) {}
+          try { saveSeenWord(this.currentWord); } catch(e) {}
+
+          try {
+            const lang = this.language;
+            const cat = (this.gameMode === 'randomm') ? (this._randomPickedCategory || '') : (this.selectedCategory || '');
+            const diffKey = this.selectedDifficulty;
+            if (cat && diffKey) this._maybeWarnLowStock(lang, cat, diffKey);
+          } catch(e) {}
+        }
+
+        // Achievements
+        this._updateAchievementsOnRound(false);
+        this.teams[this.currentTeamIndex].score -= 1;
+        this.showRoundEnd(false, -1);
+      },
+      
+
+      showRoundEnd(correct, points) {
+        document.getElementById('resultIcon').textContent = correct ? '🎉' : '😢';
+        document.getElementById('resultText').textContent = correct ? this.t('correct') : this.t('wrong');
+
+        const pointsHtml = `<span class="${correct ? 'positive' : 'negative'}">
+          ${correct ? '+' : ''}${points} ${this.t('points')}
+        </span>`;
+        document.getElementById('resultPoints').innerHTML = pointsHtml;
+
+        const roundEndScores = document.getElementById('roundEndScores');
+        roundEndScores.innerHTML = this.teams.map((t, i) => `
+          <div class="score-row">
+            <div class="score-name">${t.name}</div>
+            <div class="score-value">${t.score}</div>
+          </div>
+        `).join('');
+
+        this.showScreen('screen-round-end');
+      },
+      
+
+      nextTurn() {
+        // Reset cheat so it never carries over to the next turn
+        this._cheatPending = false;
+        this._cheatTeamIndex = null;
+          // Golden round flow: only tied teams play once each
+          if (this.goldenRoundActive) {
+            this._advanceGoldenRound();
+            return;
+          }
+
+          this.currentTeamIndex = (this.currentTeamIndex + 1) % this.teamCount;
+
+          if (this.currentTeamIndex === 0) {
+              this.currentRound++;
+          }
+
+          if (this.currentRound > this.numRounds) {
+              // قبل از showResults چک می‌کنیم دور طلایی
+              const topTeams = this.getTopTeams();
+              if (topTeams.length > 1) {
+                  this.runGoldenRound(topTeams); // دور طلایی
+              } else {
+                  this.showResults();
+              }
+          } else {
+              this.showBoard();
+          }
+      },
+
+      showResults() {
+        let sorted = [...this.teams].sort((a, b) => b.score - a.score);
+        const medals = ['🥇', '🥈', '🥉'];
+
+        if (typeof this._forcedWinnerIndex === 'number') {
+          const winner = this.teams[this._forcedWinnerIndex];
+          // Put winner first, keep the rest sorted by score
+          sorted = [winner, ...sorted.filter(t => t !== winner)];
+        }
+
+        const finalResults = document.getElementById('finalResults');
+        finalResults.innerHTML = sorted.map((team, i) => {
+          const crown = (i === 0) ? '<span class="crown-badge">👑</span>' : '';
+          return `
+          <div class="score-row">
+            <div class="rank-position">
+              <span class="medal">${medals[i] || `${i + 1}.`}</span>
+              <span class="score-name">${team.name}</span>
+              ${crown}
+            </div>
+            <div class="score-value">${team.score}</div>
+          </div>
+        `;
+        }).join('');
+
+        this.showScreen('screen-results');
+      },
+
+      restartGame() {
+        this._cheatPending = false;
+        this._cheatTeamIndex = null;
+        this.teams.forEach(t => t.score = 0);
+        this.currentRound = 1;
+        this.currentTeamIndex = 0;
+        this.usedWords.clear();
+        this.usedCategoryDifficultyByTeam = Array.from({ length: this.teamCount }, () => new Set());
+        this.goldenRoundActive = false;
+        this.goldenRoundTeams = [];
+        this.goldenRoundTurn = 0;
+        this.tieWheelTeams = [];
+        this.tieWheelWinnerIdx = null;
+        this._forcedWinnerIndex = null;
+        this._randomPickedCategory = null;
+        this.showBoard();
+      },
+
+      newGame() {
+        this._cheatPending = false;
+        this._cheatTeamIndex = null;
+        this.teams = [];
+        this.currentRound = 1;
+        this.currentTeamIndex = 0;
+        this.usedWords.clear();
+        this.usedCategoryDifficultyByTeam = [];
+        this.goldenRoundActive = false;
+        this.goldenRoundTeams = [];
+        this.goldenRoundTurn = 0;
+        this.tieWheelTeams = [];
+        this.tieWheelWinnerIdx = null;
+        this._forcedWinnerIndex = null;
+        this._randomPickedCategory = null;
+        this.showScreen('screen-language');
+      }
+    };
+
+    normalizeWordDatabase();
+    game.applyColors();
+    game.showScreen('screen-language');
+
+    try { game._installCheatTriggers(); } catch(e) {}
+    try { game._installSuperCheatTriggers(); } catch(e) {}
+
+    window.addEventListener('load', () => {
+      try { if (game && game.initVoices) game.initVoices(); } catch(e) {}
+    });
+
+  </script>
+</body>
+</html>
