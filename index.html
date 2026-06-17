@@ -1121,9 +1121,14 @@
 
     <!-- Timer Screen -->
     <div id="screen-timer" class="screen" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-      <div style="width: 100%; text-align: center; color: white;">
-        <div style="font-size: 24px; font-weight: 700; margin-bottom: 16px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);" id="timerTeamName">Team 1</div>
-        <div style="font-size: 16px; font-weight: 600; margin-bottom: 40px; opacity: 0.9;" id="timerCategory">Category</div>
+      <div style="width: 100%; max-width: 420px; margin: 0 auto; text-align: center; color: white; padding: 0 20px;">
+        <div style="font-size: 24px; font-weight: 700; margin-bottom: 14px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);" id="timerTeamName">Team 1</div>
+
+        <div style="font-size: 16px; font-weight: 600; margin-bottom: 18px; opacity: 0.9;" id="timerCategory">Category</div>
+
+        <div id="timerWord" style="font-size: 34px; font-weight: 900; line-height: 1.25; margin: 0 auto 28px; padding: 18px 22px; max-width: 100%; border-radius: 22px; background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.22); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2); text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25); word-break: break-word;">
+          Word
+        </div>
 
         <div class="timer-display" id="timerDisplay">60</div>
 
@@ -1577,9 +1582,9 @@
         },
         'فوتبال': {
           icon: '⚽',
-          easy: ['گل', 'توپ', 'مربی', 'داور', 'پنالتی', 'کرنر', 'آفساید', 'دروازه‌بان', 'گلزن', 'هافبک', 'دفاع', 'مهاجم', 'مسی', 'رونالدو', 'نیمار', 'صلاح', 'پاری سن ژرمن', 'رئال مادرید', 'یوونتوس', 'دستگاه گلزن', 'مارک آندره تراشتگن', 'لوک شاو', 'اینزاگی', 'آرسنال', 'میلان', 'لیورپول','پله','روبرت لواندوفسکی','جود بلینگام','دیگو مارادونا,','بارسلونا','چیپ',],
+          easy: ['گل', 'توپ', 'مربی', 'داور', 'پنالتی', 'کرنر', 'آفساید', 'دروازه‌بان', 'گلزن', 'هافبک', 'دفاع', 'مهاجم', 'لیونل مسی', 'کریستیانو رونالدو', 'نیمار جونیور', 'صلاح', 'پاری سن ژرمن', 'رئال مادرید', 'یوونتوس', 'دستگاه گلزن', 'مارک آندره تراشتگن', 'لوک شاو', 'اینزاگی', 'آرسنال', 'میلان', 'لیورپول','پله','روبرت لواندوفسکی','جود بلینگام','دیگو مارادونا,','بارسلونا','چیپ',],
           medium: ['کارت زرد', 'کارت قرمز', 'پاس گل', 'هد', 'تکل', 'دریبل', 'ضدحمله', 'تعویض', 'فوتبال ساحلی', 'کاپیتان', 'مربی بدنساز', 'ضربه آزاد', 'هازارد', 'امباپه', 'فودن', 'کین', 'منچستر یونایتد', 'منچستر سیتی', 'چلسی', 'ریس جیمز', 'فیلیپ کوتینیو', 'سرخیو راموس', 'هاکان چالهان‌اوغلو', 'اتلتیکو مادرید', 'ناپولی', 'شالکه','VAR','کریم بنزما','ارلینگ هالند','وینیسیوس جونیور','لوکا مدریج','کوین دی‌بروینه','تاتنهام','دورتموند','پاس عمقی','جاگیری'],
-          hard: ['جام جهانی', 'لیگ قهرمانان', 'هت‌تریک', 'گل به خودی', 'وقت اضافه', 'ضربه قیچی', 'ضربه والی', 'لیگ اروپا', 'لیگ ملت‌ها', 'گل طلایی', 'قهرمانی داخلی', 'لائوتارو مارتینز', 'مارکوس راشفورد', 'ژول کونده', 'بایرن مونیخ', 'آتلتیکو مادرید', 'اینترمیلان', 'پورتو', 'استادیوم سانتیاگو برنابئو', 'استادیوم مرسدس بنز', 'فرلاند مندی', 'جردن هندرسون', 'مارکو وراتی', 'ادریان رابیو', 'بوکا جونیورز', 'پاریس اف سی', 'بنفیکا','اشرف حکیمی','برونو فرناندز','آنتوان گریزمات','آلیسون بکر','تیبو کورتوا','سون هیونگ-مین','هری مگوایر','آژاکس','سویا','وستهام یونایتد','لایپزیگ','گالاتاسرای','لس آنجلس اف‌سی','رابونا','پاننکا','الاستیکو','پرسینگ','شوت سرکش','توپ ربایی','قیچی برگردان','بک هیل']
+          hard: ['جام جهانی', 'لیگ قهرمانان', 'هت‌تریک', 'گل به خودی', 'وقت اضافه', 'ضربه قیچی', 'ضربه والی', 'لیگ اروپا', 'لیگ ملت‌ها', 'گل طلایی', 'قهرمانی داخلی', 'لائوتارو مارتینز', 'مارکوس راشفورد', 'ژول کونده', 'بایرن مونیخ', 'آتلتیکو مادرید', 'اینترمیلان', 'پورتو', 'استادیوم سانتیاگو برنابئو', 'استادیوم مرسدس بنز', 'فرلاند مندی', 'جردن هندرسون', 'مارکو وراتی', 'ادریان رابیو', 'بوکا جونیورز', 'پاریس اف سی', 'بنفیکا','اشرف حکیمی','برونو فرناندز','آنتوان گریزمات','آلیسون بکر','تیبو کورتوا','سون هیونگ-مین','هری مگوایر','آژاکس','سویا','وستهام یونایتد','لایپزیگ','گالاتاسرای','لس آنجلس اف‌سی','رابونا','پاننکا','الاستیکو','پرسینگ','شوت سرکش','توپ ربایی','قیچی برگردان','بک هیل', 'اشرف حکیمی', 'لوییس آلبرتو سوارز', 'جورجینا رودریگز']
         },
         'مکان‌ها': {
           icon: '🏰',
@@ -1627,7 +1632,7 @@
           icon: '👑',
           easy: ['شرلوک هولمز', 'دراکولا', 'فرانکنشتاین', 'مومیایی', 'شبح', 'خون‌آشام', 'زامبی', 'اسکلت', 'کوروش منصوری', 'هادی چوپان', 'هایده', 'ابی', 'تام کروز', 'تیلور سوییفت', 'مایکل جکسون', 'باراک اوباما', 'لیدی گاگا', 'کریستف کلمب', 'نلسون ماندلا', 'اپرا وینفری', 'آدولف هیتلر', 'آلبرت انیشتین', 'نیکی میناژ', 'مایکل جوردن', 'لبرون جیمز', 'ریحانا', 'مریل استریپ', 'بری لارسون', 'کریس ایوانز', 'تام هاردی','اسپایدرمن','بتمن','هری پاتر','مرد آهنی','ونوم','باب اسفنجی','هالک','جکی چان','ادل(خواننده)'],
           medium: ['سیندرلا', 'پینوکیو', 'آلیس', 'دوروتی', 'علاء‌الدین', 'آریل', 'سیمبا', 'السا', 'جعفر پناهی', 'کارل بنز', 'ترامپ', 'شایع', 'هیچکس', 'گوگوش', 'برد پیلت', 'آنجلا جولی', 'وحید مرادی', 'امین النور', 'عراقچی', 'سید‌ابراهیم رییسی', 'بیلی آیلیش', 'سناتور جی دی ونس', 'سابرینا کاپرتنر', 'سوفیا ورگارار', 'ماری کوری', 'شکیرا', 'تونی استارک', 'آل پاچینو', 'آنگلا مرکل', 'امیلیا کلارک', 'فلوید می‌دور', 'محمد‌علی کلی', 'مایک تایسون', 'پاول واکر', '2Pac', 'امینم', 'Ho3ein(رپر)', 'مگان فاکس', 'آبراهام لینکلن', 'ایلان ماسک', 'رابرت دنیرو', 'مارگو رابی', 'آنتونی هاپکینز','لوکی','ثور','کریستوفر نولان','بروس لی','چارلی چاپلین','مهسا امینی','گالیله','فروید(عصب‌شناس اتریشی)','انزو فراری'],
-          hard: ['مدوسا', 'هرکول', 'مکبت', 'جولیت', 'رومئو', 'جانی دپ', 'سیدنی سویینی', 'کیرا نایتلی', 'بیژن پاکزاد', 'فروچیو لامبورگینی', 'استیو جابز', 'تیم کوک', 'شادمهر', 'مونالیزا', 'نتانیاهو', 'کیم جونگ اون(رهبر کره شمالی)', 'آکیرا ناکای', 'رونی کلمن', 'آرنولد', 'پاپ', 'برادران دالتون', 'مارک زاکربرگ', 'جف بزوس', 'بیل گیتس', 'ملکه الیزابت سوم', 'بهزاد لیتو', 'جیمز کوئینسی(مدیر عامل کولا)', 'محمدجواد ظریف', 'آنتوان دو سنت اگزوپری', 'پابلو پیکاسو', 'لئوناردو داوینچی', 'آیزاک نیوتن', 'نیکولا تسلا', 'استالین', 'ناپلئون بناپارت', 'کلئوپاترا', 'فرعون', 'پوتین', 'جاستین بیبر', 'استیو ویتکاف', 'جو بایدن', 'ملانیا ترامپ', 'وینستون چرچیل', 'کوین میتنیک', 'وین دیزل', 'گَل گدوت', 'لئوناردو دی‌کاپریو', 'اسکارلت جوهانسون', 'دیوید گاگینز', 'جان سینا','چنگیز خان','سزار بورجیا','توماس ادیسون','نیکولا تسلا','ملکه ویکتوریا','کلئوپاترا','ملکه الیزلبت دوم','لیدی گاگا','جنیفر لوپز','جی دی ونس','جان اف کندی','تیلور سوییفت','سوفیا ورگارا','فردیناند پورشه','برایان اعتماد','امیر تتلو','رضا پیشرو','هیچکس']
+          hard: ['مدوسا', 'هرکول', 'مکبت', 'جولیت', 'رومئو', 'جانی دپ', 'سیدنی سویینی', 'کیرا نایتلی', 'بیژن پاکزاد', 'فروچیو لامبورگینی', 'استیو جابز', 'تیم کوک', 'شادمهر', 'مونالیزا', 'نتانیاهو', 'کیم جونگ اون(رهبر کره شمالی)', 'آکیرا ناکای', 'رونی کلمن', 'آرنولد', 'پاپ', 'برادران دالتون', 'مارک زاکربرگ', 'جف بزوس', 'بیل گیتس', 'ملکه الیزابت سوم', 'بهزاد لیتو', 'جیمز کوئینسی(مدیر عامل کولا)', 'محمدجواد ظریف', 'آنتوان دو سنت اگزوپری', 'پابلو پیکاسو', 'لئوناردو داوینچی', 'آیزاک نیوتن', 'نیکولا تسلا', 'استالین', 'ناپلئون بناپارت', 'کلئوپاترا', 'فرعون', 'پوتین', 'جاستین بیبر', 'استیو ویتکاف', 'جو بایدن', 'ملانیا ترامپ', 'وینستون چرچیل', 'کوین میتنیک', 'وین دیزل', 'گَل گدوت', 'لئوناردو دی‌کاپریو', 'اسکارلت جوهانسون', 'دیوید گاگینز', 'جان سینا','چنگیز خان','سزار بورجیا','توماس ادیسون','نیکولا تسلا','ملکه ویکتوریا','کلئوپاترا','ملکه الیزلبت دوم','لیدی گاگا','جنیفر لوپز','جی دی ونس','جان اف کندی','تیلور سوییفت','سوفیا ورگارا','فردیناند پورشه','برایان اعتماد','امیر تتلو','رضا پیشرو','هیچکس', 'ابراهیم رییسی', 'حضرت موسی', 'امام حسین', 'حضرت نوح', 'قمربنی هاشم', 'جورجینا رودریگز']
         },
         'تعطیلات و مناسبات': {
           icon: '🎄',
@@ -1645,13 +1650,13 @@
           icon: '🚗',
           easy: ['نیسان', 'پیکان', 'تیبا', 'کوییک', 'شاهین', 'دنا', 'پژو ۲۰۶', 'پژو ۴۰۵', 'پژو پارس', 'ال ۹۰', 'ساندرو', 'مگان', 'زانتیا', 'ماکسیما', 'تویوتا کرولا', 'تویوتا کمری', 'تویوتا یاریس', 'تویوتا راو۴', 'هیوندای النترا', 'هیوندای سوناتا', 'هیوندای توسان', 'کیا اپتیما', 'کیا اسپورتیج', 'کیا ریو', 'کیا پیکانتو', 'بی‌ام‌و سری ۳', 'بی‌ام‌و سری ۵', 'بنز کلاس S', 'بنز کلاس E', 'آئودی A6', 'آئودی Q5', 'فولکس واگن گلف', 'فولکس واگن پاسات', 'پژو ۲۰۷', 'رانا', 'ساینا', 'تارا', 'پژو ۲۰۰۸', 'کیا کادنزا', 'هیوندای آزرا', 'تویوتا هایس', 'پرادو (لندکروزر پرادو)', 'سوزوکی ویتارا' ],
           medium: ['تویوتا لندکروزر', 'تویوتا هایلوکس', 'تویوتا آوالون', 'تویوتا پریوس', 'نیسان آلتیما', 'نیسان ۳۷۰Z', 'نیسان پاترول', 'هوندا آکورد', 'هوندا سیویک تایپ R', 'هوندا CR-V', 'مزدا MX-5', 'مزدا CX-5', 'سوبارو WRX', 'سوبارو فارستر', 'میتسوبیشی اوتلندر', 'میتسوبیشی پاجرو', 'فورد موستانگ', 'فورد F-150', 'فورد اکسپلورر', 'شورولت کامارو', 'شورولت کوروت', 'شورولت تاهو', 'دوج چلنجر', 'دوج چارجر', 'جیپ رانگلر', 'جیپ گرند چروکی', 'لکسوس RX', 'لکسوس LX', 'لکسوس ES', 'اینفینیتی Q50', 'آئودی RS7', 'آئودی S5', 'پورشه کاین', 'پورشه ماکان', 'پورشه تایکان', 'مرسدس G کلاس', 'مرسدس E63 AMG', 'مرسدس CLS', 'بی‌ام‌و X5', 'بی‌ام‌و X6', 'بی‌ام‌و M3', 'ولوو XC90', 'ولوو S90', 'لندرور دیفندر', 'لندرور رنجروور', 'تسلا مدل ۳', 'تسلا مدل Y', 'مازراتی گیبلی', 'مازراتی لوانته' ],
-          hard: ['بوگاتی ویرون', 'بوگاتی دیوو', 'بوگاتی بولاید', 'پاگانی زوندا', 'پاگانی هوایرا', 'کونیگزگ آگرا', 'کونیگزگ یسکو', 'کونیگزگ جمرا', 'رولزرویس فانتوم', 'رولزرویس کولینان', 'بنتلی کانتیننتال جی تی', 'بنتلی بنتایگا', 'فراری لافراری', 'فراری ۴۸۸', 'فراری F8', 'فراری ۸۱۲ سوپرفست', 'فراری روما', 'فراری پوروسانگوئه', 'لامبورگینی اونتادور', 'لامبورگینی اوروس', 'لامبورگینی روئلتو', 'لامبورگینی رِوِنتون', 'مکلارن P1', 'مکلارن سنا', 'مکلارن ۶۷۵LT', 'مکلارن آرتورا', 'پورشه ۹۱۸ اسپایدر', 'پورشه ۹۱۱ GT3 RS', 'مرسدس SLS AMG', 'مرسدس AMG ONE', 'آستون مارتین DB11', 'آستون مارتین DBS', 'آستون مارتین والکری', 'دوج چلنجر هلکت', 'دوج چارجر هلکت', 'فورد ماستنگ شلبی GT500', 'بوگاتی سنتودیچی', 'فراری انزو', 'لامبورگینی وننو', 'مکلارن اسپیدتیل', 'ریماک نورا', 'آلفارومئو 4C', 'آلفارومئو جولیا QV', 'لوتوس اویجا', 'لوتوس امیرا', 'G کلاس برابوس', 'منصوری (Mansory)', 'برابوس راکت ۹۰۰', 'پورشه ۹۱۱ منصوری', 'رنجرور ووگ برابوس', 'بی ام و m6 با کیت هامان']
+          hard: ['بوگاتی ویرون', 'بوگاتی دیوو', 'بوگاتی بولاید', 'پاگانی زوندا', 'پاگانی هوایرا', 'کونیگزگ آگرا', 'کونیگزگ یسکو', 'کونیگزگ جمرا', 'رولزرویس فانتوم', 'رولزرویس کولینان', 'بنتلی کانتیننتال جی تی', 'بنتلی بنتایگا', 'فراری لافراری', 'فراری ۴۸۸', 'فراری F8', 'فراری ۸۱۲ سوپرفست', 'فراری روما', 'فراری پوروسانگوئه', 'لامبورگینی اونتادور', 'لامبورگینی اوروس', 'لامبورگینی روئلتو', 'لامبورگینی رِوِنتون', 'مکلارن P1', 'مکلارن سنا', 'مکلارن ۶۷۵LT', 'مکلارن آرتورا', 'پورشه ۹۱۸ اسپایدر', 'پورشه ۹۱۱ GT3 RS', 'مرسدس SLS AMG', 'مرسدس AMG ONE', 'آستون مارتین DB11', 'آستون مارتین DBS', 'آستون مارتین والکری', 'دوج چلنجر هلکت', 'دوج چارجر هلکت', 'فورد ماستنگ شلبی GT500', 'بوگاتی سنتودیچی', 'فراری انزو', 'لامبورگینی وننو', 'مکلارن اسپیدتیل', 'ریماک نورا', 'آلفارومئو 4C', 'آلفارومئو جولیا QV', 'لوتوس اویجا', 'لوتوس امیرا', 'G کلاس برابوس', 'منصوری (Mansory)', 'برابوس راکت ۹۰۰', 'پورشه ۹۱۱ منصوری', 'رنجرور ووگ برابوس', 'ب ام و m6 هامان', 'برابوس راکت ۹۰۰' ,'ولوو FH750', 'رولز رویس بوت تیل']
         },
         'ویدیو گیم': {
           icon: '🎮',
           easy: ['فیفا', 'کالاف دیوتی', 'پابجی', 'ماریو', 'سونیک', 'فورتنایت', 'کلش آف کلنز', 'کندی کراش', 'تمپل ران', 'ساب‌وی سرفر', 'پوکمون', 'پک‌من', 'تتریس', 'مورتال کامبت', 'کراش', 'کانتر', 'رزیدنت ایول', 'اساسینز کرید', 'رد دد', 'نینتندو', 'پِس', 'ماینکرفت', 'کلش رویال', 'امانگ آس', 'GTA', 'انگری بردز', 'روبلاکس','ایپکس لجند','سیمز','گاد آف وار ۳','زلدا','EA Sports'],
           medium: ['ویچر', 'اسکایریم', 'فال‌اوت', 'هیلو', 'گاد آو وار', 'آنچارتد', 'دوتا', 'لیگ آو لجندز', 'اورواچ', 'وارکرفت', 'دیابلو', 'دد اسپیس', 'کنترل', 'بیوشاک', 'هورایزن', 'مترو', 'دیس‌آنرد', 'بلادبورن', 'فاینال فانتزی', 'مانستر هانتر', 'دایینگ لایت', 'سکیرو', 'Red Dead Redemption', 'گاد آف وار', 'د لست آف آس', 'رزیدنت اویل', 'مورتال کامبت ایکس', 'تکن ۸', 'فورزا', 'لیگ آف لجندز', 'ولورانت', 'اور واچ', 'الدن رینگ', 'نید فور اسپید', 'هیتمن','گوست آو سوشیما','دث لوپ','Alan Wake 2','Capcome(استودیو بازی سازی)','Naughty dog(استودیو بازی سازی)','FromSoftware(استودیو بازی سازی)','آرتور مورگان','Geralt of Rivia(شخصیت بازی ویچر)'],
-          hard: ['نیر اتوماتا', 'پرسونا ۵', 'سایلنت هیل', 'دراگون ایج', 'کینگدام کام', 'لیمبو', 'اینساید', 'هف لایف', 'اوتر وایلدز', 'بازگشت به قلعه ولفنشتاین', 'هالو نایت', 'it takes two', 'دارک سولز', 'Bloodborne', 'دوتا ۲', 'کنترل ۲', 'پرتال ۲', 'هف لایف ۲', 'استروز پلی‌روم', 'متال گیٍر سالید', 'دث استرندینگ', 'سایبرپانک ۲۰۷۷', 'ویچر ۳', 'کال آف دیوتی بلک آپس کولد وار', 'لگو مارول جنگ ستارگان', 'فار کرای ۳', 'وان پیس آدیسی', 'ردوت ۲', 'گرن توریسمو ۷', 'نید وفر اسپید آنباند', 'پرنس آو پرشیا', 'رینبو سیکس سیج', 'الی ویلیامز', 'ایتریس (پسر کریتوس)', 'کریتوس', 'گاد آف وار راگناروک', 'هورایزن فوربیدن وست', 'هورازین زیرو داون', 'اساسینز کرید اودیسه', 'اساسینز کرید بلک فلگ', 'گاتهام نایتس','یوبیسافت','مسترچیف','Returnal','Obsidian Entertaiment(استودیو بازی سازی)','CD Project Red(استودیو بازی سازی)','Samus Aran(شخصیت بازی متروید)','سالید اسنیک','رتچت اند کلنک ریف اِپارت']
+          hard: ['نیر اتوماتا', 'پرسونا ۵', 'سایلنت هیل', 'دراگون ایج', 'کینگدام کام', 'لیمبو', 'اینساید', 'هف لایف', 'اوتر وایلدز', 'بازگشت به قلعه ولفنشتاین', 'هالو نایت', 'it takes two', 'دارک سولز', 'Bloodborne', 'دوتا ۲', 'کنترل ۲', 'پرتال ۲', 'هف لایف ۲', 'استروز پلی‌روم', 'متال گیٍر سالید', 'دث استرندینگ', 'سایبرپانک ۲۰۷۷', 'ویچر ۳', 'کال آف دیوتی بلک آپس کولد وار', 'لگو مارول جنگ ستارگان', 'فار کرای ۳', 'وان پیس آدیسی', 'ردوت ۲', 'گرن توریسمو ۷', 'نید فور اسپید آنباند', 'پرنس آو پرشیا', 'رینبو سیکس سیج', 'الی ویلیامز', 'ایتریس (پسر کریتوس)', 'کریتوس', 'گاد آف وار راگناروک', 'هورایزن فوربیدن وست', 'هورازین زیرو داون', 'اساسینز کرید اودیسه', 'اساسینز کرید بلک فلگ', 'گاتهام نایتس','یوبیسافت','مسترچیف','Returnal','Obsidian Entertaiment(استودیو بازی سازی)','CD Project Red(استودیو بازی سازی)','Samus Aran(شخصیت بازی متروید)','سالید اسنیک','رتچت اند کلنک ریف اِپارت']
         },
         'مشاغل': {
           icon: '🧑🏻‍💻',
@@ -2317,6 +2322,8 @@ const vh = document.getElementById('voiceHint');
           if (!this.teams[i].name) this.teams[i].name = `Team ${i + 1}`;
           this.teams[i].score = 0;
         }
+
+        this._resetGameAchievements();
 
         this.currentRound = 1;
         this.currentTeamIndex = 0;
@@ -3115,50 +3122,163 @@ document.getElementById('resetSeenWordsBtn').textContent = this.t('resetSeenWord
       // --- Achievements (local, accurate) ---
       _achKey: 'achievements_unlocked_v1',
       _achProgressKey: 'achievements_progress_v1',
-      _getUnlockedAchievements() {
-        try { return new Set(JSON.parse(localStorage.getItem(this._achKey) || '[]')); } catch(e) { return new Set(); }
-      },
-      _setUnlockedAchievements(set) {
-        localStorage.setItem(this._achKey, JSON.stringify([...set]));
-      },
-      _getAchProgress() {
-        try { return JSON.parse(localStorage.getItem(this._achProgressKey) || '{}') || {}; } catch(e) { return {}; }
-      },
-      _setAchProgress(obj) {
-        localStorage.setItem(this._achProgressKey, JSON.stringify(obj || {}));
-      },
-      _unlockAchievement(id, title, icon='🏆') {
-        if (!this.achievementsEnabled) return;
-        const unlocked = this._getUnlockedAchievements();
-        if (unlocked.has(id)) return;
-        unlocked.add(id);
-        this._setUnlockedAchievements(unlocked);
-        showToast(`${this.t('achievementUnlocked')}  ${icon} ${title}`, 'info', icon);
-      },
-      _updateAchievementsOnRound(correct) {
-        if (!this.achievementsEnabled) return;
 
-        const prog = this._getAchProgress();
+      _achievementRewards: {
+        first_round: { difficulty: 'easy', points: 1 },
+        first_correct: { difficulty: 'easy', points: 2 },
+        round_5: { difficulty: 'easy', points: 2 },
+
+        streak_3: { difficulty: 'medium', points: 3 },
+        streak_5: { difficulty: 'medium', points: 5 },
+        no_wrong_5: { difficulty: 'medium', points: 5 },
+
+        correct_10: { difficulty: 'hard', points: 6 },
+        hard_correct_3: { difficulty: 'hard', points: 6 },
+        perfect_10: { difficulty: 'hard', points: 8 },
+
+        legend_win: { difficulty: 'legend', points: 5 },
+        legend_3: { difficulty: 'legend', points: 8 },
+        legend_streak_2: { difficulty: 'legend', points: 10 }
+      },
+
+      _resetGameAchievements() {
+        this.gameUnlockedAchievements = new Set();
+        this.gameAchievementProgress = {};
+      },
+
+      _ensureGameAchievementsReady() {
+        if (!(this.gameUnlockedAchievements instanceof Set)) {
+          this.gameUnlockedAchievements = new Set();
+        }
+
+        if (!this.gameAchievementProgress || typeof this.gameAchievementProgress !== 'object') {
+          this.gameAchievementProgress = {};
+        }
+
+        this.teams.forEach((team, index) => {
+          const key = String(index);
+          if (!this.gameAchievementProgress[key]) {
+            this.gameAchievementProgress[key] = {
+              rounds: 0,
+              correct: 0,
+              wrong: 0,
+              streak: 0,
+              maxStreak: 0,
+              legendCorrect: 0,
+              legendStreak: 0,
+              hardCorrect: 0,
+              mediumCorrect: 0,
+              easyCorrect: 0
+            };
+          }
+        });
+      },
+
+      _getTeamAchievementProgress(teamIndex) {
+        this._ensureGameAchievementsReady();
+
+        const key = String(teamIndex);
+        if (!this.gameAchievementProgress[key]) {
+          this.gameAchievementProgress[key] = {
+            rounds: 0,
+            correct: 0,
+            wrong: 0,
+            streak: 0,
+            maxStreak: 0,
+            legendCorrect: 0,
+            legendStreak: 0,
+            hardCorrect: 0,
+            mediumCorrect: 0,
+            easyCorrect: 0
+          };
+        }
+
+        return this.gameAchievementProgress[key];
+      },
+
+      _getAchievementReward(id) {
+        const reward = this._achievementRewards[id];
+        if (!reward) return { difficulty: 'none', points: 0 };
+
+        const points = Number(reward.points);
+        return {
+          difficulty: reward.difficulty || 'none',
+          points: Number.isFinite(points) ? points : 0
+        };
+      },
+
+      _unlockAchievement(id, title, icon='🏆') {
+        if (!this.achievementsEnabled) return 0;
+
+        this._ensureGameAchievementsReady();
+
+        if (this.gameUnlockedAchievements.has(id)) return 0;
+
+        this.gameUnlockedAchievements.add(id);
+
+        const reward = this._getAchievementReward(id);
+        const bonusPoints = reward.points > 0 ? reward.points : 0;
+        const currentTeam = this.teams && this.teams[this.currentTeamIndex];
+
+        if (currentTeam && bonusPoints > 0) {
+          currentTeam.score = (Number(currentTeam.score) || 0) + bonusPoints;
+        }
+
+        const rewardText = bonusPoints > 0 ? ` | +${bonusPoints} ${this.t('points')}` : '';
+        showToast(`${this.t('achievementUnlocked')}  ${icon} ${title}${rewardText}`, 'info', icon);
+
+        return bonusPoints;
+      },
+
+      _updateAchievementsOnRound(correct) {
+        if (!this.achievementsEnabled) return 0;
+
+        this._ensureGameAchievementsReady();
+
+        const prog = this._getTeamAchievementProgress(this.currentTeamIndex);
+        let achievementBonus = 0;
+
         prog.rounds = (prog.rounds || 0) + 1;
         prog.correct = (prog.correct || 0) + (correct ? 1 : 0);
         prog.wrong = (prog.wrong || 0) + (!correct ? 1 : 0);
 
-        // streak
         prog.streak = correct ? ((prog.streak || 0) + 1) : 0;
+        prog.maxStreak = Math.max(prog.maxStreak || 0, prog.streak || 0);
 
-        // legend counter
-        const isLegend = (this.selectedDifficulty === 'legend');
-        if (isLegend && correct) prog.legendCorrect = (prog.legendCorrect || 0) + 1;
+        const isEasy = this.selectedDifficulty === 'easy';
+        const isMedium = this.selectedDifficulty === 'medium';
+        const isHard = this.selectedDifficulty === 'hard';
+        const isLegend = this.selectedDifficulty === 'legend';
 
-        this._setAchProgress(prog);
+        if (correct && isEasy) prog.easyCorrect = (prog.easyCorrect || 0) + 1;
+        if (correct && isMedium) prog.mediumCorrect = (prog.mediumCorrect || 0) + 1;
+        if (correct && isHard) prog.hardCorrect = (prog.hardCorrect || 0) + 1;
 
-        // unlock rules
-        if (prog.rounds === 1) this._unlockAchievement('first_round', this.language === 'fa' ? 'اولین راند' : 'First Round', '🎬');
-        if (correct && prog.correct === 1) this._unlockAchievement('first_correct', this.language === 'fa' ? 'اولین صحیح' : 'First Correct', '✅');
-        if (prog.streak >= 3) this._unlockAchievement('streak_3', this.language === 'fa' ? '۳ تا پشت سر هم' : '3-in-a-row', '🔥');
-        if (prog.correct >= 10) this._unlockAchievement('correct_10', this.language === 'fa' ? '۱۰ صحیح' : '10 Correct', '💯');
-        if (isLegend && correct) this._unlockAchievement('legend_win', this.language === 'fa' ? 'برد لجند' : 'Legend Win', '🏆');
-        if (prog.legendCorrect >= 3) this._unlockAchievement('legend_3', this.language === 'fa' ? '۳ لجند صحیح' : '3 Legend Wins', '👑');
+        if (isLegend && correct) {
+          prog.legendCorrect = (prog.legendCorrect || 0) + 1;
+          prog.legendStreak = (prog.legendStreak || 0) + 1;
+        } else if (isLegend && !correct) {
+          prog.legendStreak = 0;
+        }
+
+        // unlock rules - each achievement can be claimed by only one team per game
+        if (prog.rounds === 1) achievementBonus += this._unlockAchievement('first_round', this.language === 'fa' ? 'اولین راند' : 'First Round', '🎬');
+        if (correct && prog.correct === 1) achievementBonus += this._unlockAchievement('first_correct', this.language === 'fa' ? 'اولین صحیح' : 'First Correct', '✅');
+        if (prog.rounds >= 5) achievementBonus += this._unlockAchievement('round_5', this.language === 'fa' ? '۵ راند بازی' : '5 Rounds Played', '🎲');
+
+        if (prog.streak >= 3) achievementBonus += this._unlockAchievement('streak_3', this.language === 'fa' ? '۳ تا پشت سر هم' : '3-in-a-row', '🔥');
+        if (prog.streak >= 5) achievementBonus += this._unlockAchievement('streak_5', this.language === 'fa' ? '۵ تا پشت سر هم' : '5-in-a-row', '⚡');
+        if (prog.rounds >= 5 && prog.wrong === 0) achievementBonus += this._unlockAchievement('no_wrong_5', this.language === 'fa' ? '۵ راند بدون اشتباه' : '5 Rounds No Mistakes', '🛡️');
+
+        if (prog.correct >= 10) achievementBonus += this._unlockAchievement('correct_10', this.language === 'fa' ? '۱۰ صحیح' : '10 Correct', '💯');
+        if (prog.hardCorrect >= 3) achievementBonus += this._unlockAchievement('hard_correct_3', this.language === 'fa' ? '۳ صحیح سخت' : '3 Hard Correct', '🧠');
+        if (prog.rounds >= 10 && prog.wrong === 0) achievementBonus += this._unlockAchievement('perfect_10', this.language === 'fa' ? '۱۰ راند بی‌نقص' : 'Perfect 10', '💎');
+
+        if (isLegend && correct) achievementBonus += this._unlockAchievement('legend_win', this.language === 'fa' ? 'برد لجند' : 'Legend Win', '🏆');
+        if (prog.legendCorrect >= 3) achievementBonus += this._unlockAchievement('legend_3', this.language === 'fa' ? '۳ لجند صحیح' : '3 Legend Wins', '👑');
+        if (prog.legendStreak >= 2) achievementBonus += this._unlockAchievement('legend_streak_2', this.language === 'fa' ? '۲ لجند پشت سر هم' : '2 Legend Streak', '🌟');
+
+        return achievementBonus;
       },
 
       // --- Low-stock warnings (when remaining unseen <= 10) ---
@@ -3604,6 +3724,7 @@ this._superCheatTeamIndex = null;
           const team = this.teams[this.currentTeamIndex];
           document.getElementById('timerTeamName').textContent = team.name;
           document.getElementById('timerCategory').textContent = (this.gameMode === 'randomm' ? '🎲 Random' : this.selectedCategory);
+          document.getElementById('timerWord').textContent = this.currentWord || '';
           document.getElementById('timerDisplay').textContent = this.timePerRound;
 
           this.timerDisplay = this.timePerRound;
@@ -3663,7 +3784,7 @@ this._heartbeatVibeTick(this.timerDisplay);
         }
 
         // Achievements
-        this._updateAchievementsOnRound(true);
+        const achievementBonus = this._updateAchievementsOnRound(true);
 
         const pointsMap = { easy: 2, medium: 4, hard: 6, legend: 100, special: 30 };
         const rawBasePoints = pointsMap[this.selectedDifficulty] || 0;
@@ -3684,7 +3805,7 @@ this._heartbeatVibeTick(this.timerDisplay);
         const finalPoints = basePoints + bonus;
         this.teams[this.currentTeamIndex].score += finalPoints;
 
-        this.showRoundEnd(true, finalPoints);
+        this.showRoundEnd(true, finalPoints + achievementBonus);
       },
 
       answerWrong() {
@@ -3706,9 +3827,9 @@ this._heartbeatVibeTick(this.timerDisplay);
         }
 
         // Achievements
-        this._updateAchievementsOnRound(false);
+        const achievementBonus = this._updateAchievementsOnRound(false);
         this.teams[this.currentTeamIndex].score -= 1;
-        this.showRoundEnd(false, -1);
+        this.showRoundEnd(false, -1 + achievementBonus);
       },
       
 
@@ -3716,8 +3837,11 @@ this._heartbeatVibeTick(this.timerDisplay);
         document.getElementById('resultIcon').textContent = correct ? '🎉' : '😢';
         document.getElementById('resultText').textContent = correct ? this.t('correct') : this.t('wrong');
 
-        const pointsHtml = `<span class="${correct ? 'positive' : 'negative'}">
-          ${correct ? '+' : ''}${points} ${this.t('points')}
+        const pointsClass = points >= 0 ? 'positive' : 'negative';
+        const pointsSign = points > 0 ? '+' : '';
+
+        const pointsHtml = `<span class="${pointsClass}">
+          ${pointsSign}${points} ${this.t('points')}
         </span>`;
         document.getElementById('resultPoints').innerHTML = pointsHtml;
 
