@@ -1,7 +1,7 @@
 "use strict";
 
 /* 01 — Constants and centralized translations */
-const APP_VERSION = "3.0.0";
+const APP_VERSION = "3.0.3";
 const SCHEMA_VERSION = 3;
 const WORD_BANK_EXPECTED_HASH = "6d5d32140fc04f7a9ec840c1c43fda4d547346ab1d63bcc7c23dcfb8964e4a2b";
 const WORD_BANK_EXPECTED_SLOTS = 2177;
@@ -47,6 +47,7 @@ const UI_STRINGS = {
     close: "Close",
     closeGuide: "Close guide",
     correct: "Correct",
+    creatorName: "Sam Afshar",
     creatorSignal: "CREATOR SIGNAL",
     dark: "Dark",
     dataControl: "Data control",
@@ -188,7 +189,12 @@ const UI_STRINGS = {
     rivalry: "RIVALRY ACTIVE",
     standardRound: "STANDARD ROUND",
     teamFallback: "Team {number}",
+    teamNameLabel: "Team {number}",
     teamNamePlaceholder: "Team {number} name",
+    teamNameHint: "1–24 characters · each team needs a unique name",
+    teamNameReady: "Name ready",
+    teamNameRequired: "Enter a name for this team.",
+    teamNameDuplicate: "Choose a different name; another team already uses this one.",
     duplicateTeams: "Team names must be unique.",
     invalidTeamName: "Use 1–24 visible characters for every team name.",
     matchStarted: "Match ignited",
@@ -316,58 +322,59 @@ const UI_STRINGS = {
   fa: {
     about: "درباره",
     aboutBody: "هدف ساده است: وقتی بازیگر هیچ حرفی نمی‌زند، اتاق زنده‌تر از همیشه شود.",
-    aboutKicker: "پشت سیگنال",
-    aboutLead: "میمیک توسط Sam Afshar به‌عنوان برداشتی خلاقانه و مدرن از پانتومایم طراحی و توسعه داده شده؛ با تمرکز بر تعامل، سرگرمی جمعی و فناوری سنجیده.",
-    achievementArchive: "آرشیو سیگنال",
+    aboutKicker: "درباره سازنده",
+    aboutLead: "میمیک را سام افشار طراحی و توسعه داده است؛ برداشتی خلاقانه و امروزی از پانتومایم که بر تعامل، سرگرمی جمعی و فناوری حساب‌شده تمرکز دارد.",
+    achievementArchive: "آرشیو دستاوردها",
     achievements: "دستاوردها",
-    achievementsDesc: "بازشدن دائمی و پاداش‌های مسابقه‌ای نسخه اصلی.",
-    achievementsPageDesc: "مدرکی ماندگار برای سرعت عمل، انتخاب‌های جسورانه و بازگشت‌های غیرممکن.",
-    activeSignal: "سیگنال فعال",
+    achievementsDesc: "دستاوردهای ماندگار و پاداش‌های هر مسابقه.",
+    achievementsPageDesc: "یادگاری ماندگار از سرعت عمل، انتخاب‌های جسورانه و بازگشت‌های تماشایی.",
+    activeSignal: "نوبت فعال",
     addWord: "افزودن کلمه",
     advancedRules: "قوانین پیشرفته",
     appearance: "ظاهر",
     back: "بازگشت",
     backToBoard: "صفحه بازی",
-    brandSignal: "پانتومایم بازطراحی‌شده",
-    buildMatch: "ساخت مسابقه",
+    brandSignal: "پانتومایم به سبک تازه",
+    buildMatch: "تنظیم مسابقه",
     category: "دسته",
-    challengeProtocol: "پروتکل چالش",
+    challengeProtocol: "انتخاب چالش",
     changeWord: "تغییر کلمه (۱−)",
     chooseCategory: "یک دسته انتخاب کنید",
-    chooseLanguage: "سیگنال خود را انتخاب کنید",
+    chooseLanguage: "زبان بازی را انتخاب کنید",
     chooseRisk: "میزان ریسک را انتخاب کنید",
-    chooseYourSignal: "سیگنال خود را انتخاب کنید",
+    chooseYourSignal: "زبان بازی را انتخاب کنید",
     clearWarnings: "پاک‌کردن هشدارها",
     close: "بستن",
     closeGuide: "بستن راهنما",
     correct: "صحیح",
-    creatorSignal: "سیگنال سازنده",
+    creatorName: "سام افشار",
+    creatorSignal: "سازنده میمیک",
     dark: "تیره",
     dataControl: "کنترل داده‌ها",
     difficulty: "سختی",
     discard: "حذف",
     endThisTurn: "پایان این نوبت",
     enterVault: "ورود به مخزن",
-    estimatedTurns: "نوبت‌های تقریبی",
-    eventLog: "گزارش رویداد",
-    eyebrow: "پروتکل مهمانی / ۰۱",
+    estimatedTurns: "تعداد تقریبی نوبت‌ها",
+    eventLog: "رویدادهای مسابقه",
+    eyebrow: "بازی گروهی / ۰۱",
     featureAchievements: "دستاوردهای ماندگار",
     featureBilingual: "جریان واقعی فارسی / انگلیسی",
-    featureMomentum: "شتاب + ریسک تاکتیکی",
+    featureMomentum: "شتاب و ریسک حساب‌شده",
     featureOffline: "سریع، خصوصی و آفلاین",
     feedback: "بازخورد",
-    fieldManual: "راهنمای میدانی / میمیک",
-    finalSignal: "سیگنال نهایی",
-    findOnGithub: "SAM را در GITHUB پیدا کنید",
+    fieldManual: "راهنمای بازی / میمیک",
+    finalSignal: "نتیجه نهایی",
+    findOnGithub: "سام افشار در گیت‌هاب",
     gameMode: "حالت بازی",
     guide: "راهنما",
-    guideFooter: "واضح بازی کنید · منصفانه امتیاز دهید · بعد از سکوت سروصدا کنید",
+    guideFooter: "واضح اجرا کنید · منصفانه امتیاز دهید · از بازی لذت ببرید",
     guideIntro: "هر آنچه برای اجرای یک مسابقه منصفانه، سریع و هیجان‌انگیز پانتومایم لازم است.",
-    guideTitle: "سیگنال چگونه کار می‌کند",
+    guideTitle: "راهنمای بازی میمیک",
     haptics: "لرزش",
     hapticsDesc: "لرزش کوتاه در دستگاه‌های پشتیبانی‌شده.",
     heroAccent: "آشوب الکتریکی.",
-    heroBody: "میدان پانتومایم دوزبانه برای تیم‌ها، انتخاب‌های پرریسک، کلمات غیرممکن و بازگشتی که فردا هم درباره‌اش حرف می‌زنید.",
+    heroBody: "یک بازی پانتومایم دوزبانه برای تیم‌ها، انتخاب‌های جسورانه، کلمات دشوار و بازگشت‌هایی که تا فردا درباره‌شان حرف می‌زنید.",
     heroLead: "سکوت را تبدیل کنید به",
     highlights: "لحظه‌های برتر",
     home: "خانه",
@@ -383,46 +390,46 @@ const UI_STRINGS = {
     interruptedMatch: "مسابقه نیمه‌تمام پیدا شد",
     language: "زبان",
     light: "روشن",
-    liveArena: "میدان زنده",
+    liveArena: "بازی آماده است",
     liveStandings: "جدول زنده",
-    liveWord: "کلمه زنده",
+    liveWord: "کلمه این نوبت",
     localOnly: "فقط روی این دستگاه",
     localVault: "مخزن کلمه محلی",
     lockTheScore: "ثبت امتیاز",
-    matchMemory: "حافظه مسابقه",
+    matchMemory: "خلاصه مسابقه",
     matchTiming: "زمان‌بندی مسابقه",
     missed: "از دست رفت",
     momentum: "شتاب",
-    momentumCharge: "شارژ شتاب",
-    momentumDesc: "چهار شارژ، موج ۱+ را فعال می‌کند.",
-    mysteryModifiers: "قانون‌های رازآلود",
+    momentumCharge: "نشان شتاب",
+    momentumDesc: "با چهار نشان شتاب، یک امتیاز اضافه می‌گیرید.",
+    mysteryModifiers: "قانون‌های نمایشی",
     mysteryModifiersDesc: "هر سه دور یک محدودیت نمایشی واضح.",
     newMatch: "مسابقه جدید",
-    nextSignal: "سیگنال بعدی",
+    nextSignal: "نوبت بعدی",
     notifications: "اعلان‌ها",
     onlyActor: "فقط بازیگر باید نگاه کند.",
-    openGithub: "بازکردن پروفایل گیت‌هاب Sam Afshar در تب جدید",
-    overdrive: "اوردرایو",
-    overdriveDesc: "دو برابر امتیاز پایه؛ شکست ۲−.",
+    openGithub: "باز کردن صفحه گیت‌هاب سام افشار در برگه‌ای جدید",
+    overdrive: "ریسک دوبرابر",
+    overdriveDesc: "امتیاز پایه دوبرابر می‌شود؛ پاسخ نادرست ۲ امتیاز کم می‌کند.",
     passphrase: "عبارت ورود",
     pause: "توقف",
     primaryColor: "رنگ اصلی",
-    randomMode: "سیگنال شانسی",
+    randomMode: "دسته شانسی",
     randomModeDesc: "امتیاز را انتخاب کنید؛ میمیک دسته را برمی‌گزیند.",
     ready: "آماده",
     resetAllData: "پاک‌کردن همه داده‌های محلی",
-    resetSeen: "ریست کلمات دیده‌شده",
+    resetSeen: "پاک‌کردن سابقه کلمات",
     restartSame: "تکرار مسابقه",
     resume: "ادامه",
     resumeMatch: "ادامه مسابقه",
-    riskMode: "ریسک اوردرایو",
+    riskMode: "ریسک دوبرابر",
     riskModeDesc: "دو برابر امتیاز پایه؛ شکست دو امتیاز کم می‌کند.",
     round: "دور",
     roundCount: "تعداد دورها",
     roundTime: "ثانیه در هر نوبت",
     saveWord: "ذخیره کلمه روی این دستگاه",
     scoreGap: "فاصله امتیاز",
-    scoreTelemetry: "تله‌متری امتیاز",
+    scoreTelemetry: "جزئیات امتیاز",
     scoreboard: "جدول امتیاز",
     secondaryColor: "رنگ دوم",
     secondsShort: "ثانیه",
@@ -430,10 +437,10 @@ const UI_STRINGS = {
     seenProgress: "پیشرفت کلمات دیده‌شده",
     selectDifficulty: "سختی را انتخاب کنید",
     settings: "تنظیمات",
-    setupKicker: "کارگاه مسابقه",
+    setupKicker: "تنظیم مسابقه",
     setupSubtitle: "قوانین را بچینید، سپس نمایشگر را به اولین بازیگر بدهید.",
-    setupTitle: "میدان را تنظیم کنید",
-    signalColors: "رنگ‌های سیگنال",
+    setupTitle: "مسابقه را آماده کنید",
+    signalColors: "رنگ تیم‌ها",
     skipToGame: "رفتن به بازی",
     sound: "صدا",
     soundDesc: "نشانه‌های صوتی ساخته‌شده؛ بدون فایل دانلودی.",
@@ -441,11 +448,11 @@ const UI_STRINGS = {
     spin: "چرخاندن",
     spinTheWheel: "گردونه را بچرخانید",
     standardPlay: "استاندارد",
-    standardPlayDesc: "پاداش معمول و شکست ۱−.",
+    standardPlayDesc: "امتیاز معمول؛ پاسخ نادرست ۱ امتیاز کم می‌کند.",
     standings: "رده‌بندی",
     startTimer: "شروع تایمر",
     surgeAtFour: "موج در ۴",
-    systemControl: "کنترل سیستم",
+    systemControl: "تنظیمات برنامه",
     systemVoice: "صدای سیستم",
     tapToReveal: "برای نمایش لمس کنید",
     teamCapacity: "ظرفیت تیم",
@@ -455,8 +462,8 @@ const UI_STRINGS = {
     teams: "تیم‌ها",
     themeToggle: "تغییر پوسته رنگی",
     thisTurn: "این نوبت",
-    tieProtocol: "پروتکل مساوی",
-    timeline: "خط زمانی",
+    tieProtocol: "تعیین برنده مساوی",
+    timeline: "روند مسابقه",
     unlock: "بازکردن",
     vaultAuthNote: "این دروازه محلی فقط برای سرگرمی است و امنیت واقعی نیست. عبارت اصلی مخزن را وارد کنید.",
     vaultDesc: "ابزاری فقط برای همین دستگاه که بدون تغییر بانک داخلی محافظت‌شده، کلمه اضافه می‌کند.",
@@ -468,13 +475,13 @@ const UI_STRINGS = {
     voiceCountdownDesc: "در صورت پشتیبانی، ده ثانیه آخر را بخواند.",
     word: "کلمه",
     wordHistory: "تاریخچه کلمات",
-    wordSignals: "سیگنال‌های کلمه",
-    wordTelemetry: "تله‌متری کلمات",
+    wordSignals: "تعداد کلمات",
+    wordTelemetry: "آمار کلمات",
     easy: "آسان",
     medium: "متوسط",
     hard: "سخت",
     special: "ضرب‌المثل",
-    legend: "لجند",
+    legend: "افسانه‌ای",
     points: "امتیاز",
     point: "امتیاز",
     available: "در دسترس",
@@ -482,13 +489,18 @@ const UI_STRINGS = {
     rivalry: "رقابت نزدیک فعال",
     standardRound: "دور معمولی",
     teamFallback: "تیم {number}",
+    teamNameLabel: "تیم {number}",
     teamNamePlaceholder: "نام تیم {number}",
+    teamNameHint: "۱ تا ۲۴ کاراکتر · نام هر تیم باید متفاوت باشد",
+    teamNameReady: "نام آماده است",
+    teamNameRequired: "نام این تیم را وارد کنید.",
+    teamNameDuplicate: "این نام تکراری است؛ نام دیگری انتخاب کنید.",
     duplicateTeams: "نام تیم‌ها باید متفاوت باشد.",
-    invalidTeamName: "برای هر تیم ۱ تا ۲۴ نویسه قابل‌نمایش وارد کنید.",
+    invalidTeamName: "برای هر تیم ۱ تا ۲۴ کاراکتر قابل‌نمایش وارد کنید.",
     matchStarted: "مسابقه آغاز شد",
-    matchStartedBody: "اولین سیگنال برای {team} است.",
+    matchStartedBody: "نوبت اول برای {team} است.",
     matchResumed: "مسابقه بازیابی شد",
-    matchResumedBody: "تایمر با امنیت ریست شد؛ امتیازها و دورها حفظ شدند.",
+    matchResumedBody: "زمان‌سنج با خیال راحت از نو شروع شد؛ امتیازها و دورها حفظ شدند.",
     matchDiscarded: "مسابقه ذخیره‌شده حذف شد",
     resumeDescription: "دور {round} · {teamCount} تیم · {date}",
     leaveMatchTitle: "از مسابقه فعال خارج می‌شوید؟",
@@ -497,29 +509,29 @@ const UI_STRINGS = {
     leave: "خروج از مسابقه",
     noWords: "برای این سیگنال کلمه قابل‌بازی وجود ندارد.",
     wordRevealed: "کلمه نمایش داده شد",
-    wordChanged: "سیگنال جایگزین بارگذاری شد",
+    wordChanged: "کلمه جایگزین شد",
     noReplacement: "کلمه دیده‌نشده متفاوتی وجود ندارد؛ جریمه‌ای کم نشد.",
     timerRunning: "تایمر در حال اجراست",
     timerPaused: "متوقف",
     resumeTimer: "ادامه تایمر",
     finalSeconds: "ثانیه‌های پایانی",
     timeExpired: "زمان تمام شد",
-    correctResult: "سیگنال دریافت شد",
-    wrongResult: "سیگنال از دست رفت",
-    correctSummary: "تیم نشانه را به امتیاز تبدیل کرد.",
+    correctResult: "پاسخ درست بود",
+    wrongResult: "پاسخ درست داده نشد",
+    correctSummary: "تیم این نوبت را با امتیاز به پایان رساند.",
     wrongSummary: "نوبت بدون حدس صحیح پایان یافت.",
-    baseScore: "چالش پایه",
+    baseScore: "امتیاز پایه",
     changePenalty: "تغییر کلمه",
-    speedBonus: "سیگنال سریع",
-    latePenalty: "سیگنال دیرهنگام",
+    speedBonus: "پاسخ سریع",
+    latePenalty: "پاسخ دیرهنگام",
     clutchBonus: "پاداش لحظه آخر",
-    comboBonus: "زنجیره کمبو",
-    momentumBonus: "موج شتاب",
+    comboBonus: "پاداش زنجیره‌ای",
+    momentumBonus: "پاداش شتاب",
     comebackBonus: "فرصت بازگشت",
     achievementBonus: "پاداش دستاورد",
     total: "مجموع",
     nextTeamBody: "نوبت بعدی برای {team} است.",
-    winnerTitle: "{team} صاحب سیگنال شد",
+    winnerTitle: "{team} برنده شد",
     sharedWinnerTitle: "پیروزی مشترک",
     resultsClose: "پایان با فاصله {gap} امتیاز پس از {turns} نوبت.",
     photoFinish: "پایان میلی‌متری",
@@ -551,22 +563,22 @@ const UI_STRINGS = {
     locked: "قفل",
     unlockedOn: "بازشده در {date}",
     archivePoints: "امتیاز آرشیو",
-    modifierSilentTitle: "شروع بی‌حرکت",
+    modifierSilentTitle: "شروع بدون حرکت",
     modifierSilentDesc: "پنج ثانیه اول هیچ حرکتی نکنید، سپس آغاز کنید.",
-    modifierOneHandTitle: "سیگنال یک‌دستی",
+    modifierOneHandTitle: "اجرای یک‌دستی",
     modifierOneHandDesc: "بازیگر در این نوبت فقط می‌تواند از یک دست استفاده کند.",
-    modifierMirrorTitle: "پروتکل آینه",
+    modifierMirrorTitle: "اجرای آینه‌ای",
     modifierMirrorDesc: "هر حرکت واضح را با سمت مخالف بدن اجرا کنید.",
     modifierActive: "قانون: {name}",
     silentPhase: "شروع بی‌حرکت · حرکت در {seconds}",
     riskStandard: "استاندارد",
-    riskOverdrive: "اوردرایو",
-    cheatReady: "خم‌کردن سیگنال آماده شد",
-    cheatReadyBody: "چالش سخت بعدی از کلمات متوسط می‌آید اما امتیاز سخت می‌ماند.",
-    superCheatReady: "اورراید لجند آماده شد",
-    superCheatReadyBody: "چالش لجند بعدی از بیست ورودی آخر انتخاب می‌شود.",
-    cheatMissed: "سیگنال مخفی روی این چالش اثری نداشت.",
-    cooldown: "ورودی مخفی هنوز در حال خنک‌شدن است.",
+    riskOverdrive: "ریسک دوبرابر",
+    cheatReady: "کمک مخفی فعال شد",
+    cheatReadyBody: "چالش سخت بعدی از کلمات متوسط انتخاب می‌شود، اما امتیاز سطح سخت را دارد.",
+    superCheatReady: "کمک افسانه‌ای فعال شد",
+    superCheatReadyBody: "چالش افسانه‌ای بعدی از بیست ورودی پایانی انتخاب می‌شود.",
+    cheatMissed: "کمک مخفی برای این چالش قابل استفاده نبود.",
+    cooldown: "برای استفاده دوباره از کمک مخفی کمی صبر کنید.",
     lowStock: "برای {category} · {difficulty} فقط {count} کلمه دیده‌نشده مانده.",
     seenCount: "دیده‌شده",
     unseenCount: "دیده‌نشده",
@@ -574,10 +586,10 @@ const UI_STRINGS = {
     playableCount: "کلمات قابل‌بازی",
     customCount: "کلمات سفارشی",
     clearWarningsDone: "هشدارها پاک شدند",
-    resetSeenTitle: "تاریخچه کلمات دیده‌شده ریست شود؟",
+    resetSeenTitle: "سابقه کلمات دیده‌شده پاک شود؟",
     resetSeenBody: "کلمات داخلی و سفارشی باقی می‌مانند؛ فقط تاریخچه این دستگاه پاک می‌شود.",
-    reset: "ریست",
-    seenResetDone: "تاریخچه کلمات ریست شد",
+    reset: "پاک‌کردن",
+    seenResetDone: "سابقه کلمات پاک شد",
     resetAllTitle: "همه داده‌های محلی میمیک پاک شوند؟",
     resetAllBody: "تنظیمات، دستاوردها، کلمات سفارشی، هشدارها و مسابقه ذخیره‌شده از این دستگاه حذف می‌شوند.",
     resetAll: "پاک‌کردن همه",
@@ -586,15 +598,15 @@ const UI_STRINGS = {
     vaultCooldown: "تلاش‌های زیاد. {seconds} ثانیه دیگر دوباره امتحان کنید.",
     vaultOpened: "مخزن محلی باز شد",
     selectCategoryFirst: "یک دسته انتخاب کنید.",
-    enterWord: "یک کلمه قابل‌نمایش با ۱ تا ۱۰۰ نویسه وارد کنید.",
+    enterWord: "یک کلمه قابل‌نمایش با ۱ تا ۱۰۰ کاراکتر وارد کنید.",
     duplicateWord: "این کلمه از قبل در بانک این زبان وجود دارد.",
     customWordSaved: "روی دستگاه ذخیره شد. بانک داخلی محافظت‌شده تغییر نکرد.",
     noWarnings: "هنوز هشدار کمبود کلمه‌ای ثبت نشده.",
     integrityPassed: "یکپارچگی بانک کلمات محافظت‌شده تأیید شد.",
     integrityFailed: "یکپارچگی بانک کلمات محافظت‌شده ناموفق بود. بازی متوقف شد.",
     spinBody: "تیم‌های مساوی دور طلایی را تمام کردند. گردونه برنده نهایی را انتخاب می‌کند.",
-    wheelWinner: "{team} برنده تای‌بریک شد.",
-    categoryReset: "قفل دسته‌ها برای دور طلایی تازه شد.",
+    wheelWinner: "{team} با گردونه برنده شد.",
+    categoryReset: "دسته‌ها برای دور طلایی دوباره در دسترس قرار گرفتند.",
     finalizing: "در حال نهایی‌کردن مسابقه",
     gameObjective: "هدف بازی",
     guideSetup: "تنظیم اولیه",
@@ -724,7 +736,7 @@ const UI_STRINGS = {
       fa: {
         'لجند': {
           icon: '🏆',
-          legend: ['تندیس شهباز', 'ساعت آنتیکیترا', 'گربه شرودینگر', 'آزمایش تورینگ', 'قضیه آخر فرما', 'تیغ اوکام', 'قضیه ناتمامیت گودل', 'نوار موبیوس', 'ماشین روب گلدبرگ', 'سیزیف', 'سیاه‌چاله', 'درهم‌تنیدگی کوانتومی', 'سنگ روزتا', 'اسب تروا', 'مجسمه آرش کمانگیر', 'رادیوستراتژی', 'کینکتور نوآور', 'سفرمارپیچی', 'هیدروپونیک', 'نوسان‌گیر مغناطیسی', 'فوتونیک', 'زنبورک مکانیکی', 'آتشکده باستانی', 'کریستالوگرافی', 'هیپوفیز', 'میکروتوربین', 'الکترومگنتیک', 'خودروهای هیدروژنی', 'کنترل‌کننده ژیروسکوپی', 'ماجراجوی کوانتومی', 'سینماگراف', 'تلسکوپ فضایی', 'کاتالیزور نانویی', 'ابرشار', 'مونوریل مغناطیسی', 'فرمول‌باز', 'چرخ‌دندهٔ معکوس', 'پروژه مهندسی ذهن', 'اسپکتروسکوپی', 'میکروسکوپ تونلی', 'نقشه ژئودزی', 'ریسک‌سنجی مالی', 'آبرنگ سه‌بعدی', 'نایاب‌ترین قارچ', 'پرچمدار نانو', 'اکسیژن‌سنج', 'نوروفیدبک', 'تار عنکبوت مصنوعی', 'ماشین زمان', 'میکرودرمال', 'سیاره‌نما', 'ایزوترم', 'هیدرودینامیک', 'گرافن', 'سرخس‌ربوده', 'پیکرنگاری', 'سیستم صوتی فضایی', 'ماشین لامپانی', 'ابررایانه', 'چشم‌انداز آلترناتیو', 'ژیروسکوپ مغناطیسی', 'اسپینترونیک', 'مونتاژ ذهنی', 'الکترولیزکننده', 'تکنوفوبیا', 'نانوذره', 'پروژکتور لیزری', 'نوسان‌سنج', 'کوانتوم‌گیر', 'نقش‌نگار', 'آتشفشان یخی', 'سامانه‌های خودران', 'میکروروبات', 'رادیواکتیو خفیف', 'چرخش‌گر گریز از مرکز', 'پرتوپلاک', 'اینتروپی', 'موتور یونی', 'فوتوالکتریک', 'ماشین معکوس‌کننده', 'هلیوم-۳', 'ژرفاکش', 'تصویرساز سه‌بعدی', 'اسپریونی', 'اگزوز توربوچارج', 'قلم نوری پیشرفته', 'ابرنواختر', 'سنسور رزونانسی', 'نئوکلاسیک', 'هولوگرام پویا', 'مولد پلاسمایی', 'صوت‌نگار', 'فریزکننده کوانتومی', 'ماشین نورد', 'هواگرد رم', 'پلاسماید', 'خودکار ذهنی', 'مغناطیس‌سنج', 'سورپرایزر', 'لولهٔ مویین', 'شکلک‌های ژئو', 'ماشین محاسبه‌کننده', 'میدان‌سنج', 'سایبرنتیک', 'میکروفلوئیدیک', 'کابین ضدصدا', 'ذره‌نگار', 'آژیر مغناطیسی', 'اسپینر شیمیایی', 'هولوستیک', 'میکروسفر', 'سیستم ضدخطا', 'نانوماشین', 'ابرنوسان', 'سروپمپ پیشرفته', 'لایهٔ محافظ مغناطیسی', 'کدگشای ژنتیکی', 'سفر در زمان', 'آرکانوگرافی', 'بیونانوکامپوزیت', 'ژئوفیزیک مغناطیسی', 'پریماوردیال', 'سیناپتوژنز', 'تراسپکتروسکوپی', 'هیدرودینامیک کوانتومی', 'لولهٔ ونتوری', 'ترمودینامیک غیرخطی', 'میکروسکوپ الکترونی روبشی', 'کینتیک نوترونی', 'ابرتلرانس', 'فوتونیک موج‌نما', 'کریستالوگرافی اشعه ایکس', 'نانوتیوتر', 'اکسیژناتور', 'پلی‌پپتید مصنوعی', 'ترانس‌کریپتومیک', 'مغناطیس‌سنج ابررسانا', 'کوانتوم‌تله‌پورت', 'سوپرالاستیک', 'میانجی ژنتیکی', 'نئورومورفیک', 'کربن‌هیدرید', 'ریسک‌سنجی ایمنی', 'اکسیدکننده پلاسمایی', 'میانگین‌گیر زمانی', 'هلیوم ایزوتوپی', 'آینهٔ فرابنفش', 'اینتراکنش پروتئینی', 'مولکولار اسپکترومتر', 'جریان‌سنج ورتکس', 'میلهٔ تلسکوپی', 'سینماگرافیک', 'فوتوالکتریک کوانتومی', 'میکروروبات خودران', 'ژنراتور توربوپلاسمایی', 'ابرتوربین مغناطیسی', 'ذره‌نگار فوتونی', 'کنترل‌کنندهٔ ژیروسکوپی چندمحوره', 'نانوذرهٔ زیستی', 'پروتئین‌سنجی نانویی', 'ماشین زمان‌باز', 'هیدروپمپ کوانتومی', 'رادیواکتیویته خفیف', 'سیستم خنک‌کنندهٔ مایع ابررسانا', 'مولد هیدروژن', 'لایهٔ فوتونیکی', 'تصویرساز مغناطیسی', 'رادیوسکوپ فضایی', 'سروپمپ مغناطیسی', 'اسپکتروفتومتر مرئی', 'ابرنوسانگر', 'ماشین معکوس‌کنندهٔ انرژی', 'هلیکوپتر رم', 'نانوژنراتور', 'ژنراتور پلاسمایی', 'اینتروپی منفی', 'ماشین محاسبه‌گر کوانتومی', 'سنسور رزونانسی نانویی', 'سیستم ضدخطای مغناطیسی', 'ذره‌پویشگر', 'کدگشای ژنتیکی مصنوعی', 'میکروفلوئیدیک پیشرفته', 'آینهٔ موج‌نما', 'پریزما نوری', 'لایهٔ محافظ مغناطیسی ابررسانا', 'ذره‌نگار تونلی', 'پلاسماید اصلاح‌شده', 'میکروسفر بیولوژیک', 'سیستم خودران هوشمند', 'ماشین لامپانی کوانتومی', 'نوروفیدبک مغناطیسی', 'آینهٔ دوکره‌ای', 'ماشین نورد خودکار', 'سروپمپ پیشرفتهٔ ابررسانا', 'چرخش‌گر گریز از مرکز کوانتومی', 'ماشین‌آلات هیدرولیکی پیچیده', 'میدان‌سنج فضایی', 'لولهٔ مویین نانویی', 'ژنراتور فوتونی', 'کوانتوم‌گیر مغناطیسی', 'ماشین محاسبه‌گر چندبعدی', 'سیستم پردازش ذهنی', 'هیدروژناتور خودکار', 'ابرنواختر مصنوعی', 'سورپرایزر بیونیکی', 'ذره‌نگار فضایی', 'ماشین زمان‌باز مغناطیسی', 'پروژه مهندسی ذهن کوانتومی', 'نوسان‌سنج خودکار', 'پروژکتور لیزری پیشرفته', 'ژنراتور مغناطیسی ترکیبی', 'هیدرودینامیک غیرخطی', 'کاتالیزور نانویی هوشمند', 'میکروربات هوشمند', 'فرمول‌باز مغناطیسی', 'سفرمارپیچی فضایی', 'ماشین‌های هیدروژنی پیشرفته', 'کریستالوگرافی سه‌بعدی', 'هولوستیک پیشرفته', 'میکروسفر کوانتومی', 'نقشه ژئودزی دقیق', 'نوروفیدبک کوانتومی', 'میکرودرمال فضایی', 'مغناطیس‌سنج ابررسانا پیشرفته', 'تلسکوپ فضایی هابل', 'ماشین ظرفشویی', 'آینهٔ دستشویی', 'تخته سیاه', 'چراغ مطالعه', 'کتابخانه', 'دوچرخه', 'میز تحریر', 'گوشی موبایل', 'کوله‌پشتی', 'دفترچه یادداشت', 'قهوه‌ساز', 'لباسشویی', 'چراغ قوه', 'پنکه', 'چراغ سقفی', 'کمد لباس', 'رادیو کوچک', 'چای‌ساز', 'ساعت رومیزی', 'مداد', 'خودکار', 'دفترچه تلفن']
+          legend: ['تندیس شهباز', 'ساعت آنتیکیترا', 'گربه شرودینگر', 'آزمایش تورینگ', 'قضیه آخر فرما', 'تیغ اوکام', 'قضیه ناتمامیت گودل', 'نوار موبیوس', 'ماشین روب گلدبرگ', 'سیزیف', 'سیاه‌چاله', 'درهم‌تنیدگی کوانتومی', 'سنگ روزتا', 'اسب تروا', 'مجسمه آرش کمانگیر', 'رادیوستراتژی', 'کینکتور نوآور', 'سفرمارپیچی', 'هیدروپونیک', 'نوسان‌گیر مغناطیسی', 'فوتونیک', 'زنبورک مکانیکی', 'آتشکده باستانی', 'کریستالوگرافی', 'هیپوفیز', 'میکروتوربین', 'الکترومگنتیک', 'خودروهای هیدروژنی', 'کنترل‌کننده ژیروسکوپی', 'ماجراجوی کوانتومی', 'سینماگراف', 'تلسکوپ فضایی', 'کاتالیزور نانویی', 'ابرشار', 'مونوریل مغناطیسی', 'فرمول‌باز', 'چرخ‌دندهٔ معکوس', 'پروژه مهندسی ذهن', 'اسپکتروسکوپی', 'میکروسکوپ تونلی', 'نقشه ژئودزی', 'ریسک‌سنجی مالی', 'آبرنگ سه‌بعدی', 'نایاب‌ترین قارچ', 'پرچمدار نانو', 'اکسیژن‌سنج', 'نوروفیدبک', 'تار عنکبوت مصنوعی', 'ماشین زمان', 'میکرودرمال', 'سیاره‌نما', 'ایزوترم', 'هیدرودینامیک', 'گرافن', 'سرخس‌ربوده', 'پیکرنگاری', 'سیستم صوتی فضایی', 'ماشین لامپانی', 'ابررایانه', 'چشم‌انداز آلترناتیو', 'ژیروسکوپ مغناطیسی', 'اسپینترونیک', 'مونتاژ ذهنی', 'الکترولیزکننده', 'تکنوفوبیا', 'نانوذره', 'پروژکتور لیزری', 'نوسان‌سنج', 'کوانتوم‌گیر', 'نقش‌نگار', 'آتشفشان یخی', 'سامانه‌های خودران', 'میکروروبات', 'رادیواکتیو خفیف', 'چرخش‌گر گریز از مرکز', 'پرتوپلاک', 'اینتروپی', 'موتور یونی', 'فوتوالکتریک', 'ماشین معکوس‌کننده', 'هلیوم-۳', 'ژرفاکش', 'تصویرساز سه‌بعدی', 'اسپریونی', 'اگزوز توربوچارج', 'قلم نوری پیشرفته', 'ابرنواختر', 'سنسور رزونانسی', 'نئوکلاسیک', 'هولوگرام پویا', 'مولد پلاسمایی', 'صوت‌نگار', 'فریزکننده کوانتومی', 'ماشین نورد', 'هواگرد رم', 'پلاسماید', 'خودکار ذهنی', 'مغناطیس‌سنج', 'سورپرایزر', 'لولهٔ مویین', 'شکلک‌های ژئو', 'ماشین محاسبه‌کننده', 'میدان‌سنج', 'سایبرنتیک', 'میکروفلوئیدیک', 'کابین ضدصدا', 'ذره‌نگار', 'آژیر مغناطیسی', 'اسپینر شیمیایی', 'هولوستیک', 'میکروسفر', 'سیستم ضدخطا', 'نانوماشین', 'ابرنوسان', 'سروپمپ پیشرفته', 'لایهٔ محافظ مغناطیسی', 'کدگشای ژنتیکی', 'سفر در زمان', 'آرکانوگرافی', 'بیونانوکامپوزیت', 'ژئوفیزیک مغناطیسی', 'پریماوردیال', 'سیناپتوژنز', 'تراسپکتروسکوپی', 'هیدرودینامیک کوانتومی', 'لولهٔ ونتوری', 'ترمودینامیک غیرخطی', 'میکروسکوپ الکترونی روبشی', 'کینتیک نوترونی', 'ابرتلرانس', 'فوتونیک موج‌نما', 'کریستالوگرافی اشعه ایکس', 'نانوتیوتر', 'اکسیژناتور', 'پلی‌پپتید مصنوعی', 'ترانس‌کریپتومیک', 'مغناطیس‌سنج ابررسانا', 'کوانتوم‌تله‌پورت', 'سوپرالاستیک', 'میانجی ژنتیکی', 'نئورومورفیک', 'کربن‌هیدرید', 'ریسک‌سنجی ایمنی', 'اکسیدکننده پلاسمایی', 'میانگین‌گیر زمانی', 'هلیوم ایزوتوپی', 'آینهٔ فرابنفش', 'اینتراکنش پروتئینی', 'مولکولار اسپکترومتر', 'جریان‌سنج ورتکس', 'میلهٔ تلسکوپی', 'سینماگرافیک', 'فوتوالکتریک کوانتومی', 'میکروروبات خودران', 'ژنراتور توربوپلاسمایی', 'ابرتوربین مغناطیسی', 'ذره‌نگار فوتونی', 'کنترل‌کنندهٔ ژیروسکوپی چندمحوره', 'نانوذرهٔ زیستی', 'پروتئین‌سنجی نانویی', 'ماشین زمان‌باز', 'هیدروپمپ کوانتومی', 'رادیواکتیویته خفیف', 'سیستم خنک‌کنندهٔ مایع ابررسانا', 'مولد هیدروژن', 'لایهٔ فوتونیکی', 'تصویرساز مغناطیسی', 'رادیوسکوپ فضایی', 'سروپمپ مغناطیسی', 'اسپکتروفتومتر مرئی', 'ابرنوسانگر', 'ماشین معکوس‌کنندهٔ انرژی', 'هلیکوپتر رم', 'نانوژنراتور', 'ژنراتور پلاسمایی', 'اینتروپی منفی', 'ماشین محاسبه‌گر کوانتومی', 'سنسور رزونانسی نانویی', 'سیستم ضدخطای مغناطیسی', 'ذره‌پویشگر', 'کدگشای ژنتیکی مصنوعی', 'میکروفلوئیدیک پیشرفته', 'آینهٔ موج‌نما', 'پریزما نوری', 'لایهٔ محافظ مغناطیسی ابررسانا', 'ذره‌نگار تونلی', 'پلاسماید اصلاح‌شده', 'میکروسفر بیولوژیک', 'سیستم خودران هوشمند', 'ماشین لامپانی کوانتومی', 'نوروفیدبک مغناطیسی', 'آینهٔ دوکره‌ای', 'ماشین نورد خودکار', 'سروپمپ پیشرفتهٔ ابررسانا', 'چرخش‌گر گریز از مرکز کوانتومی', 'ماشین‌آلات هیدرولیکی پیچیده', 'میدان‌سنج فضایی', 'لولهٔ مویین نانویی', 'ژنراتور فوتونی', 'کوانتوم‌گیر مغناطیسی', 'ماشین محاسبه‌گر چندبعدی', 'سیستم پردازش ذهنی', 'هیدروژناتور خودکار', 'ابرنواختر مصنوعی', 'سورپرایزر بیونیکی', 'ذره‌نگار فضایی', 'ماشین زمان‌باز مغناطیسی', 'پروژه مهندسی ذهن کوانتومی', 'نوسان‌سنج خودکار', 'پروژکتور لیزری پیشرفته', 'ژنراتور مغناطیسی ترکیبی', 'هیدرودینامیک غیرخطی', 'کاتالیزور نانویی هوشمند', 'میکروربات هوشمند', 'فرمول‌باز مغناطیسی', 'سفرمارپیچی فضایی', 'ماشین‌های هیدروژنی پیشرفته', 'کریستالوگرافی سه‌بعدی', 'هولوستیک پیشرفته', 'میکروسفر کوانتومی', 'نقشه ژئودزی دقیق', 'نوروفیدبک کوانتومی', 'میکرودرمال فضایی', 'مغناطیس‌سنج ابررسانا پیشرفته', 'تلسکوپ فضایی هابل', 'ماشین ظرفشویی', 'آینهٔ دستشویی', 'تخته سیاه', 'چراغ مطالعه', 'کتابخانه', 'دوچرخه', 'میز تحریر', 'گوشی موبایل', 'کوله‌پشتی', 'دفترچه یادداشت', 'قهوه‌ساز', 'لباسشویی', 'چراغ قوه', 'پنکه', 'چراغ سقفی', 'کمد لباس', 'رادیو کوچک', 'چای‌ساز', 'ساعت رومیزی', 'مداد', 'خودکار', 'دفترچه تلفن', 'جا مدادی', 'قوطی نوشابه', 'لیوان شیشه‌ای', 'تاچ اسکرین', 'بمب ساعتی', 'دستکش بوکس', 'توپ بسکت بال']
         },
         'شهر یا کشور': {
           icon: '🌍',
@@ -839,28 +851,28 @@ const UI_STRINGS = {
 const ACHIEVEMENT_DEFINITIONS = Object.freeze([
   { id: "first_round", rarity: "common", points: 10, scoreBonus: 1, icon: "play", title: { en: "First Signal", fa: "اولین سیگنال" }, description: { en: "Complete a first turn in a match.", fa: "اولین نوبت یک مسابقه را کامل کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.turns === 1 },
   { id: "first_correct", rarity: "common", points: 15, scoreBonus: 2, icon: "check", title: { en: "Connection Made", fa: "اتصال برقرار شد" }, description: { en: "Land a team's first correct guess.", fa: "اولین پاسخ صحیح یک تیم را ثبت کنید." }, test: ({ event, state }) => event.type === "turn" && event.correct && state.team.correct === 1 },
-  { id: "round_5", rarity: "common", points: 20, scoreBonus: 2, icon: "round", title: { en: "Five Signals Deep", fa: "پنج سیگنال عمیق" }, description: { en: "Complete five turns with one team.", fa: "با یک تیم پنج نوبت کامل کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.turns >= 5 },
+  { id: "round_5", rarity: "common", points: 20, scoreBonus: 2, icon: "round", title: { en: "Five Signals Deep", fa: "پنج نوبت کامل" }, description: { en: "Complete five turns with one team.", fa: "با یک تیم پنج نوبت کامل کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.turns >= 5 },
   { id: "streak_3", rarity: "rare", points: 30, scoreBonus: 3, icon: "bolt", title: { en: "Live Wire", fa: "سیم زنده" }, description: { en: "Build a three-answer combo chain.", fa: "زنجیره سه پاسخ صحیح بسازید." }, test: ({ event, state }) => event.type === "turn" && state.team.streak >= 3 },
   { id: "streak_5", rarity: "epic", points: 50, scoreBonus: 5, icon: "bolt", title: { en: "Unbroken Current", fa: "جریان بی‌وقفه" }, description: { en: "Reach five correct answers in a row.", fa: "به پنج پاسخ صحیح پیاپی برسید." }, test: ({ event, state }) => event.type === "turn" && state.team.streak >= 5 },
-  { id: "no_wrong_5", rarity: "rare", points: 45, scoreBonus: 5, icon: "lock", title: { en: "Clean Channel", fa: "کانال پاک" }, description: { en: "Finish five turns without a miss.", fa: "پنج نوبت را بدون شکست تمام کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.turns >= 5 && state.team.wrong === 0 },
+  { id: "no_wrong_5", rarity: "rare", points: 45, scoreBonus: 5, icon: "lock", title: { en: "Clean Channel", fa: "بازی بی‌اشتباه" }, description: { en: "Finish five turns without a miss.", fa: "پنج نوبت را بدون پاسخ نادرست تمام کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.turns >= 5 && state.team.wrong === 0 },
   { id: "correct_10", rarity: "epic", points: 70, scoreBonus: 6, icon: "trophy", title: { en: "Double Digits", fa: "دو رقمی" }, description: { en: "Record ten correct guesses with one team.", fa: "با یک تیم ده پاسخ صحیح ثبت کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.correct >= 10 },
-  { id: "hard_correct_3", rarity: "epic", points: 65, scoreBonus: 6, icon: "risk", title: { en: "Hardwired", fa: "سخت‌افزاری" }, description: { en: "Solve three hard challenges.", fa: "سه چالش سخت را حل کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.hardCorrect >= 3 },
+  { id: "hard_correct_3", rarity: "epic", points: 65, scoreBonus: 6, icon: "risk", title: { en: "Hardwired", fa: "استاد سخت‌ها" }, description: { en: "Solve three hard challenges.", fa: "سه چالش سخت را حل کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.hardCorrect >= 3 },
   { id: "perfect_10", rarity: "legendary", points: 120, scoreBonus: 8, icon: "star", title: { en: "Perfect Ten", fa: "ده بی‌نقص" }, description: { en: "Complete ten turns without a miss.", fa: "ده نوبت را بدون شکست کامل کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.turns >= 10 && state.team.wrong === 0 },
-  { id: "legend_win", rarity: "legendary", points: 100, scoreBonus: 5, icon: "trophy", title: { en: "Legend Contact", fa: "تماس لجند" }, description: { en: "Solve one Legend challenge.", fa: "یک چالش لجند را حل کنید." }, test: ({ event }) => event.type === "turn" && event.correct && event.difficulty === "legend" },
-  { id: "legend_3", rarity: "legendary", points: 180, scoreBonus: 8, icon: "trophy", title: { en: "Legend Operator", fa: "اپراتور لجند" }, description: { en: "Solve three Legend challenges.", fa: "سه چالش لجند را حل کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.legendCorrect >= 3 },
-  { id: "legend_streak_2", rarity: "legendary", points: 160, scoreBonus: 10, icon: "star", title: { en: "Twin Legends", fa: "لجند دوقلو" }, description: { en: "Solve two Legend challenges consecutively.", fa: "دو چالش لجند پیاپی را حل کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.legendStreak >= 2 },
+  { id: "legend_win", rarity: "legendary", points: 100, scoreBonus: 5, icon: "trophy", title: { en: "Legend Contact", fa: "اولین افسانه" }, description: { en: "Solve one Legend challenge.", fa: "یک چالش افسانه‌ای را حل کنید." }, test: ({ event }) => event.type === "turn" && event.correct && event.difficulty === "legend" },
+  { id: "legend_3", rarity: "legendary", points: 180, scoreBonus: 8, icon: "trophy", title: { en: "Legend Operator", fa: "استاد لجند" }, description: { en: "Solve three Legend challenges.", fa: "سه چالش افسانه‌ای را حل کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.legendCorrect >= 3 },
+  { id: "legend_streak_2", rarity: "legendary", points: 160, scoreBonus: 10, icon: "star", title: { en: "Twin Legends", fa: "دو افسانه پیاپی" }, description: { en: "Solve two Legend challenges consecutively.", fa: "دو چالش افسانه‌ای پیاپی را حل کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.legendStreak >= 2 },
   { id: "quick_draw", rarity: "rare", points: 35, scoreBonus: 0, icon: "clock", title: { en: "Quick Draw", fa: "حرکت برق‌آسا" }, description: { en: "Guess correctly in the first 20% of a turn.", fa: "در ۲۰ درصد اول زمان پاسخ صحیح دهید." }, test: ({ event }) => event.type === "turn" && event.correct && event.fast },
   { id: "last_breath", rarity: "epic", points: 60, scoreBonus: 0, icon: "clock", title: { en: "Last Breath", fa: "آخرین نفس" }, description: { en: "Guess correctly with three seconds or less.", fa: "با سه ثانیه یا کمتر پاسخ صحیح دهید." }, test: ({ event }) => event.type === "turn" && event.correct && event.lastSecond },
-  { id: "risk_reward", rarity: "rare", points: 40, scoreBonus: 0, icon: "risk", title: { en: "Overdrive Paid", fa: "اوردرایو موفق" }, description: { en: "Win an Overdrive challenge.", fa: "یک چالش اوردرایو را ببرید." }, test: ({ event }) => event.type === "turn" && event.correct && event.risk === "overdrive" },
+  { id: "risk_reward", rarity: "rare", points: 40, scoreBonus: 0, icon: "risk", title: { en: "Overdrive Paid", fa: "ریسک موفق" }, description: { en: "Win an Overdrive challenge.", fa: "یک چالش با ریسک دوبرابر را ببرید." }, test: ({ event }) => event.type === "turn" && event.correct && event.risk === "overdrive" },
   { id: "comeback_kid", rarity: "epic", points: 75, scoreBonus: 0, icon: "refresh", title: { en: "Comeback Circuit", fa: "مدار بازگشت" }, description: { en: "Convert a bounded comeback opportunity.", fa: "یک فرصت بازگشت محدود را به امتیاز تبدیل کنید." }, test: ({ event }) => event.type === "turn" && event.comeback },
-  { id: "momentum_surge", rarity: "rare", points: 45, scoreBonus: 0, icon: "bolt", title: { en: "Full Charge", fa: "شارژ کامل" }, description: { en: "Release a four-charge Momentum surge.", fa: "موج شتاب چهارشارژه را آزاد کنید." }, test: ({ event }) => event.type === "turn" && event.momentumSurge },
+  { id: "momentum_surge", rarity: "rare", points: 45, scoreBonus: 0, icon: "bolt", title: { en: "Full Charge", fa: "شتاب کامل" }, description: { en: "Release a four-charge Momentum surge.", fa: "پاداش شتاب چهارمرحله‌ای را فعال کنید." }, test: ({ event }) => event.type === "turn" && event.momentumSurge },
   { id: "golden_glory", rarity: "legendary", points: 130, scoreBonus: 0, icon: "trophy", title: { en: "Golden Glory", fa: "شکوه طلایی" }, description: { en: "Score correctly during a golden round.", fa: "در دور طلایی پاسخ صحیح ثبت کنید." }, test: ({ event }) => event.type === "turn" && event.correct && event.golden },
   { id: "fair_signal", rarity: "rare", points: 55, scoreBonus: 0, icon: "check", title: { en: "Fair Signal", fa: "سیگنال منصفانه" }, description: { en: "Play five turns without a word change or secret assist.", fa: "پنج نوبت بدون تغییر کلمه یا کمک مخفی بازی کنید." }, test: ({ event, state }) => event.type === "turn" && state.team.turns >= 5 && state.team.changes === 0 && state.team.cheats === 0 },
   { id: "marathon", rarity: "epic", points: 85, scoreBonus: 0, icon: "round", title: { en: "Long Transmission", fa: "ارسال طولانی" }, description: { en: "Finish a match configured for ten or more rounds.", fa: "مسابقه‌ای با ده دور یا بیشتر را تمام کنید." }, test: ({ event, state }) => event.type === "match_end" && state.match.rounds >= 10 },
   { id: "photo_finish", rarity: "epic", points: 80, scoreBonus: 0, icon: "chart", title: { en: "Photo Finish", fa: "پایان میلی‌متری" }, description: { en: "Finish with a score gap of two or less.", fa: "مسابقه را با فاصله دو امتیاز یا کمتر تمام کنید." }, test: ({ event }) => event.type === "match_end" && event.gap <= 2 },
   { id: "lead_change", rarity: "common", points: 25, scoreBonus: 0, icon: "chart", title: { en: "Lead Swap", fa: "تعویض صدر" }, description: { en: "Take the lead from another team.", fa: "صدر جدول را از تیم دیگری بگیرید." }, test: ({ event }) => event.type === "turn" && event.leadChange },
   { id: "secret_bend", rarity: "secret", points: 90, scoreBonus: 0, icon: "unlock", title: { en: "Bent Signal", fa: "سیگنال خم‌شده" }, description: { en: "Discover the one-turn hard-to-medium signal bend.", fa: "راز تبدیل یک‌نوبتی سخت به متوسط را کشف کنید." }, test: ({ event }) => event.type === "secret" && event.kind === "normal" },
-  { id: "legend_override", rarity: "secret", points: 140, scoreBonus: 0, icon: "unlock", title: { en: "Legend Override", fa: "اورراید لجند" }, description: { en: "Discover the final-twenty Legend override.", fa: "اورراید بیست ورودی آخر لجند را کشف کنید." }, test: ({ event }) => event.type === "secret" && event.kind === "super" }
+  { id: "legend_override", rarity: "secret", points: 140, scoreBonus: 0, icon: "unlock", title: { en: "Legend Override", fa: "میان‌بُر افسانه‌ای" }, description: { en: "Discover the final-twenty Legend override.", fa: "کمک مخفی بیست ورودی پایانیِ سطح افسانه‌ای را کشف کنید." }, test: ({ event }) => event.type === "secret" && event.kind === "super" }
 ]);
 
 const ACHIEVEMENT_TEST_VECTORS = Object.freeze([
@@ -992,11 +1004,48 @@ deepFreeze(WORD_DATABASE);
 const TEAM_COLOR_FALLBACKS = Object.freeze(["#63f3ff", "#a66cff", "#61f2ad", "#ffcd70", "#ff6f91", "#7f9dff"]);
 const RARITY_COLORS = Object.freeze({ common: "#8ca2bd", rare: "#63f3ff", epic: "#a66cff", legendary: "#ffcd70", secret: "#ff6f91" });
 const CATEGORY_COLORS = Object.freeze(["#63f3ff", "#a66cff", "#61f2ad", "#ffcd70", "#7f9dff", "#ff82b5"]);
-const ICON_IDS = Object.freeze(new Set(["logo", "home", "play", "arrow", "back", "close", "settings", "sun", "moon", "sound", "muted", "trophy", "guide", "user", "github", "team", "random", "clock", "round", "palette", "bolt", "risk", "link", "pause", "check", "skip", "eye", "refresh", "lock", "unlock", "chart", "trash", "plus", "vibrate", "language", "info", "city", "animal", "ball", "tech", "action", "object", "food", "film", "heart", "star", "scroll", "car", "game", "work"]));
+const ICON_IDS = Object.freeze(new Set(["logo", "home", "play", "arrow", "back", "close", "settings", "sun", "moon", "sound", "muted", "trophy", "guide", "user", "github", "team", "random", "clock", "round", "palette", "bolt", "risk", "link", "pause", "check", "skip", "eye", "refresh", "lock", "unlock", "chart", "trash", "plus", "vibrate", "language", "info", "city", "animal", "sports", "football", "tech", "action", "object", "food", "film", "heart", "star", "scroll", "car", "game", "work"]));
 
-const CATEGORY_ICON_ORDER = Object.freeze({
-  en: Object.freeze(["city", "animal", "ball", "ball", "city", "tech", "action", "object", "food", "film", "heart", "star", "scroll", "star", "scroll", "trophy"]),
-  fa: Object.freeze(["trophy", "city", "animal", "ball", "ball", "city", "tech", "action", "object", "food", "film", "heart", "star", "scroll", "star", "car", "game", "work", "scroll"])
+const CATEGORY_PRESENTATION = Object.freeze({
+  en: Object.freeze({
+    "City or Country": Object.freeze({ label: "City or Country", icon: "city" }),
+    "Animals": Object.freeze({ label: "Animals", icon: "animal" }),
+    "Sports": Object.freeze({ label: "Sports", icon: "sports" }),
+    "Football": Object.freeze({ label: "Football", icon: "football" }),
+    "Places": Object.freeze({ label: "Places", icon: "city" }),
+    "Technology": Object.freeze({ label: "Technology", icon: "tech" }),
+    "Actions": Object.freeze({ label: "Actions", icon: "action" }),
+    "Objects": Object.freeze({ label: "Objects", icon: "object" }),
+    "Foods & Snacks": Object.freeze({ label: "Food & Snacks", icon: "food" }),
+    "Movies & TV Shows": Object.freeze({ label: "Movies & TV", icon: "film" }),
+    "Emotions & Moods": Object.freeze({ label: "Emotions & Moods", icon: "heart" }),
+    "Famous Characters": Object.freeze({ label: "Famous Characters", icon: "star" }),
+    "Holidays & Occasions": Object.freeze({ label: "Holidays & Occasions", icon: "scroll" }),
+    "Kids": Object.freeze({ label: "Kids", icon: "star" }),
+    "Proverbs": Object.freeze({ label: "Proverbs", icon: "scroll" }),
+    "Legend": Object.freeze({ label: "Legend", icon: "trophy" })
+  }),
+  fa: Object.freeze({
+    "لجند": Object.freeze({ label: "لجند", icon: "trophy" }),
+    "شهر یا کشور": Object.freeze({ label: "شهر و کشور", icon: "city" }),
+    "حیوانات": Object.freeze({ label: "حیوانات", icon: "animal" }),
+    "ورزش": Object.freeze({ label: "ورزش", icon: "sports" }),
+    "فوتبال": Object.freeze({ label: "فوتبال", icon: "football" }),
+    "مکان‌ها": Object.freeze({ label: "مکان‌ها", icon: "city" }),
+    "فناوری": Object.freeze({ label: "فناوری", icon: "tech" }),
+    "حرکات": Object.freeze({ label: "کارها و حرکت‌ها", icon: "action" }),
+    "اشیاء": Object.freeze({ label: "وسایل", icon: "object" }),
+    "خوراکی": Object.freeze({ label: "خوراکی‌ها", icon: "food" }),
+    "فیلم و سریال": Object.freeze({ label: "فیلم و سریال", icon: "film" }),
+    "احساسات و خلقیات": Object.freeze({ label: "احساسات", icon: "heart" }),
+    "شخصیت‌های معروف": Object.freeze({ label: "شخصیت‌های معروف", icon: "star" }),
+    "تعطیلات و مناسبات": Object.freeze({ label: "مناسبت‌ها", icon: "scroll" }),
+    "کودکان": Object.freeze({ label: "کودک و سرگرمی", icon: "star" }),
+    "ماشین": Object.freeze({ label: "خودروها", icon: "car" }),
+    "ویدیو گیم": Object.freeze({ label: "بازی‌های ویدیویی", icon: "game" }),
+    "مشاغل": Object.freeze({ label: "شغل‌ها", icon: "work" }),
+    "اصطلاحات و ضرب‌المثل‌ها": Object.freeze({ label: "ضرب‌المثل‌ها", icon: "scroll" })
+  })
 });
 
 const MODIFIERS = Object.freeze([
@@ -1008,7 +1057,7 @@ const MODIFIERS = Object.freeze([
 const GUIDE_CONTENT = Object.freeze({
   en: Object.freeze([
     { id: "objective", titleKey: "gameObjective", paragraphs: ["Score more than the other teams by acting out protected word-bank prompts without speaking, spelling, or showing the word."], bullets: ["Two to six teams share one device.", "The highest final score wins; exact ties enter a golden round and then the tie wheel if needed."] },
-    { id: "setup", titleKey: "guideSetup", paragraphs: ["Choose Team Play for category control or Random Signal to choose only a point tier. Set team names, 30–180 seconds, 3–15 rounds, colors, and optional advanced rules."], bullets: ["Blank names receive a safe Team number.", "Duplicate names are rejected so the scoreboard remains clear.", "The selected language, theme, feedback, and setup persist on this device."] },
+    { id: "setup", titleKey: "guideSetup", paragraphs: ["Choose Team Play for category control or Random Signal to choose only a point tier. Set team names, 30–180 seconds, 3–15 rounds, colors, and optional advanced rules."], bullets: ["Every team needs a visible name of 1–24 characters.", "Duplicate names are rejected so the scoreboard remains clear.", "The selected language, theme, feedback, and setup persist on this device."] },
     { id: "flow", titleKey: "guideTurnFlow", paragraphs: ["The active team chooses a category and difficulty. Only the performer reveals the word, may replace it once, then starts the timer."], bullets: ["Correct locks the score immediately.", "Missed ends the turn with a penalty.", "Pause is available, and elapsed-time timing prevents background-tab drift."] },
     { id: "scoring", titleKey: "guideScoring", paragraphs: ["Easy, Medium, Hard, Proverb, and Legend are worth 2, 4, 6, 30, and 100 base points. A replacement deducts one from a correct turn."], bullets: ["Correct in the first 20%: +1.", "Correct after 80%: −1, preserving the original late penalty.", "Correct with three seconds or less: +3, for a net clutch reward.", "A miss costs −1; Overdrive failure costs −2."] },
     { id: "special", titleKey: "guideSpecial", paragraphs: ["After a regulation tie, every tied leader receives one golden turn. If the top score is still shared, a cryptographically selected wheel determines the final winner."], bullets: ["Golden turns include every genuinely tied leader after resolution.", "Category locks refresh only if a golden participant has no playable choice.", "Every third configured round can show a clear acting modifier; modifiers never secretly change outcomes."] },
@@ -1019,16 +1068,16 @@ const GUIDE_CONTENT = Object.freeze({
     { id: "fair-play", titleKey: "guideFairPlay", paragraphs: ["One person should hold the device during word reveal. The performer must not speak, mouth letters, point to written text, or use the device as a clue."], bullets: ["All primary controls work by keyboard and touch.", "Escape closes ordinary dialogs; the tie wheel stays intentional.", "Reduced-motion and high-contrast preferences are respected.", "Sound and vibration are optional; the full game works without them."] }
   ]),
   fa: Object.freeze([
-    { id: "objective", titleKey: "gameObjective", paragraphs: ["با اجرای بی‌کلام کلمات بانک محافظت‌شده، بیشتر از تیم‌های دیگر امتیاز بگیرید؛ گفتن، هجی‌کردن یا نشان‌دادن کلمه مجاز نیست."], bullets: ["دو تا شش تیم از یک دستگاه استفاده می‌کنند.", "بالاترین امتیاز نهایی برنده است؛ تساوی دقیق وارد دور طلایی و در صورت نیاز گردونه می‌شود."] },
-    { id: "setup", titleKey: "guideSetup", paragraphs: ["در بازی تیمی دسته را انتخاب می‌کنید؛ در سیگنال شانسی فقط سطح امتیاز را. نام تیم‌ها، زمان ۳۰ تا ۱۸۰ ثانیه، ۳ تا ۱۵ دور، رنگ‌ها و قوانین اختیاری را تنظیم کنید."], bullets: ["نام خالی به‌صورت امن با شماره تیم پر می‌شود.", "نام تکراری پذیرفته نمی‌شود تا جدول شفاف بماند.", "زبان، پوسته، بازخورد و چیدمان روی همین دستگاه ذخیره می‌شوند."] },
-    { id: "flow", titleKey: "guideTurnFlow", paragraphs: ["تیم فعال دسته و سختی را انتخاب می‌کند. فقط بازیگر کلمه را می‌بیند، یک‌بار می‌تواند آن را عوض کند و سپس تایمر را شروع می‌کند."], bullets: ["صحیح، امتیاز را همان لحظه ثبت می‌کند.", "از دست‌رفتن، نوبت را با جریمه تمام می‌کند.", "توقف در دسترس است و محاسبه زمان واقعی از خطای تب پس‌زمینه جلوگیری می‌کند."] },
-    { id: "scoring", titleKey: "guideScoring", paragraphs: ["آسان، متوسط، سخت، ضرب‌المثل و لجند به‌ترتیب ۲، ۴، ۶، ۳۰ و ۱۰۰ امتیاز پایه دارند. تغییر کلمه از نوبت صحیح یک امتیاز کم می‌کند."], bullets: ["پاسخ در ۲۰ درصد اول: ۱+.", "پاسخ بعد از ۸۰ درصد: ۱−؛ جریمه دیرهنگام نسخه اصلی حفظ شده است.", "پاسخ با سه ثانیه یا کمتر: ۳+ و در نتیجه پاداش خالص لحظه آخر.", "شکست ۱− و شکست اوردرایو ۲− است."] },
-    { id: "special", titleKey: "guideSpecial", paragraphs: ["پس از تساوی دورهای معمول، هر صدرنشین مساوی یک نوبت طلایی دارد. اگر صدر هنوز مشترک باشد، گردونه با انتخاب تصادفی امن برنده نهایی را تعیین می‌کند."], bullets: ["پس از حل دور طلایی، هر تیمی که واقعاً در صدر مساوی باشد وارد گردونه می‌شود.", "قفل دسته فقط وقتی تازه می‌شود که تیم طلایی هیچ انتخاب قابل‌بازی نداشته باشد.", "هر سه دور می‌تواند یک محدودیت نمایشی واضح داشته باشد؛ این قانون‌ها نتیجه را پنهانی دستکاری نمی‌کنند."] },
-    { id: "momentum", titleKey: "guideMomentum", paragraphs: ["هر پاسخ صحیح یک شارژ شتاب می‌دهد. در چهار شارژ، پاسخ صحیح بعدی موج ۱+ را آزاد و متر را ریست می‌کند. شکست تا دو شارژ کم می‌کند."], bullets: ["اوردرایو فقط امتیاز پایه را دو برابر می‌کند.", "تیمی که دست‌کم هشت امتیاز عقب است، یک‌بار برای موفقیت سخت، ضرب‌المثل یا لجند ۱+ می‌گیرد.", "هر سومین پاسخ صحیح پیاپی، پاداش کمبو ۱+ دارد."] },
-    { id: "achievements", titleKey: "guideAchievements", paragraphs: ["دستاوردها پنج سطح معمولی، کمیاب، حماسی، افسانه‌ای و مخفی دارند. زمان بازشدن و امتیاز آرشیو به‌صورت محلی می‌ماند."], bullets: ["پاداش امتیازی دستاوردهای اصلی هر مسابقه یک‌بار قابل دریافت است.", "بازشدن ماندگار هرگز تکراری ثبت نمی‌شود.", "آرشیو سرعت، زنجیره، ریسک، بازگشت، بازی منصفانه، مسابقه طولانی، دور ویژه و رازها را پوشش می‌دهد."] },
-    { id: "secrets", titleKey: "guideSecrets", paragraphs: ["روح شوخ‌طبع تقلب‌های اصلی حفظ شده، اما فقط روی یک انتخاب بعدی اثر دارد و هیچ کد دلخواهی اجرا یا وضعیت بازی را خراب نمی‌کند."], bullets: ["Ctrl/Cmd + K یا کشیدن سه‌انگشتی رو به پایین، تبدیل سخت به متوسط را با امتیاز سخت فعال می‌کند.", "Ctrl/Cmd + Shift + E یا کشیدن سه‌انگشتی رو به بالا، بیست ورودی آخر لجند را فعال می‌کند.", "هر دو به تیم فعلی متصل، محدودشده، قابل‌مشاهده و پس از انتخاب بعدی منقضی می‌شوند.", "مخزن محلی کلمات سفارشی را جدا از بانک داخلی تغییرناپذیر نگه می‌دارد."] },
-    { id: "settings", titleKey: "guideSettings", paragraphs: ["تنظیمات شامل زبان، پوسته روشن و تیره کامل، صداهای ساخته‌شده، شمارش صوتی، لرزش، پیشرفت کلمات و داده‌های محلی است."], bullets: ["هیچ تحلیل‌گر، کوکی، همگام‌سازی ابری یا ارسال داده‌ای وجود ندارد.", "داده ذخیره‌شده خراب با امنیت نادیده گرفته می‌شود.", "مسابقه نیمه‌تمام را می‌توان از صفحه بازی با تایمر ریست‌شده ادامه داد یا حذف کرد.", "تکرار، تنظیمات را نگه می‌دارد؛ مسابقه جدید به خانه برمی‌گردد."] },
-    { id: "fair-play", titleKey: "guideFairPlay", paragraphs: ["هنگام نمایش کلمه فقط یک نفر دستگاه را نگه دارد. بازیگر نباید حرف بزند، حروف را با لب بگوید، به نوشته اشاره کند یا از دستگاه به‌عنوان راهنما استفاده کند."], bullets: ["کنترل‌های اصلی با صفحه‌کلید و لمس کار می‌کنند.", "Escape پنجره‌های عادی را می‌بندد؛ گردونه مساوی عمدی باقی می‌ماند.", "ترجیحات کاهش حرکت و کنتراست بالا رعایت می‌شوند.", "صدا و لرزش اختیاری‌اند و بازی بدون آن‌ها کامل کار می‌کند."] }
+    { id: "objective", titleKey: "gameObjective", paragraphs: ["کلمه را بدون حرف‌زدن، هجی‌کردن یا نشان‌دادن اجرا کنید و از تیم‌های دیگر امتیاز بیشتری بگیرید."], bullets: ["دو تا شش تیم می‌توانند با یک دستگاه بازی کنند.", "تیمی که بیشترین امتیاز را دارد برنده است؛ تساوی به دور طلایی و در صورت نیاز به گردونه برنده می‌رسد."] },
+    { id: "setup", titleKey: "guideSetup", paragraphs: ["در بازی تیمی، دسته و درجه سختی را خودتان انتخاب می‌کنید. در حالت دسته شانسی، فقط سطح امتیاز را تعیین می‌کنید. سپس نام تیم‌ها، زمان هر نوبت، تعداد دورها، رنگ‌ها و قوانین اختیاری را تنظیم کنید."], bullets: ["نام هر تیم باید ۱ تا ۲۴ کاراکتر و با نام تیم‌های دیگر متفاوت باشد.", "زمان هر نوبت بین ۳۰ تا ۱۸۰ ثانیه و تعداد دورها بین ۳ تا ۱۵ است.", "زبان، پوسته، بازخورد و تنظیمات بازی روی همین دستگاه ذخیره می‌شوند."] },
+    { id: "flow", titleKey: "guideTurnFlow", paragraphs: ["تیم فعال یک دسته و درجه سختی انتخاب می‌کند. فقط اجراکننده کلمه را می‌بیند؛ می‌تواند یک‌بار آن را عوض کند و سپس زمان‌سنج را شروع کند."], bullets: ["گزینه «صحیح» امتیاز را همان لحظه ثبت می‌کند.", "گزینه «رد شد» نوبت را با جریمه پایان می‌دهد.", "می‌توانید زمان‌سنج را متوقف و دوباره ادامه دهید."] },
+    { id: "scoring", titleKey: "guideScoring", paragraphs: ["سطح‌های آسان، متوسط، سخت، ضرب‌المثل و افسانه‌ای به‌ترتیب ۲، ۴، ۶، ۳۰ و ۱۰۰ امتیاز پایه دارند. تعویض کلمه، از امتیاز پاسخ درست یک امتیاز کم می‌کند."], bullets: ["پاسخ در ۲۰ درصد اول زمان: ۱ امتیاز اضافه.", "پاسخ پس از گذشت ۸۰ درصد زمان: ۱ امتیاز کمتر.", "پاسخ در سه ثانیه پایانی: ۳ امتیاز اضافه.", "پاسخ نادرست ۱ امتیاز و در حالت ریسک دوبرابر ۲ امتیاز کم می‌کند."] },
+    { id: "special", titleKey: "guideSpecial", paragraphs: ["اگر مسابقه مساوی شود، هر تیم صدرنشین یک نوبت طلایی دارد. اگر پس از آن هم امتیازها برابر باشند، گردونه برنده نهایی را انتخاب می‌کند."], bullets: ["همه تیم‌هایی که واقعاً در صدر مساوی‌اند در مرحله نهایی حضور دارند.", "اگر تیم دور طلایی هیچ انتخاب قابل‌بازی نداشته باشد، دسته‌هایش دوباره باز می‌شوند.", "قانون نمایشی هر سه دور به‌روشنی اعلام می‌شود و نتیجه را پنهانی تغییر نمی‌دهد."] },
+    { id: "momentum", titleKey: "guideMomentum", paragraphs: ["هر پاسخ درست یک نشان شتاب می‌دهد. با چهار نشان، پاسخ درست بعدی یک امتیاز اضافه دارد و شمارنده از نو شروع می‌شود. پاسخ نادرست تا دو نشان کم می‌کند."], bullets: ["ریسک دوبرابر فقط امتیاز پایه را دوبرابر می‌کند.", "تیمی که دست‌کم هشت امتیاز عقب باشد، یک‌بار می‌تواند برای پاسخ درستِ سخت، ضرب‌المثل یا افسانه‌ای یک امتیاز بازگشت بگیرد.", "هر سه پاسخ درست پیاپی، یک امتیاز زنجیره‌ای اضافه می‌کند."] },
+    { id: "achievements", titleKey: "guideAchievements", paragraphs: ["دستاوردها در پنج سطح معمولی، کمیاب، حماسی، افسانه‌ای و مخفی ثبت می‌شوند. تاریخ بازشدن و امتیاز آرشیو روی دستگاه باقی می‌ماند."], bullets: ["پاداش هر دستاورد در هر مسابقه فقط یک‌بار محاسبه می‌شود.", "دستاورد ماندگار دوباره ثبت نمی‌شود.", "آرشیو شامل سرعت، پاسخ‌های پیاپی، ریسک، بازگشت، بازی منصفانه، مسابقه‌های طولانی و رازهاست."] },
+    { id: "secrets", titleKey: "guideSecrets", paragraphs: ["کمک‌های مخفی فقط روی انتخاب بعدی همان تیم اثر می‌گذارند و نمی‌توانند داده یا روند مسابقه را خراب کنند."], bullets: ["کلیدهای Ctrl/Cmd + K یا کشیدن سه انگشت رو به پایین، چالش سخت بعدی را از کلمات متوسط انتخاب می‌کند؛ امتیاز سطح سخت حفظ می‌شود.", "کلیدهای Ctrl/Cmd + Shift + E یا کشیدن سه انگشت رو به بالا، انتخاب ویژه سطح افسانه‌ای را فعال می‌کند.", "هر کمک محدود، قابل‌مشاهده و مخصوص تیم فعلی است و پس از انتخاب بعدی پایان می‌یابد.", "کلمات سفارشی جدا از بانک داخلی و فقط روی همین دستگاه ذخیره می‌شوند."] },
+    { id: "settings", titleKey: "guideSettings", paragraphs: ["در تنظیمات می‌توانید زبان، پوسته روشن یا تیره، صدا، شمارش صوتی، لرزش، سابقه کلمات و داده‌های محلی را مدیریت کنید."], bullets: ["بازی از ابزار آمارگیری، کوکی، همگام‌سازی ابری یا ارسال بیرونی داده استفاده نمی‌کند.", "داده ذخیره‌شده ناسالم بدون آسیب‌زدن به بازی نادیده گرفته می‌شود.", "مسابقه نیمه‌تمام را می‌توانید با زمان‌سنج تازه ادامه دهید یا حذف کنید.", "«تکرار مسابقه» تنظیمات فعلی را نگه می‌دارد و «مسابقه جدید» به خانه برمی‌گردد."] },
+    { id: "fair-play", titleKey: "guideFairPlay", paragraphs: ["هنگام نمایش کلمه فقط اجراکننده به دستگاه نگاه کند. حرف‌زدن، لب‌زدن حروف، اشاره به نوشته یا استفاده از صفحه به‌عنوان راهنما مجاز نیست."], bullets: ["کنترل‌های اصلی با صفحه‌کلید و لمس کار می‌کنند.", "کلید Escape پنجره‌های معمولی را می‌بندد؛ پنجره گردونه تا پایان انتخاب باز می‌ماند.", "تنظیمات کاهش حرکت و کنتراست بالای دستگاه رعایت می‌شوند.", "صدا و لرزش اختیاری‌اند و بازی بدون آن‌ها کامل اجرا می‌شود."] }
   ])
 });
 
@@ -1073,8 +1122,9 @@ function clamp(value, min, max) { return Math.min(max, Math.max(min, Number(valu
 function isPlainObject(value) { if (!value || typeof value !== "object") return false; const prototype = Object.getPrototypeOf(value); return prototype === Object.prototype || prototype === null; }
 function isOwn(object, key) { return Boolean(object) && Object.prototype.hasOwnProperty.call(object, key); }
 function safeArray(value, limit = 10_000) { return Array.isArray(value) ? value.slice(0, limit) : []; }
+function clampTextLength(value, maxLength = 100) { return [...String(value ?? "")].slice(0, maxLength).join(""); }
 function normalizeVisibleText(value, maxLength = 100) {
-  return String(value ?? "").replace(/[\u0000-\u001F\u007F-\u009F]/g, " ").replace(/[\u202A-\u202E\u2066-\u2069]/g, "").replace(/\s+/g, " ").trim().slice(0, maxLength);
+  return clampTextLength(String(value ?? "").replace(/[\u0000-\u001F\u007F-\u009F]/g, " ").replace(/[\u202A-\u202E\u2066-\u2069]/g, "").replace(/\s+/g, " ").trim(), maxLength);
 }
 function normalizeCompare(language, value) {
   const cleaned = normalizeVisibleText(value, 100).normalize("NFKC");
@@ -1204,6 +1254,7 @@ function createSvg(iconId, className = "") {
   if (className) svg.setAttribute("class", className);
   svg.setAttribute("aria-hidden", "true");
   svg.setAttribute("focusable", "false");
+  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
   const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
   use.setAttribute("href", `#i-${safeId}`);
   svg.appendChild(use);
@@ -1613,7 +1664,8 @@ const App = {
     document.addEventListener("input", (event) => this.handleInput(event));
     document.addEventListener("change", (event) => this.handleChange(event));
     document.getElementById("setup-form")?.addEventListener("submit", (event) => { event.preventDefault(); this.startMatchFromSetup(); });
-    document.addEventListener("keydown", (event) => this.handleSecretKey(event));
+    document.addEventListener("keydown", (event) => { this.handleTeamNameKeydown(event); this.handleSecretKey(event); });
+    document.addEventListener("focusout", (event) => { if (event.target?.matches?.("[data-team-name]")) this.updateTeamNameStates(true); });
     document.addEventListener("touchstart", (event) => this.handleTouchStart(event), { passive: true });
     document.addEventListener("touchend", (event) => this.handleTouchEnd(event), { passive: true });
     window.addEventListener("popstate", (event) => {
@@ -1726,10 +1778,25 @@ const App = {
       this.applyAccentPreview();
       this.persistSetup();
     } else if (target.matches("[data-team-name]")) {
-      this.setup.teamNames[Number(target.dataset.teamName)] = target.value.slice(0, 24);
+      const clampedName = clampTextLength(target.value, 24);
+      if (target.value !== clampedName) target.value = clampedName;
+      this.setup.teamNames[Number(target.dataset.teamName)] = clampedName;
       document.getElementById("team-error").hidden = true;
+      this.updateTeamNameStates(false);
       this.persistSetup();
     }
+  },
+
+  handleTeamNameKeydown(event) {
+    const input = event.target?.closest?.("[data-team-name]");
+    if (!input || event.key !== "Enter" || event.isComposing) return;
+    event.preventDefault();
+    const fields = [...document.querySelectorAll("[data-team-name]")];
+    const index = fields.indexOf(input);
+    if (index >= 0 && index < fields.length - 1) {
+      fields[index + 1].focus();
+      fields[index + 1].select();
+    } else document.getElementById("setup-form")?.requestSubmit();
   },
 
   handleChange(event) {
@@ -1906,7 +1973,11 @@ const App = {
   },
 
   captureTeamInputs() {
-    for (const input of document.querySelectorAll("[data-team-name]")) this.setup.teamNames[Number(input.dataset.teamName)] = input.value.slice(0, 24);
+    for (const input of document.querySelectorAll("[data-team-name]")) {
+      const clampedName = clampTextLength(input.value, 24);
+      if (input.value !== clampedName) input.value = clampedName;
+      this.setup.teamNames[Number(input.dataset.teamName)] = clampedName;
+    }
   },
 
   renderTeamInputs() {
@@ -1915,20 +1986,72 @@ const App = {
     this.captureTeamInputs();
     list.replaceChildren();
     for (let index = 0; index < this.setup.teamCount; index += 1) {
-      const row = makeElement("label", "team-name-row");
-      const marker = makeElement("span", "team-marker", formatNumber(index + 1, this.prefs.language));
-      marker.style.setProperty("--team-color", TEAM_COLOR_FALLBACKS[index]);
+      const number = formatNumber(index + 1, this.prefs.language);
+      const inputId = `team-name-${index + 1}`;
+      const labelId = `team-name-label-${index + 1}`;
+      const hintId = `team-name-hint-${index + 1}`;
+      const counterId = `team-name-counter-${index + 1}`;
+      const row = makeElement("div", "team-name-row");
+      row.dataset.teamRow = String(index);
+      row.style.setProperty("--team-color", TEAM_COLOR_FALLBACKS[index]);
+      row.setAttribute("role", "group");
+      row.setAttribute("aria-labelledby", labelId);
+      const marker = makeElement("span", "team-marker");
+      marker.setAttribute("aria-hidden", "true");
+      marker.append(createSvg("team"), makeElement("small", "", number));
+      const control = makeElement("div", "team-name-control");
+      const heading = makeElement("div", "team-name-heading");
+      const label = makeElement("label", "", this.t("teamNameLabel", { number }));
+      label.id = labelId;
+      label.htmlFor = inputId;
+      const counter = makeElement("span", "team-name-counter");
+      counter.id = counterId;
+      const shell = makeElement("span", "team-input-shell");
       const input = document.createElement("input");
+      input.id = inputId;
       input.type = "text";
       input.maxLength = 24;
       input.autocomplete = "off";
+      input.enterKeyHint = index === this.setup.teamCount - 1 ? "done" : "next";
+      input.dir = "auto";
       input.dataset.teamName = String(index);
       input.value = this.setup.teamNames[index] || "";
-      input.placeholder = this.t("teamNamePlaceholder", { number: formatNumber(index + 1, this.prefs.language) });
-      input.setAttribute("aria-label", input.placeholder);
-      row.append(marker, input);
+      input.placeholder = this.t("teamNamePlaceholder", { number });
+      input.setAttribute("aria-describedby", `${hintId} ${counterId}`);
+      const stateIcon = makeElement("span", "team-name-state");
+      stateIcon.setAttribute("aria-hidden", "true");
+      stateIcon.append(createSvg("check"));
+      const meta = makeElement("div", "team-name-meta");
+      const hint = makeElement("span", "team-name-hint", this.t("teamNameHint"));
+      hint.id = hintId;
+      heading.append(label, counter);
+      shell.append(input, stateIcon);
+      meta.append(hint);
+      control.append(heading, shell, meta);
+      row.append(marker, control);
       list.append(row);
     }
+    this.updateTeamNameStates(false);
+  },
+
+  updateTeamNameStates(showEmpty = false) {
+    const inputs = [...document.querySelectorAll("[data-team-name]")];
+    const names = inputs.map((input) => normalizeVisibleText(input.value, 24));
+    const compared = names.map((name) => normalizeCompare(this.prefs.language, name));
+    inputs.forEach((input, index) => {
+      const row = input.closest("[data-team-row]");
+      const hint = row?.querySelector(".team-name-hint");
+      const counter = row?.querySelector(".team-name-counter");
+      const duplicate = Boolean(compared[index]) && compared.filter((value) => value === compared[index]).length > 1;
+      const empty = !names[index];
+      const invalid = duplicate || (showEmpty && empty);
+      const state = invalid ? "invalid" : empty ? "empty" : "valid";
+      if (row) row.dataset.state = state;
+      input.setAttribute("aria-invalid", String(invalid));
+      if (counter) counter.textContent = `${formatNumber([...input.value].length, this.prefs.language)} / ${formatNumber(24, this.prefs.language)}`;
+      if (hint) hint.textContent = duplicate ? this.t("teamNameDuplicate") : showEmpty && empty ? this.t("teamNameRequired") : empty ? this.t("teamNameHint") : this.t("teamNameReady");
+    });
+    return { inputs, names, compared };
   },
 
   updateSetupEstimate() {
@@ -1940,14 +2063,19 @@ const App = {
 
   validateTeamNames() {
     this.captureTeamInputs();
-    const names = this.setup.teamNames.slice(0, this.setup.teamCount).map((name, index) => normalizeVisibleText(name, 24) || this.t("teamFallback", { number: formatNumber(index + 1, this.prefs.language) }));
+    const state = this.updateTeamNameStates(true);
+    const names = state.names;
     const error = document.getElementById("team-error");
     if (names.some((name) => name.length < 1 || name.length > 24)) {
-      error.textContent = this.t("invalidTeamName"); error.hidden = false; return null;
+      error.textContent = this.t("invalidTeamName"); error.hidden = false;
+      state.inputs.find((input, index) => !names[index])?.focus();
+      return null;
     }
-    const compared = names.map((name) => normalizeCompare(this.prefs.language, name));
-    if (new Set(compared).size !== compared.length) {
-      error.textContent = this.t("duplicateTeams"); error.hidden = false; return null;
+    if (new Set(state.compared).size !== state.compared.length) {
+      error.textContent = this.t("duplicateTeams"); error.hidden = false;
+      const duplicateIndex = state.compared.findIndex((name, index) => state.compared.indexOf(name) !== index);
+      state.inputs[Math.max(0, duplicateIndex)]?.focus();
+      return null;
     }
     error.hidden = true;
     this.setup.teamNames.splice(0, this.setup.teamCount, ...names);
@@ -2045,8 +2173,11 @@ Object.assign(App, {
 
   startMatchFromSetup() {
     if (!this.integrityReady) { this.toast(this.t("integrityFailed"), "danger"); return; }
+    const submittedAt = currentTimestamp();
+    if (this.lastSetupSubmitAt && submittedAt - this.lastSetupSubmitAt < 750) return;
     const names = this.validateTeamNames();
     if (!names) return;
+    this.lastSetupSubmitAt = submittedAt;
     this.persistSetup();
     this.startMatch({ ...cloneValue(this.setup), language: this.prefs.language, teamNames: names });
   },
@@ -2083,9 +2214,13 @@ Object.assign(App, {
 
   activeTeam() { return this.game?.teams?.[this.game.activeTeamIndex] || null; },
   categoryNames(language = this.game?.config?.language || this.prefs.language) { return Object.keys(WORD_DATABASE[normalizeLanguage(language)]); },
+  categoryLabel(category, language = this.game?.config?.language || this.prefs.language) {
+    const normalizedLanguage = normalizeLanguage(language);
+    return CATEGORY_PRESENTATION[normalizedLanguage]?.[category]?.label || category;
+  },
   categoryIcon(category, language = this.game?.config?.language || this.prefs.language) {
-    const index = this.categoryNames(language).indexOf(category);
-    return CATEGORY_ICON_ORDER[language]?.[index] || "star";
+    const normalizedLanguage = normalizeLanguage(language);
+    return CATEGORY_PRESENTATION[normalizedLanguage]?.[category]?.icon || "star";
   },
   categoryHasDifficulty(language, category, difficulty) {
     const source = WORD_DATABASE[language]?.[category]?.[difficulty];
@@ -2195,7 +2330,7 @@ Object.assign(App, {
       if (available) playable += 1;
       const button = makeButton("category-card glass-interactive", "choose-category", null);
       const icon = makeElement("span", "category-card-icon"); icon.append(createSvg(this.categoryIcon(category)));
-      const copy = makeElement("span", "category-card-copy"); copy.append(makeElement("strong", "", category));
+      const copy = makeElement("span", "category-card-copy"); copy.append(makeElement("strong", "", this.categoryLabel(category)));
       button.dataset.category = category;
       button.disabled = !available;
       button.style.setProperty("--category-color", CATEGORY_COLORS[index % CATEGORY_COLORS.length]);
@@ -2278,7 +2413,7 @@ Object.assign(App, {
   renderChallenge() {
     const turn = this.game?.currentTurn;
     if (!turn) return;
-    document.getElementById("challenge-title").textContent = turn.category;
+    document.getElementById("challenge-title").textContent = this.categoryLabel(turn.category);
     document.getElementById("challenge-team").textContent = this.activeTeam().name;
     document.querySelector("#challenge-icon use")?.setAttribute("href", `#i-${this.categoryIcon(turn.category)}`);
     const modifier = MODIFIERS.find((item) => item.id === turn.modifier);
@@ -2351,7 +2486,7 @@ Object.assign(App, {
     const turn = this.game?.currentTurn;
     if (!turn) return;
     document.getElementById("reveal-team").textContent = this.activeTeam().name;
-    document.getElementById("reveal-category").textContent = turn.category;
+    document.getElementById("reveal-category").textContent = this.categoryLabel(turn.category);
     document.getElementById("reveal-difficulty").textContent = `${this.t(turn.difficulty)} · ${formatNumber(DIFFICULTY_POINTS[turn.difficulty] * (turn.risk === "overdrive" ? 2 : 1), this.prefs.language)}`;
     document.getElementById("word-display").textContent = turn.revealed ? turn.word : this.t("tapToReveal");
     document.getElementById("word-vault").classList.toggle("is-revealed", turn.revealed);
@@ -2405,7 +2540,7 @@ Object.assign(App, {
     const count = this.unseenCount(language, category, difficulty);
     if (count > 10) return;
     const id = `${language}:${category}:${difficulty}`;
-    const message = this.t("lowStock", { category, difficulty: this.t(difficulty), count: formatNumber(count, this.prefs.language) });
+    const message = this.t("lowStock", { category: this.categoryLabel(category, language), difficulty: this.t(difficulty), count: formatNumber(count, this.prefs.language) });
     const existing = this.warnings.find((item) => item.id === id);
     if (existing) {
       existing.count = count;
@@ -2482,7 +2617,7 @@ Object.assign(App, {
     const progress = turn.durationMs > 0 ? clamp(turn.remainingMs / turn.durationMs, 0, 1) : 0;
     document.getElementById("timer-team").textContent = this.activeTeam().name;
     document.getElementById("timer-word").textContent = turn.word;
-    document.getElementById("timer-category").textContent = `${turn.category} · ${this.t(turn.difficulty)} · ${this.t(turn.risk === "overdrive" ? "riskOverdrive" : "riskStandard")}`;
+    document.getElementById("timer-category").textContent = `${this.categoryLabel(turn.category)} · ${this.t(turn.difficulty)} · ${this.t(turn.risk === "overdrive" ? "riskOverdrive" : "riskStandard")}`;
     const modifier = MODIFIERS.find((item) => item.id === turn.modifier);
     document.getElementById("timer-modifier").textContent = modifier ? this.t("modifierActive", { name: this.t(modifier.titleKey) }) : "";
     document.getElementById("timer-display").textContent = formatNumber(seconds, this.prefs.language);
@@ -3112,7 +3247,7 @@ Object.assign(App, {
     const language = normalizeLanguage(languageSelect.value);
     const previous = categorySelect.value;
     categorySelect.replaceChildren();
-    this.categoryNames(language).forEach((category) => { const option = document.createElement("option"); option.value = category; option.textContent = category; categorySelect.append(option); });
+    this.categoryNames(language).forEach((category) => { const option = document.createElement("option"); option.value = category; option.textContent = this.categoryLabel(category, language); categorySelect.append(option); });
     if ([...categorySelect.options].some((option) => option.value === previous)) categorySelect.value = previous;
     const category = categorySelect.value;
     const detail = document.getElementById("progress-detail");
@@ -3139,7 +3274,7 @@ Object.assign(App, {
     if (!this.warnings.length) { container.append(makeElement("p", "empty-state", this.t("noWarnings"))); return; }
     [...this.warnings].reverse().forEach((warning) => {
       const item = makeElement("article", "warning-item");
-      const text = warning.category ? this.t("lowStock", { category: warning.category, difficulty: this.t(warning.difficulty), count: formatNumber(warning.count, this.prefs.language) }) : warning.message;
+      const text = warning.category ? this.t("lowStock", { category: this.categoryLabel(warning.category, warning.language), difficulty: this.t(warning.difficulty), count: formatNumber(warning.count, this.prefs.language) }) : warning.message;
       item.append(createSvg("risk"), makeElement("span", "", text), makeElement("time", "", formatDate(warning.at, this.prefs.language)));
       container.append(item);
     });
@@ -3218,7 +3353,7 @@ Object.assign(App, {
     const language = normalizeLanguage(document.getElementById("vault-language").value);
     const categorySelect = document.getElementById("vault-category");
     categorySelect.replaceChildren();
-    this.categoryNames(language).forEach((category) => { const option = document.createElement("option"); option.value = category; option.textContent = category; categorySelect.append(option); });
+    this.categoryNames(language).forEach((category) => { const option = document.createElement("option"); option.value = category; option.textContent = this.categoryLabel(category, language); categorySelect.append(option); });
     this.populateVaultBuckets();
   },
 

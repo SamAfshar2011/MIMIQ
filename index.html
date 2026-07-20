@@ -6,18 +6,19 @@
   <meta name="theme-color" content="#080b18">
   <meta name="color-scheme" content="dark light">
   <meta name="description" content="MIMIQ is a bilingual team pantomime game with tactical rounds, achievements, and offline play.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23080b18'/%3E%3Cpath d='M16 14c9-6 23-6 32 0l4 18c2 10-7 19-20 23C19 51 10 42 12 32l4-18Z' fill='none' stroke='%2363f3ff' stroke-width='4'/%3E%3Cpath d='M21 29c3-3 6-3 9 0m4 0c3-3 6-3 9 0M22 40c7 5 13 5 20 0' fill='none' stroke='%23a66cff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23080b18'/%3E%3Cpath d='M18 14c8-4 20-4 28 0l3 18c1 9-7 16-17 19-10-3-18-10-17-19l3-18Z' fill='none' stroke='%2363f3ff' stroke-width='4' stroke-linejoin='round'/%3E%3Cpath d='M21 25l6 5m-6 0 6-5m10 0 6 5m-6 0 6-5M23 40c6 4 12 4 18 0' fill='none' stroke='%23a66cff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
   <title>MIMIQ — Pantomime Rewired</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="style.css?v=3.0.3">
+  <script src="app.js?v=3.0.3" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content" data-i18n="skipToGame">Skip to game</a>
 
   <svg class="svg-sprite" aria-hidden="true" focusable="false">
-    <symbol id="i-logo" viewBox="0 0 32 32">
-      <path d="M7.5 6.7c4.9-3 12.1-3 17 0l2.2 9.4c.8 5.4-3.9 10.3-10.7 12.2C9.2 26.4 4.5 21.5 5.3 16.1l2.2-9.4Z"/>
-      <path d="M10 14.1c1.7-1.5 3.4-1.5 5.1 0M17.1 14.1c1.7-1.5 3.4-1.5 5.1 0M11.4 20.2c3.1 2.2 6.1 2.2 9.2 0"/>
+    <symbol id="i-logo" viewBox="0 0 32 32" preserveAspectRatio="xMidYMid meet">
+      <path d="M8.5 6.8c4.4-2.4 10.6-2.4 15 0l1.8 9.1c.7 4.7-3.4 8.9-9.3 10.7-5.9-1.8-10-6-9.3-10.7l1.8-9.1Z"/>
+      <path d="m10.2 12.6 3.2 2.8m-3.2 0 3.2-2.8m5.2 0 3.2 2.8m-3.2 0 3.2-2.8M11.5 20.5c3 2.1 6 2.1 9 0"/>
+      <path d="M16 6.1v2.1"/>
     </symbol>
     <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-9Z"/></symbol>
     <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z"/></symbol>
@@ -32,7 +33,7 @@
     <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 6H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 1v4m-4 3h8"/></symbol>
     <symbol id="i-guide" viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4Z"/><path d="M8 16h11M9 8h6m-6 4h7"/></symbol>
     <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
-    <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 2.7a9.5 9.5 0 0 0-3 18.5c.5.1.7-.2.7-.5v-1.8c-3 .7-3.6-1.3-3.6-1.3-.5-1.2-1.2-1.6-1.2-1.6-1-.6.1-.6.1-.6 1.1.1 1.7 1.1 1.7 1.1 1 1.7 2.6 1.2 3.1.9.1-.7.4-1.2.7-1.5-2.4-.3-4.9-1.2-4.9-5.3 0-1.2.4-2.1 1.1-2.9-.1-.3-.5-1.4.1-2.8 0 0 .9-.3 3.1 1.1a10.3 10.3 0 0 1 5.6 0c2.2-1.4 3.1-1.1 3.1-1.1.6 1.4.2 2.5.1 2.8.7.8 1.1 1.7 1.1 2.9 0 4.1-2.5 5-4.9 5.3.4.3.7 1 .7 2v3c0 .3.2.6.7.5A9.5 9.5 0 0 0 12 2.7Z"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><path fill="currentColor" stroke="none" d="M12 .297C5.37.297 0 5.67 0 12.297c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.237 1.838 1.237 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23a11.5 11.5 0 0 1 3-.405c1.02.005 2.045.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297 24 5.67 18.627.297 12 .297Z"/></symbol>
     <symbol id="i-team" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20a5.5 5.5 0 0 1 11 0m.5 0a4 4 0 0 1 8 0"/></symbol>
     <symbol id="i-random" viewBox="0 0 24 24"><path d="M3 7h3c5 0 7 10 12 10h3"/><path d="m17 13 4 4-4 4M3 17h3c2.1 0 3.6-1.8 5-4m4-6c.9 0 1.8 0 3 0h3m-4-4 4 4-4 4"/></symbol>
     <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
@@ -55,12 +56,13 @@
     <symbol id="i-language" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></symbol>
     <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></symbol>
     <symbol id="i-city" viewBox="0 0 24 24"><path d="M4 21V8l6-3v16m0-10 6-3v13m0-7h4v7M7 10v2m0 3v2m6-3v2"/></symbol>
-    <symbol id="i-animal" viewBox="0 0 24 24"><path d="M6 12c-2-1-3-3-2-5 2 0 4 1 5 3m9 2c2-1 3-3 2-5-2 0-4 1-5 3"/><path d="M7 10c1-3 9-3 10 0l1 5c0 4-3 6-6 6s-6-2-6-6l1-5Z"/><path d="M9 15h.1m5.8 0h.1M10 18h4"/></symbol>
-    <symbol id="i-ball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m12 7 3 2-1 4h-4L9 9l3-2Zm-3 2L5 8m5 5-3 3m7-3 3 3m-2-7 4-1m-7-5v4m-5 9-1 4m11-4 1 4"/></symbol>
+    <symbol id="i-animal" viewBox="0 0 24 24"><path d="M7.5 9.5 5 5c3-.3 5.2.8 6.1 3.2M16.5 9.5 19 5c-3-.3-5.2.8-6.1 3.2"/><path d="M7.2 9.3c1.7-2 7.9-2 9.6 0 1.3 1.6 1.8 4 1.4 6.1-.6 3-3 4.9-6.2 4.9s-5.6-1.9-6.2-4.9c-.4-2.1.1-4.5 1.4-6.1Z"/><path d="M9.4 13.8h.1m5 0h.1M10.2 17c1.2.8 2.4.8 3.6 0"/></symbol>
+    <symbol id="i-sports" viewBox="0 0 24 24"><path d="M8 4h8v4a4 4 0 0 1-8 0V4Z"/><path d="M8 6H4v1.5A4.5 4.5 0 0 0 8.5 12M16 6h4v1.5a4.5 4.5 0 0 1-4.5 4.5M12 12v5m-4 3h8"/></symbol>
+    <symbol id="i-football" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m12 7 3 2-1 4h-4L9 9l3-2Zm-3 2L5 8m5 5-3 3m7-3 3 3m-2-7 4-1m-7-5v4m-5 9-1 4m11-4 1 4"/></symbol>
     <symbol id="i-tech" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="12" rx="2"/><path d="M9 21h6m-3-4v4M8 9h2m4 0h2m-8 4h8"/></symbol>
-    <symbol id="i-action" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><path d="m9 21 2-6-3-3 2-4 4 3 3-2m-6 6 4 2 2 4"/></symbol>
+    <symbol id="i-action" viewBox="0 0 24 24"><circle cx="13" cy="4.5" r="2"/><path d="m8 21 2.4-6.3-2.2-3.2 3-4.1 3.4 3.1 3.2-1.7m-7.4 5.9 4.3 1.8 2.1 4.5"/></symbol>
     <symbol id="i-object" viewBox="0 0 24 24"><path d="M5 8h14v12H5V8Zm3 0V5h8v3M9 12h6"/></symbol>
-    <symbol id="i-food" viewBox="0 0 24 24"><path d="M4 3v8a3 3 0 0 0 3 3V3m0 8H4m3 3v7M16 3v18m0-18c5 2 5 9 0 10"/></symbol>
+    <symbol id="i-food" viewBox="0 0 24 24"><path d="M3.5 3v6.5a3.5 3.5 0 0 0 7 0V3M7 3v18M16.5 21v-7m0 0c-2.7 0-4-2-4-5 0-3.3 1.6-5.5 4-6v11Zm0 0h4V3"/></symbol>
     <symbol id="i-film" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M7 6l2 4m3-4 2 4m3-4 2 4"/></symbol>
     <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.5 5.5a5 5 0 0 0-7.1 0L12 6.9l-1.4-1.4a5 5 0 0 0-7.1 7.1L12 21l8.5-8.4a5 5 0 0 0 0-7.1Z"/></symbol>
     <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></symbol>
@@ -81,7 +83,7 @@
     <header class="app-header glass-base">
       <button class="brand" type="button" data-action="go-home" data-i18n-aria="homeLabel" aria-label="MIMIQ home">
         <span class="brand-mark"><svg><use href="#i-logo"></use></svg></span>
-        <span class="brand-copy"><strong>MIMIQ</strong><small data-i18n="brandSignal">PANTOMIME REWIRED</small></span>
+        <span class="brand-copy" lang="en" dir="ltr"><strong>MIMIQ</strong><small data-i18n="brandSignal">PANTOMIME REWIRED</small></span>
       </button>
       <div id="match-chip" class="match-chip" hidden>
         <span class="signal-dot"></span>
@@ -139,8 +141,15 @@
             <div class="console-topline"><span data-i18n="liveArena">LIVE ARENA</span><span class="console-status"><i></i><span data-i18n="ready">READY</span></span></div>
             <div class="mask-core" aria-hidden="true">
               <div class="mask-halo"></div>
-              <svg><use href="#i-logo"></use></svg>
-              <span class="orbit orbit-one"></span><span class="orbit orbit-two"></span>
+              <svg class="mask-logo" preserveAspectRatio="xMidYMid meet"><use href="#i-logo"></use></svg>
+              <svg class="orbit orbit-one" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" focusable="false">
+                <circle class="orbit-arc" cx="50" cy="50" r="48" pathLength="100"/>
+                <circle class="orbit-particle" cx="18" cy="14" r="1.25"/>
+              </svg>
+              <svg class="orbit orbit-two" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" focusable="false">
+                <circle class="orbit-arc" cx="50" cy="50" r="48" pathLength="100"/>
+                <circle class="orbit-particle" cx="82" cy="86" r="1.25"/>
+              </svg>
             </div>
             <div class="console-readout">
               <div><span data-i18n="wordSignals">WORD SIGNALS</span><strong id="welcome-word-count">2,177</strong></div>
@@ -373,8 +382,20 @@
       <section id="view-about" class="view about-view" data-view-name="about" aria-labelledby="about-title" hidden>
         <button class="back-button" type="button" data-action="context-back"><svg><use href="#i-back"></use></svg><span data-i18n="back">Back</span></button>
         <div class="about-layout">
-          <div class="creator-signal glass-critical"><div class="creator-orbit" aria-hidden="true"></div><div class="creator-mark"><svg><use href="#i-logo"></use></svg></div><span data-i18n="creatorSignal">CREATOR SIGNAL</span><strong>SA / 2011</strong></div>
-          <div class="about-copy"><span class="kicker" data-i18n="aboutKicker">BEHIND THE SIGNAL</span><h1 id="about-title">Sam Afshar</h1><p class="about-lead" data-i18n="aboutLead">MIMIQ was designed and developed by Sam Afshar as a creative, modern interpretation of pantomime—built around interaction, shared fun, and thoughtful technology.</p><p data-i18n="aboutBody">The goal is simple: make the room feel more alive while the performer says nothing at all.</p><a class="github-control glass-interactive" href="https://github.com/SamAfshar2011" target="_blank" rel="noopener noreferrer" data-i18n-aria="openGithub"><span class="github-shell"><svg><use href="#i-github"></use></svg><i></i></span><span><small data-i18n="findOnGithub">FIND SAM ON GITHUB</small><strong>@SamAfshar2011</strong></span><svg class="external-arrow"><use href="#i-arrow"></use></svg></a></div>
+          <div class="creator-signal glass-critical">
+            <div class="creator-stage">
+              <svg class="creator-orbit" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+                <circle class="creator-ring creator-ring-outer" cx="50" cy="50" r="48"/>
+                <circle class="creator-ring creator-ring-middle" cx="50" cy="50" r="39"/>
+                <circle class="creator-ring creator-ring-inner" cx="50" cy="50" r="29"/>
+                <circle class="creator-arc creator-arc-cyan" cx="50" cy="50" r="48" pathLength="100"/>
+                <circle class="creator-arc creator-arc-violet" cx="50" cy="50" r="39" pathLength="100"/>
+              </svg>
+              <div class="creator-mark" aria-hidden="true"><svg preserveAspectRatio="xMidYMid meet" focusable="false"><use href="#i-logo"></use></svg></div>
+              <div class="creator-signature"><span data-i18n="creatorSignal">CREATOR SIGNAL</span><strong>SA / 2011</strong></div>
+            </div>
+          </div>
+          <div class="about-copy"><span class="kicker" data-i18n="aboutKicker">BEHIND THE SIGNAL</span><h1 id="about-title" data-i18n="creatorName">Sam Afshar</h1><p class="about-lead" data-i18n="aboutLead">MIMIQ was designed and developed by Sam Afshar as a creative, modern interpretation of pantomime—built around interaction, shared fun, and thoughtful technology.</p><p data-i18n="aboutBody">The goal is simple: make the room feel more alive while the performer says nothing at all.</p><a class="github-control glass-interactive" href="https://github.com/SamAfshar2011" target="_blank" rel="noopener noreferrer" data-i18n-aria="openGithub"><span class="github-shell"><svg preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#i-github"></use></svg></span><span><small data-i18n="findOnGithub">FIND SAM ON GITHUB</small><strong lang="en" dir="ltr">@SamAfshar2011</strong></span><svg class="external-arrow"><use href="#i-arrow"></use></svg></a></div>
         </div>
       </section>
     </main>
